@@ -31,7 +31,7 @@ const typographyStyle = (): TypographyOptions => ({
     fontWeightBold: 700,
 
     h1: {
-        fontSize: typographyUtil.pxToRem(32),
+        fontSize: typographyUtil.pxToRem(42),
         fontWeight: 700,
     },
     h2: {
