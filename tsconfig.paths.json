@@ -4,7 +4,12 @@
         "paths": {
             "@assets/*": ["assets/*"],
             "@constant": ["constant/index"],
-            "@theme": ["theme/index"]
+            "@theme": ["theme/index"],
+            "@layout": ["layout/index"],
+            "@pages": ["pages/index"],
+            "@pages/*": ["pages/*"],
+            "@store": ["store/store"],
+            "@components": ["components/index"]
         }
     }
 }

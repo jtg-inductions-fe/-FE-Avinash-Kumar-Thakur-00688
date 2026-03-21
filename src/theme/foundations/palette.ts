@@ -7,5 +7,15 @@ export const palette: PaletteOptions = {
     // TODO: Add necessary colors here
     primary: {
         main: COLORS.PRIMARY.MAIN,
+        contrastText: COLORS.PRIMARY.CONTRAST_TEXT,
+    },
+    background: {
+        default: COLORS.BACKGROUND.DEFAULT,
+        paper: COLORS.BACKGROUND.PAPER,
+    },
+    text: {
+        primary: COLORS.TEXT.PRIMARY,
+        secondary: COLORS.TEXT.SECONDARY,
+        disabled: COLORS.TEXT.DISABLED,
     },
 };

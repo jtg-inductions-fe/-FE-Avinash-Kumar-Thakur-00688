@@ -16,7 +16,7 @@ let theme = createTheme({
     mixins,
     components,
     typography: {
-        fontFamily: 'Inter',
+        fontFamily: 'Roboto, sans-serif',
         ...typography.typographyUtil,
     },
     spacing: (factor: number) =>
@@ -26,7 +26,8 @@ let theme = createTheme({
 /* Extend the base theme with additional configurations */
 theme = createTheme(theme, {
     typography: {
-        ...typography.typographyStyle(theme),
+        allVariants: { lineHeight: 1.3 },
+        ...typography.typographyStyle(),
     },
 });
 
