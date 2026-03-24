@@ -6,7 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
-import { PageLoader } from '@components';
+import { GlobalSnackbar, PageLoader } from '@components';
 import { Router } from '@routes';
 import { store } from '@store';
 import { theme } from '@theme';
@@ -20,6 +20,7 @@ createRoot(rootElement).render(
             <Provider store={store}>
                 <Suspense fallback={<PageLoader />}>
                     <RouterProvider router={Router} />
+                    <GlobalSnackbar />
                 </Suspense>
             </Provider>
         </ThemeProvider>

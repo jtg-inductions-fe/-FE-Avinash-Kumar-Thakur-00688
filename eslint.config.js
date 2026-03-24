@@ -64,7 +64,7 @@ export default tseslint.config(
                         ['^\\w'],
                         ['^@mui'],
                         [
-                            '^@(?:|assets|components|constant|layout|routes|theme|pages|layout|store|features|services)',
+                            '^@(?:|assets|components|constant|layout|routes|theme|pages|layout|store|features|services|hooks|types|utils)',
                         ],
                         ['^\\./', '^\\.\\./'],
                     ],
@@ -83,6 +83,15 @@ export default tseslint.config(
                 {
                     selector: 'typeLike',
                     format: ['PascalCase'],
+                },
+            ],
+            '@typescript-eslint/no-misused-promises': [
+                'error',
+                {
+                    checksVoidReturn: {
+                        arguments: false,
+                        attributes: false,
+                    },
                 },
             ],
             'arrow-body-style': ['error', 'as-needed'],
