@@ -9,7 +9,8 @@
             "@pages": ["pages/index"],
             "@pages/*": ["pages/*"],
             "@store": ["store/store"],
-            "@components": ["components/index"]
+            "@components": ["components/index"],
+            "@routes": ["routes/index"]
         }
     }
 }

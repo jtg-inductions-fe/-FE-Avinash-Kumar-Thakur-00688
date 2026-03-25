@@ -1,3 +1,3 @@
-export const ROUTES: Record<string, string> = {
+export const ROUTES = {
     HOME: '/',
-};
+} as const;

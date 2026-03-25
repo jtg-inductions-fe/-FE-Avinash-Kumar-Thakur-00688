@@ -1,7 +1,4 @@
 import { Outlet } from 'react-router-dom';
 
-export const MainLayout = () => (
-    <>
-        <Outlet />
-    </>
-);
+// TODO: Add layout structure
+export const MainLayout = () => <Outlet />;

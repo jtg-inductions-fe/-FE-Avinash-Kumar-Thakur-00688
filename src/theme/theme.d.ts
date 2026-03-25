@@ -6,6 +6,6 @@ export declare module '@mui/material/styles/createMixins' {
 
 export declare module '@mui/material/styles/createTypography' {
     interface TypographyOptions {
-        fontWeightSemiBold?: React.CSSProperties['fontWeight'];
+        fontWeightSemiBold?: CSSProperties['fontWeight'];
     }
 }

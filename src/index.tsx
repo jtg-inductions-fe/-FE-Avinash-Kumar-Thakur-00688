@@ -3,11 +3,11 @@ import { createRoot } from 'react-dom/client';
 
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
-import { Router } from 'routes';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import { PageLoader } from '@components';
+import { Router } from '@routes';
 import { store } from '@store';
 import { theme } from '@theme';
 
@@ -17,11 +17,11 @@ createRoot(rootElement).render(
     <StrictMode>
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Suspense fallback={<PageLoader />}>
-                <Provider store={store}>
+            <Provider store={store}>
+                <Suspense fallback={<PageLoader />}>
                     <RouterProvider router={Router} />
-                </Provider>
-            </Suspense>
+                </Suspense>
+            </Provider>
         </ThemeProvider>
     </StrictMode>,
 );

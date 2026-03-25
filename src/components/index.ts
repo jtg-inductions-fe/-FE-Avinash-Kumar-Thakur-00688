@@ -1,1 +1,1 @@
-export { PageLoader } from './PageLoader';
+export * from './PageLoader';
