@@ -1,2 +1,6 @@
-// TODO: Add home page UI
-export const HomePage = () => <p>HomePage</p>;
+import { MovieWithFilters } from 'containers';
+
+/**
+ * Home page of the application which consists of movie list and their filters
+ */
+export const HomePage = () => <MovieWithFilters />;

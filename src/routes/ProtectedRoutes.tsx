@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { ROUTES } from '@constant';
 import { RootState } from '@store';
@@ -11,10 +11,11 @@ import { RootState } from '@store';
 export const ProtectedRoutes = () => {
     /** Hooks */
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const location = useLocation();
 
     return isAuthenticated ? (
         <Outlet />
     ) : (
-        <Navigate to={ROUTES.LOGIN} replace />
+        <Navigate to={ROUTES.LOGIN} replace state={{ from: location }} />
     );
 };
