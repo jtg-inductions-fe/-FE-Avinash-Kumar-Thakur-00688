@@ -7,7 +7,7 @@ export const API_URL = {
     MOVIE_LIST: '/movies/',
     MOVIE_LANGUAGES: '/movies/languages/',
     MOVIE_GENRES: '/movies/genres/',
-    CINEMA_LIST: '/cinemas/',
+    CINEMAS: '/cinemas/',
 } as const;
 
 export const TOKEN_KEY = 'auth_token';

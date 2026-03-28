@@ -1,0 +1,44 @@
+import { useNavigate } from 'react-router-dom';
+
+import { Card, CardActionArea, CardContent, Stack } from '@mui/material';
+
+import { CINEMA_CARD_MIN_HEIGHT, ROUTES } from '@constant';
+import { CinemaType } from '@services';
+
+import { StyledTypography } from './CinemaCard.styles';
+
+/**
+ * This component used to display cinema details in the card
+ *
+ * @param location - Location of the cinema
+ * @param name - Name of the cinema
+ */
+export const CinemaCard = ({ cinema }: { cinema: CinemaType }) => {
+    /** Hooks */
+    const navigate = useNavigate();
+
+    /** Functions */
+    /**
+     * This function handle navigation when clicking the card
+     */
+    const handleNavigation = () => {
+        void navigate(`${ROUTES.CINEMAS}/${cinema.id}`);
+    };
+
+    return (
+        <Card sx={{ width: '100%' }}>
+            <CardActionArea onClick={handleNavigation}>
+                <CardContent>
+                    <Stack gap={1} minHeight={CINEMA_CARD_MIN_HEIGHT}>
+                        <StyledTypography variant="h4">
+                            {cinema.name}
+                        </StyledTypography>
+                        <StyledTypography variant="h5" color="textDisabled">
+                            {cinema.location}
+                        </StyledTypography>
+                    </Stack>
+                </CardContent>
+            </CardActionArea>
+        </Card>
+    );
+};

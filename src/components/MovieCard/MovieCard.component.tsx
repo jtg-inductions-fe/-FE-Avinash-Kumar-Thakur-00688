@@ -12,7 +12,8 @@ import {
 
 import MoviePlaceholder from '@assets/images/movie-placeholder.webp';
 import { MOVIE_CARD_POSTER_HEIGHT, MOVIE_CARD_WIDTH } from '@constant';
-import { MovieResponseData } from '@services';
+
+import { MovieCardProps } from './MovieCard.types';
 
 /**
  * This component is used to display the movies details in a card
@@ -21,7 +22,7 @@ import { MovieResponseData } from '@services';
  * @param languages - Movie can be in multiple languages
  * @param genres - Genres of the movie
  */
-export const MovieCard = ({ movie }: { movie: MovieResponseData }) => {
+export const MovieCard = ({ movie }: { movie: MovieCardProps }) => {
     /** Hooks */
     const { palette } = useTheme();
 
