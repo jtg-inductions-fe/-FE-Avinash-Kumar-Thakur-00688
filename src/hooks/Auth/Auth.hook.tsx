@@ -42,8 +42,8 @@ export const useAuth = () => {
         } catch (error: unknown) {
             const err = error as AuthApiErrorType;
             const errors = err?.data;
-            if (errors) {
-                const errValue = Object.values(errors)[0];
+            const errValue = errors ? Object.values(errors)[0] : undefined;
+            if (errValue && errValue.length > 0) {
                 dispatch(
                     showSnackbar({
                         message: errValue[0],
@@ -68,7 +68,7 @@ export const useAuth = () => {
     const handleRegister = async (data: RegisterApiRequestType) => {
         await handleAuthAction(
             () => register(data).unwrap(),
-            NOTIFICATIONS.LOGIN_SUCCESS,
+            NOTIFICATIONS.REGISTER_SUCCESS,
         );
     };
 

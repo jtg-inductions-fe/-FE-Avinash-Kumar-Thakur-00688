@@ -48,3 +48,9 @@ export type AuthApiErrorType = ApiError<AuthApiErrorData>;
  * Represent the response type for refresh token API
  */
 export type RefreshApiResponseType = Pick<AuthApiResponseType, 'access'>;
+
+export type ProfileErrorData = {
+    detail?: string;
+};
+
+export type ProfileApiErrorType = ApiError<ProfileErrorData>;

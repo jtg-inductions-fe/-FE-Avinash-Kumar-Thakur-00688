@@ -5,6 +5,10 @@ export type SnackbarSeverity = 'success' | 'error' | 'warning' | 'info';
  */
 export type SnackbarStateType = {
     /**
+     * Key to track which message it is showing
+     */
+    key: number;
+    /**
      * State to check whether snackbar is open or closed
      */
     open: boolean;

@@ -1,3 +1,4 @@
+import { MuiTelInputCountry } from 'mui-tel-input';
 import { Control, FieldValues, Path } from 'react-hook-form';
 
 /**
@@ -12,4 +13,8 @@ export interface PhoneInputProps<T extends FieldValues> {
      * Name of the input field
      */
     name: Path<T>;
+    /**
+     * Country code for the phone input
+     */
+    countryCode?: MuiTelInputCountry;
 }

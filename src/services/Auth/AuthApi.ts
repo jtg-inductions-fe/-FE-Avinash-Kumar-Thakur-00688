@@ -1,12 +1,14 @@
 import { baseApi } from 'services/BaseApi';
 
-import { API_URL } from '@constant';
+import { API_URL, TOKEN_KEY } from '@constant';
 import { removeAuthCredentials, setAuthCredentials, setUser } from '@features';
 import { User } from '@types';
+import { removeToken, setToken } from '@utils';
 
 import {
     AuthApiResponseType,
     LoginRequestType,
+    ProfileApiErrorType,
     RefreshApiResponseType,
     RegisterApiRequestType,
 } from './Auth.types';
@@ -32,8 +34,10 @@ export const authApi = baseApi.injectEndpoints({
                     void queryFulfilled
                         .then((response) => {
                             dispatch(setAuthCredentials(response.data.access));
+                            setToken(TOKEN_KEY, response.data.access);
                             dispatch(setUser(response.data.user));
                         })
+                        // Error handling delegated to caller via .unwrap()
                         .catch(() => {});
                 },
             },
@@ -53,8 +57,10 @@ export const authApi = baseApi.injectEndpoints({
                 void queryFulfilled
                     .then((response) => {
                         dispatch(setAuthCredentials(response.data.access));
+                        setToken(TOKEN_KEY, response.data.access);
                         dispatch(setUser(response.data.user));
                     })
+                    // Error handling delegated to caller via .unwrap()
                     .catch(() => {});
             },
         }),
@@ -71,23 +77,26 @@ export const authApi = baseApi.injectEndpoints({
                 void queryFulfilled
                     .then((response) => {
                         dispatch(setAuthCredentials(response.data.access));
+                        setToken(TOKEN_KEY, response.data.access);
                     })
                     .catch(() => {
                         dispatch(removeAuthCredentials());
+                        removeToken(TOKEN_KEY);
                     });
             },
         }),
         /**
          * Logout endpoint to call the logout user and delete access and refresh tokens
          */
-        logout: builder.mutation({
+        logout: builder.mutation<void, void>({
             query: () => ({
                 url: API_URL.LOGOUT,
                 method: 'POST',
             }),
             onQueryStarted(_, { dispatch, queryFulfilled }) {
-                void queryFulfilled.then(() => {
+                void queryFulfilled.finally(() => {
                     dispatch(removeAuthCredentials());
+                    removeToken(TOKEN_KEY);
                 });
             },
         }),
@@ -104,7 +113,13 @@ export const authApi = baseApi.injectEndpoints({
                     .then((response) => {
                         dispatch(setUser(response.data));
                     })
-                    .catch(() => dispatch(removeAuthCredentials()));
+                    .catch((error: unknown) => {
+                        const err = error as ProfileApiErrorType;
+                        if (err?.status === 401 || err?.status === 403) {
+                            dispatch(removeAuthCredentials());
+                            removeToken(TOKEN_KEY);
+                        }
+                    });
             },
         }),
     }),

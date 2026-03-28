@@ -1,4 +1,4 @@
-import { API_URL } from '@constant';
+import { API_URL, TOKEN_KEY } from '@constant';
 import { removeAuthCredentials, setAuthCredentials } from '@features';
 import {
     BaseQueryFn,
@@ -7,11 +7,16 @@ import {
 } from '@reduxjs/toolkit/query';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '@store';
+import { removeToken, setToken } from '@utils';
 
 /**
  * Base api url
  */
 const BASE_API_URL = import.meta.env.VITE_API_URL as string;
+
+if (!BASE_API_URL) {
+    throw new Error('VITE_API_URL environment variable is not defined');
+}
 
 /**
  * List of endpoints that require authentication header
@@ -60,7 +65,7 @@ export const baseQueryWithReauth: BaseQueryFn<
             const refreshResult = await baseQuery(
                 {
                     url: API_URL.REFRESH_TOKEN,
-                    method: 'GET',
+                    method: 'POST',
                     credentials: 'include',
                 },
                 api,
@@ -70,12 +75,15 @@ export const baseQueryWithReauth: BaseQueryFn<
             if (refreshResult?.data) {
                 const response = refreshResult.data as { access: string };
                 api.dispatch(setAuthCredentials(response.access));
+                setToken(TOKEN_KEY, response.access);
                 result = await baseQuery(args, api, extraOptions);
             } else {
                 api.dispatch(removeAuthCredentials());
+                removeToken(TOKEN_KEY);
             }
         } catch {
             api.dispatch(removeAuthCredentials());
+            removeToken(TOKEN_KEY);
         }
     }
 

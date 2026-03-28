@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 
 import { AuthCard, PhoneInput } from '@components';
+import { ROUTES } from '@constant';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@hooks';
 
@@ -59,13 +60,14 @@ export const RegisterContainer = () => {
                         fullWidth
                         label="Full Name"
                         {...register('name')}
+                        autoComplete="name"
                         error={!!errors.name}
                         helperText={errors.name?.message}
                     />
                     <TextField
                         fullWidth
                         type="email"
-                        label="Email "
+                        label="Email"
                         {...register('email')}
                         autoComplete="email"
                         error={!!errors.email}
@@ -104,7 +106,7 @@ export const RegisterContainer = () => {
                         textAlign="center"
                     >
                         Already have an account?{' '}
-                        <Link component={RouterLink} to="/login">
+                        <Link component={RouterLink} to={ROUTES.LOGIN}>
                             Sign in
                         </Link>
                     </Typography>

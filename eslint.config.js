@@ -64,7 +64,7 @@ export default tseslint.config(
                         ['^\\w'],
                         ['^@mui'],
                         [
-                            '^@(?:|assets|components|constant|layout|routes|theme|pages|layout|store|features|services|hooks|types|utils)',
+                            '^@(?:|assets|components|constant|layout|routes|theme|pages|store|features|services|hooks|types|utils)',
                         ],
                         ['^\\./', '^\\.\\./'],
                     ],
@@ -89,7 +89,6 @@ export default tseslint.config(
                 'error',
                 {
                     checksVoidReturn: {
-                        arguments: false,
                         attributes: false,
                     },
                 },

@@ -14,7 +14,7 @@ import { AppDispatch, RootState } from '@store';
 export const GlobalSnackbar = () => {
     /** Hooks */
     const dispatch = useDispatch<AppDispatch>();
-    const { open, message, severity } = useSelector(
+    const { key, open, message, severity } = useSelector(
         (state: RootState) => state.snackbar,
     );
 
@@ -27,12 +27,16 @@ export const GlobalSnackbar = () => {
         _: Event | SyntheticEvent<Element, Event>,
         reason?: SnackbarCloseReason,
     ) => {
-        if (reason === 'clickaway') return;
+        if (reason === 'clickaway') {
+            return;
+        }
+
         dispatch(hideSnackbar());
     };
 
     return (
         <Snackbar
+            key={key}
             open={open}
             autoHideDuration={4000}
             onClose={handleClose}

@@ -13,6 +13,7 @@ import { PhoneInputProps } from './PhoneInput.types';
 export const PhoneInput = <T extends FieldValues>({
     control,
     name,
+    countryCode = 'IN',
 }: PhoneInputProps<T>) => (
     <Controller
         control={control}
@@ -20,7 +21,7 @@ export const PhoneInput = <T extends FieldValues>({
         render={({ field, fieldState }) => (
             <MuiTelInput
                 {...field}
-                defaultCountry="IN"
+                defaultCountry={countryCode}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
             />

@@ -18,9 +18,9 @@ createRoot(rootElement).render(
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Provider store={store}>
+                <GlobalSnackbar />
                 <Suspense fallback={<PageLoader />}>
                     <RouterProvider router={Router} />
-                    <GlobalSnackbar />
                 </Suspense>
             </Provider>
         </ThemeProvider>

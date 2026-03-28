@@ -6,6 +6,7 @@ import { SnackbarPayload, SnackbarStateType } from './Snackbar.types';
  * Initial state of the snackbar
  */
 const initialState: SnackbarStateType = {
+    key: 0,
     open: false,
     message: '',
     severity: 'info',
@@ -22,9 +23,10 @@ const snackbarSlice = createSlice({
          * To show the snackbar on some action
          */
         showSnackbar: (state, action: PayloadAction<SnackbarPayload>) => {
+            state.key += 1;
             state.open = true;
             state.message = action.payload.message;
-            state.severity = action.payload.severity || 'info';
+            state.severity = action.payload.severity;
         },
         /**
          * Hide snackbar from the page
