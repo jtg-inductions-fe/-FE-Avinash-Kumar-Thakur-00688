@@ -47,3 +47,4 @@ export const SCALING_FACTOR = 4;
  */
 export const MOVIE_CARD_WIDTH = 250;
 export const MOVIE_CARD_POSTER_HEIGHT = 280;
+export const SKELETON_COUNT = 8;

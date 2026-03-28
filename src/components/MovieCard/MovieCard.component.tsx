@@ -35,8 +35,8 @@ export const MovieCard = ({ movie }: { movie: MovieResponseData }) => {
                     component="img"
                     height={MOVIE_CARD_POSTER_HEIGHT}
                     src={movie.poster_url || MoviePlaceholder}
-                    alt="test"
-                    loading="eager"
+                    alt={movie.name}
+                    loading="lazy"
                     sx={{ background: palette.text.secondary }}
                 />
                 <CardContent>

@@ -8,7 +8,5 @@ import { NavItemTypes } from './NavLink.types';
  * @param path - Url of the link
  */
 export const NavLink = ({ label, path }: NavItemTypes) => (
-    <StyledLink key={label} to={path}>
-        {label}
-    </StyledLink>
+    <StyledLink to={path}>{label}</StyledLink>
 );

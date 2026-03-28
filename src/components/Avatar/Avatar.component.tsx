@@ -18,7 +18,7 @@ export const CustomAvatar = (props: CustomAvatarProps) => {
 
     return (
         <Tooltip title={tooltip}>
-            <IconButton onClick={onClick}>
+            <IconButton onClick={onClick} aria-label={alt}>
                 <StyledAvatar src={src} alt={alt} size={size} />
             </IconButton>
         </Tooltip>

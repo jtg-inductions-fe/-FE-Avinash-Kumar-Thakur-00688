@@ -5,6 +5,7 @@ import { MovieFilters } from 'containers/MovieFilters';
 import { Box, Stack, Typography } from '@mui/material';
 
 import { GridList, MovieCard, MovieSkeleton } from '@components';
+import { SKELETON_COUNT } from '@constant';
 import { MovieApiParamType, useMovieWithFilterQuery } from '@services';
 
 /**
@@ -15,7 +16,7 @@ export const MovieWithFilters = () => {
     const [applyFilters, setApplyFilters] = useState<MovieApiParamType>({});
 
     /** Hooks */
-    const { data, isFetching } = useMovieWithFilterQuery(applyFilters);
+    const { data, isFetching, isError } = useMovieWithFilterQuery(applyFilters);
 
     return (
         <Box
@@ -31,9 +32,15 @@ export const MovieWithFilters = () => {
                 </Typography>
                 {isFetching ? (
                     <GridList
-                        itemsList={Array.from({ length: 8 })}
+                        itemsList={Array.from({ length: SKELETON_COUNT })}
                         renderItem={(_, index) => <MovieSkeleton key={index} />}
                     />
+                ) : isError ? (
+                    <Stack flex={1} justifyContent="center" alignItems="center">
+                        <Typography variant="h4" color="error">
+                            Failed to load movies. Please try again.
+                        </Typography>
+                    </Stack>
                 ) : data?.length === 0 ? (
                     <Stack
                         flex={1}

@@ -28,7 +28,7 @@ export const useAuth = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const to = location.state as LocationState;
+    const to = location.state as LocationState | null;
 
     /** Functions */
     /**

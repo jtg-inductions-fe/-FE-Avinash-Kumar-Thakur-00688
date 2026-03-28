@@ -1,10 +1,6 @@
-import {
-    Autocomplete,
-    TextField,
-    // useTheme,
-} from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 
-import { FilterProps, ListItemTypes } from './FIlter.types';
+import { FilterProps, ListItemTypes } from './Filter.types';
 
 /**
  * This component display the autocomplete filter, handle both multiselect and single value
@@ -32,7 +28,7 @@ export const Filter = (props: FilterProps) => {
                 if (isMultiple) {
                     setValue(newValue as ListItemTypes[]);
                 } else {
-                    setValue(newValue as ListItemTypes);
+                    setValue(newValue as ListItemTypes | null);
                 }
             }}
             filterSelectedOptions

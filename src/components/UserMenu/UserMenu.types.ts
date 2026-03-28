@@ -11,7 +11,7 @@ export interface UserMenuProps {
      */
     avatarAlt?: string;
     /**
-     * Functions trigger on cliking the avatar
+     * Functions triggered on clicking the avatar
      */
     avatarClick: React.MouseEventHandler<HTMLButtonElement>;
     /**

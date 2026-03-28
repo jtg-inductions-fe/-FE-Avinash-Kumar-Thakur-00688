@@ -18,7 +18,7 @@ export const AuthActions = () => {
             <Button
                 variant="contained"
                 color="primary"
-                onClick={() => void navigate(ROUTES.LOGIN)}
+                onClick={() => navigate(ROUTES.LOGIN)}
             >
                 Sign in
             </Button>
@@ -26,7 +26,7 @@ export const AuthActions = () => {
                 <Button
                     variant="outlined"
                     color="primary"
-                    onClick={() => void navigate(ROUTES.REGISTER)}
+                    onClick={() => navigate(ROUTES.REGISTER)}
                 >
                     Sign up
                 </Button>

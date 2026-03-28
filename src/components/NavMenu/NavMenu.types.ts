@@ -1,20 +1,6 @@
-import { To } from 'react-router-dom';
+import { NavItemTypes } from 'components/NavLink';
 
 import { PopoverOrigin, SxProps } from '@mui/material';
-
-/**
- * Represent the type of items used in nav menu
- */
-export interface NavItemTypes {
-    /**
-     * Label of the item
-     */
-    label: string;
-    /**
-     * Url of the item
-     */
-    path: To;
-}
 
 /**
  * Props for the nav menu component

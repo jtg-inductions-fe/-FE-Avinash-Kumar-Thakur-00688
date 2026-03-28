@@ -21,7 +21,7 @@ export const GridList = <T,>(props: GridListProps<T>) => {
         <Grid2 container spacing={3}>
             {itemsList.map((item, index) => (
                 <Grid2
-                    key={(item as { id: string })?.id ?? index}
+                    key={(item as { id: number })?.id ?? index}
                     display="flex"
                     justifyContent="center"
                     size={itemSize}

@@ -80,10 +80,17 @@ export const Header = () => {
                             size="large"
                             onClick={handleOpenNavMenu}
                             color="inherit"
+                            aria-label="open navigation menu"
+                            aria-controls={
+                                anchorElNav ? 'header-nav-menu' : undefined
+                            }
+                            aria-haspopup="true"
+                            aria-expanded={anchorElNav ? 'true' : undefined}
                         >
                             <MenuIcon />
                         </IconButton>
                         <NavMenu
+                            id="header-nav-menu"
                             anchorEl={anchorElNav}
                             keepMounted
                             closeNavMenu={handleCloseNavMenu}

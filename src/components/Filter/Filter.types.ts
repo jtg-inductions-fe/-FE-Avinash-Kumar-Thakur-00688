@@ -41,11 +41,11 @@ export type SingleSelectProps = {
     /**
      * Value of the selected item
      */
-    value: ListItemTypes;
+    value: ListItemTypes | null;
     /**
      * Function to set the value of filter item
      */
-    setValue: (value: ListItemTypes) => void;
+    setValue: (value: ListItemTypes | null) => void;
 };
 
 /**

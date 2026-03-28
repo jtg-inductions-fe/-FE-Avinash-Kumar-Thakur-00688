@@ -40,11 +40,21 @@ export const MovieFilters = ({
     const handleApplyFilters = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setApplyFilters({
-            languages: languages?.map((lang) => lang.id).join(','),
-            genres: genres?.map((genre) => genre.id).join(','),
-            date: date?.format('YYYY-MM-DD'),
-        });
+        const nextFilters: MovieApiParamType = {};
+
+        if (languages.length > 0) {
+            nextFilters.languages = languages.map((lang) => lang.id).join(',');
+        }
+
+        if (genres.length > 0) {
+            nextFilters.genres = genres.map((genre) => genre.id).join(',');
+        }
+
+        if (date) {
+            nextFilters.date = date.format('YYYY-MM-DD');
+        }
+
+        setApplyFilters(nextFilters);
     };
 
     /**
@@ -58,7 +68,7 @@ export const MovieFilters = ({
     };
 
     /** Constants */
-    const isFilterSEmpty =
+    const isFiltersEmpty =
         languages.length === 0 && genres.length === 0 && !date;
 
     return (
@@ -87,7 +97,7 @@ export const MovieFilters = ({
             />
             <DatePicker
                 label="Date"
-                value={date ?? null}
+                value={date}
                 slotProps={{ textField: { readOnly: true } }}
                 onChange={(newDate) => setDate(newDate)}
                 disablePast
@@ -97,7 +107,7 @@ export const MovieFilters = ({
                     type="submit"
                     variant="contained"
                     sx={{ py: 3, mt: 3 }}
-                    disabled={isFilterSEmpty}
+                    disabled={isFiltersEmpty}
                 >
                     Apply Filters
                 </Button>
@@ -105,7 +115,7 @@ export const MovieFilters = ({
                     variant="outlined"
                     sx={{ py: 3, mt: 3 }}
                     onClick={handleRemoveFilters}
-                    disabled={isFilterSEmpty}
+                    disabled={isFiltersEmpty}
                 >
                     Remove Filters
                 </Button>
