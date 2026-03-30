@@ -30,7 +30,7 @@ export const cinemaApi = baseApi.injectEndpoints({
         }),
         cinemaDetails: builder.query<CinemaDetailsApiResponse, string>({
             query: (id) => ({
-                url: `${API_URL.CINEMAS}${id}/`,
+                url: `${API_URL.CINEMAS}${encodeURIComponent(id)}/`,
                 method: 'GET',
             }),
         }),

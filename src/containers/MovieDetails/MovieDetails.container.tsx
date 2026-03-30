@@ -41,10 +41,6 @@ export const MovieDetailsContainer = () => {
     };
 
     /** Constants */
-    const durationParts = data?.duration.split(':') ?? [];
-    const formattedDuration =
-        durationParts.length >= 2 &&
-        `${parseInt(durationParts[0])}h ${parseInt(durationParts[1])}m`;
     const formattedGenres = data?.genres
         ?.map((genre) => genre.genre_name)
         .join(', ');

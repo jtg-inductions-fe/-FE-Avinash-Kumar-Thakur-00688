@@ -62,3 +62,19 @@ export const formatTime = (date: string) => {
         hour12: true,
     }).format(parsedDate);
 };
+
+/**
+ * Function to format movie duration
+ * @param duration - Duration which need to be formatted
+ * @returns Returns formatted duration
+ */
+export const formatDuration = (duration?: string): string => {
+    const parts = duration?.split(':') ?? [];
+    if (parts.length < 2) return '';
+
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    if (isNaN(hours) || isNaN(minutes)) return '';
+
+    return `${hours}h ${minutes}m`;
+};

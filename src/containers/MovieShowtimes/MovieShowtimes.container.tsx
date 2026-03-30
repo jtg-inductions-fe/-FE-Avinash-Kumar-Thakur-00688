@@ -4,6 +4,7 @@ import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
 
 import { DataState, MovieSlot } from '@components';
 import { useMovieShowtimesQuery } from '@services';
+import { formatDuration } from '@utils';
 
 /**
  * Container used to display slots per cinema for a particular movie
@@ -14,12 +15,6 @@ export const MovieShowtimesContainer = () => {
     const { data, isFetching, isError } = useMovieShowtimesQuery(id, {
         skip: !id,
     });
-
-    /** Constants */
-    const durationParts = data?.duration.split(':') ?? [];
-    const formattedDuration =
-        durationParts.length >= 2 &&
-        `${parseInt(durationParts[0])}h ${parseInt(durationParts[1])}m`;
 
     return (
         <Stack flex={1} py={4} gap={6}>
@@ -43,7 +38,7 @@ export const MovieShowtimesContainer = () => {
                                 </Typography>
                                 <Box display="flex" gap={2} flexWrap="wrap">
                                     <Chip
-                                        label={`Movie runtime: ${formattedDuration}`}
+                                        label={`Movie runtime: ${formatDuration(data?.duration)}`}
                                     />
                                     {data?.genres.map((genre) => (
                                         <Chip
@@ -64,7 +59,7 @@ export const MovieShowtimesContainer = () => {
                             }}
                         >
                             <Stack gap={4}>
-                                {data?.cinemas.map((cinema) => (
+                                {data?.cinemas?.map((cinema) => (
                                     <MovieSlot
                                         key={cinema.id}
                                         title={cinema.name}
