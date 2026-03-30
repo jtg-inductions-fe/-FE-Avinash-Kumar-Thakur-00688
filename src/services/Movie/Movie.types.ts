@@ -1,3 +1,5 @@
+import { SlotDataType } from 'services/Cinema';
+
 /**
  * Type of the language item
  */
@@ -97,3 +99,47 @@ export type FilterOption = {
 };
 
 export type FilterOptionsType = FilterOption[];
+
+/**
+ * Type of the slots per cinema
+ */
+export type CinemasSlotType = {
+    /**
+     * Unique identifier of cinema
+     */
+    id: number;
+    /**
+     * Name of the cinema
+     */
+    name: string;
+    /**
+     * Location of the cinema
+     */
+    location: string;
+    /**
+     * Slots in the cinema
+     */
+    slots: SlotDataType[];
+};
+
+/**
+ * Type of the movie showtime Api response
+ */
+export type MovieShowtimesResponseType = {
+    /**
+     * Name of the movie
+     */
+    name: string;
+    /**
+     * Genres of particular movie
+     */
+    genres: GenresType[];
+    /**
+     * Duration of the movie
+     */
+    duration: string;
+    /**
+     * List of all cinemas with their slots
+     */
+    cinemas: CinemasSlotType[];
+};

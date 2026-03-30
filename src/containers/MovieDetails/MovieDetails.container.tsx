@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
     Box,
@@ -11,6 +11,7 @@ import {
 
 import MoviePlaceholder from '@assets/images/movie-placeholder.webp';
 import { ERROR_STATUS } from '@constant';
+import { ROUTES } from '@constant';
 import { useMovieDetailsQuery } from '@services';
 import { formatDate, isFetchBaseQueryError } from '@utils';
 
@@ -30,6 +31,14 @@ export const MovieDetailsContainer = () => {
             skip: !id,
         },
     );
+
+    /** Functions */
+    /**
+     * This function handle navigation when clicking the card
+     */
+    const handleNavigation = () => {
+        void navigate(`${ROUTES.MOVIE_SHOWTIME}/${id}`);
+    };
 
     /** Constants */
     const durationParts = data?.duration.split(':') ?? [];
