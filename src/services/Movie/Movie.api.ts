@@ -48,7 +48,7 @@ export const movieApi = baseApi.injectEndpoints({
          */
         movieDetails: builder.query<MovieResponseData, string>({
             query: (id) => ({
-                url: `${API_URL.MOVIES}${id}`,
+                url: `${API_URL.MOVIES}${encodeURIComponent(id)}`,
                 method: 'GET',
             }),
         }),
@@ -57,7 +57,7 @@ export const movieApi = baseApi.injectEndpoints({
          */
         movieShowtimes: builder.query<MovieShowtimesResponseType, string>({
             query: (id) => ({
-                url: `${API_URL.MOVIES}${id}${API_URL.CINEMAS}`,
+                url: `${API_URL.MOVIES}${encodeURIComponent(id)}${API_URL.CINEMAS}`,
                 method: 'GET',
             }),
         }),
