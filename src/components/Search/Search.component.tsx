@@ -58,6 +58,11 @@ export const Search = (props: SearchProps) => {
             placeholder={placeholder}
             onChange={handleChange}
             size={size}
+            slotProps={{
+                htmlInput: {
+                    'aria-label': label || placeholder,
+                },
+            }}
             fullWidth
         />
     );

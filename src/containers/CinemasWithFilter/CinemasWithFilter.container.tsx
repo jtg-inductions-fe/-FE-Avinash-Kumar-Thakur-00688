@@ -20,7 +20,7 @@ export const CinemasWithFilter = () => {
 
     /** Hooks */
     const { breakpoints, palette } = useTheme();
-    const isMobile = useMediaQuery(breakpoints.up('sm'));
+    const isSmAndUp = useMediaQuery(breakpoints.up('sm'));
     const { data, isLoading, isError } = useCinemaWithFilterQuery({ city });
 
     return (
@@ -34,7 +34,7 @@ export const CinemasWithFilter = () => {
                 sx={{ background: palette.background.paper }}
             >
                 <Typography variant="h2">Cinemas</Typography>
-                <Box width={!isMobile ? '100%' : 350}>
+                <Box width={isSmAndUp ? 350 : '100%'}>
                     <Search
                         placeholder="Search by city name"
                         setData={setCity}

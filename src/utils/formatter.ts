@@ -12,7 +12,7 @@ export const formatDate = ({ date, options = {} }: DateFormatter) => {
         day = '2-digit',
         month = 'short',
         year,
-        locale = 'en-In',
+        locale = 'en-IN',
         weekday = 'short',
     } = options;
 
@@ -53,7 +53,7 @@ export const formatTime = (date: string) => {
 
     if (isNaN(parsedDate.getTime())) return '';
 
-    return Intl.DateTimeFormat('en-In', {
+    return Intl.DateTimeFormat('en-IN', {
         hour: '2-digit',
         minute: '2-digit',
         hour12: true,

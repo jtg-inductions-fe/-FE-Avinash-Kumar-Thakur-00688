@@ -1,9 +1,9 @@
-import { Header } from 'containers';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 import { Container, Stack, Toolbar } from '@mui/material';
 
+import { Header } from '@containers';
 import { useProfileQuery } from '@services';
 import { RootState } from '@store';
 

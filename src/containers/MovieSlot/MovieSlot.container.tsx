@@ -14,15 +14,12 @@ import { formatAmount, formatDate, formatTime } from '@utils';
 /**
  * Container display the slots of the movie
  *
- * @param name - Name of the movie which need to display
- * @param languages - Languages in which movie is present
- * @param slots - It contains the details of slot which include date, time and price
+ * @param movies - Array of movie data, each containing name, languages, and slots
  */
 export const MovieSlot = ({ movies }: { movies: MovieDataType[] }) => {
     /** Functions */
     /**
      * Function that group the slot on base of date
-     *
      * @param slots - Slot details which consist of id, date, time and price
      * @returns - Object which consist of string type key and value as slot date type
      */

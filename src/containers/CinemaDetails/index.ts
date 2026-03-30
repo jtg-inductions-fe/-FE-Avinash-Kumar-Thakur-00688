@@ -1,1 +1,1 @@
-export { CinemaDetailsContainer } from './CinemaDetials.container';
+export { CinemaDetailsContainer } from './CinemaDetails.container';

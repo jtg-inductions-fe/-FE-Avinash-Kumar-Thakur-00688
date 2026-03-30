@@ -18,9 +18,7 @@ import { MovieCardProps } from './MovieCard.types';
 /**
  * This component is used to display the movies details in a card
  *
- * @param name - Movie name which need to be displayed
- * @param languages - Movie can be in multiple languages
- * @param genres - Genres of the movie
+ * @param movie - Movie data object containing name, languages and genres
  */
 export const MovieCard = ({ movie }: { movie: MovieCardProps }) => {
     /** Hooks */

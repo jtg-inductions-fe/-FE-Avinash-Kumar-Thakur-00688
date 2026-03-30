@@ -1,1 +1,1 @@
-export { CinemaDetailsCard } from './CinemaDetailsCard.container';
+export { CinemaDetailsCard } from './CinemaDetailsCard.component';

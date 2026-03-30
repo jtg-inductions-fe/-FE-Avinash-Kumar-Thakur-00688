@@ -23,6 +23,9 @@ export const DataState = (props: DataStateProps) => {
         children,
     } = props;
 
+    const errorMessage =
+        errorState ?? 'Something went wrong. Please try again.';
+
     /** Loading State */
     if (isLoading) {
         return loadingState ? (
@@ -44,7 +47,7 @@ export const DataState = (props: DataStateProps) => {
                 textAlign="center"
             >
                 <Typography variant="h2" color="error">
-                    {errorState}
+                    {errorMessage}
                 </Typography>
             </Stack>
         );

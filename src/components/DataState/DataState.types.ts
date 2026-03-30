@@ -41,7 +41,7 @@ export interface DataStateProps {
     /**
      * Content to be displayed when any error occurs
      */
-    errorState?: string;
+    errorState?: ReactNode;
     /**
      * Children displayed when data is available
      */

@@ -1,9 +1,9 @@
-import { MovieSlot } from 'containers/MovieSlot';
 import { useParams } from 'react-router-dom';
 
 import { Stack, Typography } from '@mui/material';
 
 import { CinemaDetailsCard, DataState } from '@components';
+import { MovieSlot } from '@containers/MovieSlot';
 import { useCinemaDetailsQuery } from '@services';
 
 /**

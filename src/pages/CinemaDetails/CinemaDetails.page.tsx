@@ -1,3 +1,3 @@
-import { CinemaDetailsContainer } from 'containers';
+import { CinemaDetailsContainer } from '@containers';
 
 export const CinemaDetailPage = () => <CinemaDetailsContainer />;

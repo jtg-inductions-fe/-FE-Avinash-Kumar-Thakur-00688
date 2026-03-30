@@ -1,4 +1,4 @@
-import { RegisterContainer } from 'containers';
+import { RegisterContainer } from '@containers';
 
 /**
  * Register page of the application

@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
-
 /**
  * Type of variant for textField component
  */
@@ -29,7 +27,7 @@ export interface SearchProps {
     /**
      * Function that trigger api calling
      */
-    setData: Dispatch<SetStateAction<string>>;
+    setData: (value: string) => void;
     /**
      * Size of the textField component
      */

@@ -8,10 +8,9 @@ import { CinemaType } from '@services';
 import { StyledTypography } from './CinemaCard.styles';
 
 /**
- * This component used to display cinema details in the card
+ * This component is used to display cinema details in the card
  *
- * @param location - Location of the cinema
- * @param name - Name of the cinema
+ * @param cinema - Cinema data object containing id, name, and location
  */
 export const CinemaCard = ({ cinema }: { cinema: CinemaType }) => {
     /** Hooks */

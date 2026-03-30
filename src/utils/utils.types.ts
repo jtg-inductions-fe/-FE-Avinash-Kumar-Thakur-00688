@@ -14,6 +14,9 @@ export interface DateFormatterOptions {
      * year - option for the year representation in the date formatter
      */
     year?: 'numeric' | '2-digit';
+    /**
+     * weekday - option for the weekday representation in the date formatter
+     */
     weekday?: 'long' | 'short' | 'narrow';
     /**
      * locale - For different date formats
