@@ -8,6 +8,7 @@ import {
     LanguageApiResponseType,
     MovieApiParamType,
     MovieApiResponseType,
+    MovieResponseData,
 } from './Movie.types';
 
 /**
@@ -31,7 +32,7 @@ export const movieApi = baseApi.injectEndpoints({
                             .join(','),
                     };
                     return {
-                        url: API_URL.MOVIE_LIST,
+                        url: API_URL.MOVIES,
                         method: 'GET',
                         params:
                             Object.keys(params).length === 0
@@ -41,6 +42,15 @@ export const movieApi = baseApi.injectEndpoints({
                 },
             },
         ),
+        /**
+         * Takes movie id and return movie details
+         */
+        movieDetails: builder.query<MovieResponseData, string>({
+            query: (id) => ({
+                url: `${API_URL.MOVIES}${id}`,
+                method: 'GET',
+            }),
+        }),
         /**
          * Endpoint to fetch languages of movies
          */
@@ -74,5 +84,9 @@ export const movieApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useMovieWithFilterQuery, useLanguagesQuery, useGenresQuery } =
-    movieApi;
+export const {
+    useMovieWithFilterQuery,
+    useLanguagesQuery,
+    useGenresQuery,
+    useMovieDetailsQuery,
+} = movieApi;
