@@ -15,6 +15,7 @@ const RegisterPage = lazy(() => import('@pages/Register'));
 const LoginPage = lazy(() => import('@pages/Login'));
 const CinemaListPage = lazy(() => import('@pages/CinemaList'));
 const CinemaDetailPage = lazy(() => import('@pages/CinemaDetails'));
+const MovieDetailsPage = lazy(() => import('@pages/MovieDetails'));
 
 const routes: RouteObject[] = [
     {
@@ -35,6 +36,10 @@ const routes: RouteObject[] = [
                     {
                         path: `${ROUTES.CINEMAS}/:id`,
                         element: <CinemaDetailPage />,
+                    },
+                    {
+                        path: `${ROUTES.MOVIES}/:id`,
+                        element: <MovieDetailsPage />,
                     },
                     {
                         element: <PublicRoutes />,

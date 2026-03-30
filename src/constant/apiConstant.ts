@@ -4,7 +4,7 @@ export const API_URL = {
     REFRESH_TOKEN: '/user/refresh-token/',
     LOGOUT: '/user/logout/',
     PROFILE: '/user/details/',
-    MOVIE_LIST: '/movies/',
+    MOVIES: '/movies/',
     MOVIE_LANGUAGES: '/movies/languages/',
     MOVIE_GENRES: '/movies/genres/',
     CINEMAS: '/cinemas/',
