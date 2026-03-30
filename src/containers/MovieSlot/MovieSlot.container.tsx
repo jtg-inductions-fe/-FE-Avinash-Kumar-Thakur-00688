@@ -57,6 +57,7 @@ export const MovieSlot = ({ movies }: { movies: MovieDataType[] }) => {
                                             .join(', ')}
                                     </Typography>
                                 </Stack>
+                                <Divider />
 
                                 <Grid2
                                     container

@@ -35,12 +35,15 @@ export const formatDate = ({ date, options = {} }: DateFormatter) => {
  * @param amount - Amount which need to be formatted
  * @returns Returns formatted amount
  */
-export const formatAmount = (amount: number) =>
-    new Intl.NumberFormat('en-IN', {
+export const formatAmount = (amount: number) => {
+    if (isNaN(amount)) return '';
+
+    return Intl.NumberFormat('en-IN', {
         style: 'currency',
         currency: 'INR',
         maximumFractionDigits: 0,
     }).format(amount);
+};
 
 /**
  * Function to format time

@@ -55,7 +55,7 @@ export const CinemasWithFilter = () => {
                 }
                 isEmpty={data?.length === 0}
                 emptyState={{
-                    title: ' No cinemas available',
+                    title: 'No cinemas available',
                 }}
                 isError={isError}
                 errorState="Failed to load cinemas. Please try again."

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 
 import { Stack, Typography } from '@mui/material';
 
-import { CinemaDetailsCard, DataState } from '@components';
+import { DataState, DetailsCard } from '@components';
 import { MovieSlot } from '@containers/MovieSlot';
 import { useCinemaDetailsQuery } from '@services';
 
@@ -12,14 +12,14 @@ import { useCinemaDetailsQuery } from '@services';
 export const CinemaDetailsContainer = () => {
     /** Hooks */
     const { id = '' } = useParams();
-    const { data, isLoading, isError } = useCinemaDetailsQuery(id, {
+    const { data, isFetching, isError } = useCinemaDetailsQuery(id, {
         skip: !id,
     });
 
     return (
         <Stack flex={1} py={4} gap={5}>
             <DataState
-                isLoading={isLoading}
+                isLoading={isFetching}
                 isEmpty={!data}
                 emptyState={{
                     title: 'Cinema Not Found',
@@ -30,9 +30,9 @@ export const CinemaDetailsContainer = () => {
                 errorState="Failed to load cinema details. Please try again."
             >
                 <Stack py={4} gap={6}>
-                    <CinemaDetailsCard
-                        name={data?.name || ''}
-                        location={data?.location || ''}
+                    <DetailsCard
+                        title={data?.name || ''}
+                        subtitle={data?.location || ''}
                     />
                     <Stack gap={2}>
                         <Typography variant="h2">Shows</Typography>

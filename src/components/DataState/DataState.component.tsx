@@ -10,6 +10,8 @@ import { DataStateProps } from './DataState.types';
  * @param isEmpty - State to check whether the data is empty
  * @param emptyState - Content displayed when there is no data
  * @param children - Content display when there is data available
+ * @param isError - State to check whether an error occurred
+ * @param errorState - Content displayed when there is an error
  */
 export const DataState = (props: DataStateProps) => {
     /** Props */
