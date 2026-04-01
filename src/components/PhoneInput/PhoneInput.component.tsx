@@ -24,6 +24,7 @@ export const PhoneInput = <T extends FieldValues>({
                 defaultCountry={countryCode}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
+                {...props}
             />
         )}
     />

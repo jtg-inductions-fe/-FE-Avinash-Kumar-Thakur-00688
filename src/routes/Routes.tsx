@@ -19,6 +19,7 @@ const CinemaDetailPage = lazy(() => import('@pages/CinemaDetails'));
 const MovieDetailsPage = lazy(() => import('@pages/MovieDetails'));
 const MovieShowtimesPage = lazy(() => import('@pages/MovieShowtimes'));
 const BookingPage = lazy(() => import('@pages/Booking'));
+const ProfilePage = lazy(() => import('@pages/Profile'));
 
 const routes: RouteObject[] = [
     {
@@ -54,6 +55,10 @@ const routes: RouteObject[] = [
                             {
                                 path: `${ROUTES.BOOKING}/:movie/:id`,
                                 element: <BookingPage />,
+                            },
+                            {
+                                path: ROUTES.PROFILE,
+                                element: <ProfilePage />,
                             },
                         ],
                     },
