@@ -28,6 +28,10 @@ export type BaseProps = {
      * Loading state of the filter options
      */
     onLoading?: boolean;
+    /**
+     * Text to be displayed if no option present for search result
+     */
+    noOptionsText?: string;
 };
 
 /**

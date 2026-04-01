@@ -1,13 +1,23 @@
 import * as React from 'react';
 
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { StyledNavLink } from 'styles';
 
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, Container, IconButton, Toolbar } from '@mui/material';
+import {
+    AppBar,
+    Box,
+    Button,
+    Container,
+    IconButton,
+    Toolbar,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material';
 
 import Logo from '@assets/images/logo.svg';
-import { AuthActions, NavLink, NavMenu, UserMenu } from '@components';
+import { NavMenu, UserMenu } from '@components';
 import { ROUTES } from '@constant';
 import { useAuth } from '@hooks';
 import { RootState } from '@store';
@@ -29,6 +39,11 @@ export const Header = () => {
     const { isAuthenticated, user } = useSelector(
         (state: RootState) => state.auth,
     );
+
+    /** Hooks */
+    const { breakpoints } = useTheme();
+    const isMobile = useMediaQuery(breakpoints.down('sm'));
+    const navigate = useNavigate();
 
     /** Functions */
     /**
@@ -117,18 +132,21 @@ export const Header = () => {
                         justifyContent="center"
                         gap={8}
                     >
-                        {navItems.map((item) => (
-                            <NavLink
-                                key={item.label}
-                                label={item.label}
-                                path={item.path}
-                            />
-                        ))}
+                        {navItems
+                            .filter(
+                                (item) =>
+                                    !item.isAuthenticated || isAuthenticated,
+                            )
+                            .map((item) => (
+                                <StyledNavLink key={item.label} to={item.path}>
+                                    {item.label}
+                                </StyledNavLink>
+                            ))}
                     </Box>
 
                     {/* User Menu */}
                     <Box>
-                        {isAuthenticated ? (
+                        {isAuthenticated && (
                             <UserMenu
                                 avatarAlt={user?.name}
                                 avatarSrc={user?.avatar}
@@ -137,8 +155,29 @@ export const Header = () => {
                                 closeUserMenu={handleCloseUserMenu}
                                 handleLogout={handleLogout}
                             />
-                        ) : (
-                            <AuthActions />
+                        )}
+
+                        {!isAuthenticated && (
+                            <Box display="flex" gap={2} alignItems="center">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => navigate(ROUTES.LOGIN)}
+                                >
+                                    Sign in
+                                </Button>
+                                {!isMobile && (
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() =>
+                                            navigate(ROUTES.REGISTER)
+                                        }
+                                    >
+                                        Sign up
+                                    </Button>
+                                )}
+                            </Box>
                         )}
                     </Box>
                 </Toolbar>

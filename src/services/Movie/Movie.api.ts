@@ -20,11 +20,25 @@ export const movieApi = baseApi.injectEndpoints({
          */
         movieWithFilter: builder.query<MovieApiResponseType, MovieApiParamType>(
             {
-                query: (params) => ({
-                    url: API_URL.MOVIE_LIST,
-                    method: 'GET',
-                    params: params,
-                }),
+                query: (params) => {
+                    const transformedParams = {
+                        ...params,
+                        languages: params?.languages
+                            ?.map((lang) => lang.id)
+                            .join(','),
+                        genres: params?.genres
+                            ?.map((genre) => genre.id)
+                            .join(','),
+                    };
+                    return {
+                        url: API_URL.MOVIE_LIST,
+                        method: 'GET',
+                        params:
+                            Object.keys(params).length === 0
+                                ? undefined
+                                : transformedParams,
+                    };
+                },
             },
         ),
         /**
@@ -40,7 +54,7 @@ export const movieApi = baseApi.injectEndpoints({
                     label: lang.lang_name,
                     id: lang.id,
                 })),
-            keepUnusedDataFor: Infinity,
+            keepUnusedDataFor: 3600,
         }),
         /**
          * Endpoint to fetch genres of movies
@@ -55,7 +69,7 @@ export const movieApi = baseApi.injectEndpoints({
                     label: lang.genre_name,
                     id: lang.id,
                 })),
-            keepUnusedDataFor: Infinity,
+            keepUnusedDataFor: 3600,
         }),
     }),
 });

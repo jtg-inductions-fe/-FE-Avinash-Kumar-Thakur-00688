@@ -1,4 +1,4 @@
-import { NavLink } from 'components/NavLink';
+import { StyledNavLink } from 'styles';
 
 import { Menu, MenuItem } from '@mui/material';
 
@@ -47,7 +47,7 @@ export const NavMenu = (props: NavMenuProps) => {
         >
             {navItems.map((item) => (
                 <MenuItem key={item.label} onClick={closeNavMenu}>
-                    <NavLink label={item.label} path={item.path} />
+                    <StyledNavLink to={item?.path}>{item.label}</StyledNavLink>
                 </MenuItem>
             ))}
         </Menu>

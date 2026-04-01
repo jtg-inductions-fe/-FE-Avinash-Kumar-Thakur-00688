@@ -5,6 +5,7 @@ import {
     CardMedia,
     Chip,
     Stack,
+    Tooltip,
     Typography,
     useTheme,
 } from '@mui/material';
@@ -41,14 +42,16 @@ export const MovieCard = ({ movie }: { movie: MovieResponseData }) => {
                 />
                 <CardContent>
                     <Stack spacing={3}>
-                        <Typography
-                            gutterBottom
-                            variant="h4"
-                            component="div"
-                            noWrap
-                        >
-                            {movie.name}
-                        </Typography>
+                        <Tooltip title={movie.name}>
+                            <Typography
+                                gutterBottom
+                                variant="h4"
+                                component="div"
+                                noWrap
+                            >
+                                {movie.name}
+                            </Typography>
+                        </Tooltip>
 
                         <Stack flexDirection="row" gap={1}>
                             {genres.slice(0, 2).map((item) => (

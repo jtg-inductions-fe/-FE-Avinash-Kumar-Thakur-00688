@@ -1,6 +1,6 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 import { Button, Stack, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -13,25 +13,36 @@ import {
     useLanguagesQuery,
 } from '@services';
 
+import { MovieFiltersProps } from './MovieFilters.types';
+
 /**
  * Container consist of different movie filters
  *
  * @param setApplyFilters - Function to set the filter value which trigger the movie filter api
  */
 export const MovieFilters = ({
+    appliedFilters,
     setApplyFilters,
-}: {
-    setApplyFilters: Dispatch<SetStateAction<MovieApiParamType>>;
-}) => {
+    onClose,
+}: MovieFiltersProps) => {
     /** States */
     const [languages, setLanguages] = useState<FilterOptionType>([]);
     const [genres, setGenres] = useState<FilterOptionType>([]);
     const [date, setDate] = useState<Dayjs | null>(null);
 
     /** Hooks */
-    const { data: languageData, isLoading: languageLoading } =
-        useLanguagesQuery();
-    const { data: genreData, isLoading: genreLoading } = useGenresQuery();
+    const {
+        data: languageData,
+        isLoading: languageLoading,
+        isError: isLanguageError,
+        refetch: languageRefetch,
+    } = useLanguagesQuery();
+    const {
+        data: genreData,
+        isLoading: genreLoading,
+        isError: isGenreError,
+        refetch: genreRefetch,
+    } = useGenresQuery();
 
     /** Functions */
     /**
@@ -43,11 +54,11 @@ export const MovieFilters = ({
         const nextFilters: MovieApiParamType = {};
 
         if (languages.length > 0) {
-            nextFilters.languages = languages.map((lang) => lang.id).join(',');
+            nextFilters.languages = languages;
         }
 
         if (genres.length > 0) {
-            nextFilters.genres = genres.map((genre) => genre.id).join(',');
+            nextFilters.genres = genres;
         }
 
         if (date) {
@@ -55,6 +66,7 @@ export const MovieFilters = ({
         }
 
         setApplyFilters(nextFilters);
+        onClose?.();
     };
 
     /**
@@ -65,11 +77,27 @@ export const MovieFilters = ({
         setGenres([]);
         setDate(null);
         setApplyFilters({});
+        onClose?.();
+    };
+
+    /**
+     * Function that handle refetching of filters
+     */
+    const handleRefetchFilters = async () => {
+        await languageRefetch();
+        await genreRefetch();
     };
 
     /** Constants */
-    const isFiltersEmpty =
-        languages.length === 0 && genres.length === 0 && !date;
+    const isFormEmpty = languages.length === 0 && genres.length === 0 && !date;
+    const isFiltersEmpty = Object.keys(appliedFilters).length === 0;
+
+    /** Effects */
+    useEffect(() => {
+        setLanguages(appliedFilters.languages || []);
+        setGenres(appliedFilters.genres || []);
+        setDate(appliedFilters?.date ? dayjs(appliedFilters.date) : null);
+    }, [appliedFilters]);
 
     return (
         <Stack
@@ -79,6 +107,20 @@ export const MovieFilters = ({
             gap={4}
         >
             <Typography variant="h2">Filters</Typography>
+            {(isLanguageError || isGenreError) && (
+                <Stack justifyContent="center" alignItems="center" gap={2}>
+                    <Typography variant="h5" color="error" textAlign="center">
+                        There is something wrong fetching filter options.
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        sx={{ width: 'fit-content ' }}
+                        onClick={handleRefetchFilters}
+                    >
+                        Retry
+                    </Button>
+                </Stack>
+            )}
             <Filter
                 listItems={languageData || []}
                 value={languages}
@@ -86,6 +128,11 @@ export const MovieFilters = ({
                 label="Languages"
                 isMultiple={true}
                 onLoading={languageLoading}
+                noOptionsText={
+                    isLanguageError
+                        ? 'Unable to load language filters.'
+                        : 'No languages available.'
+                }
             />
             <Filter
                 listItems={genreData || []}
@@ -94,6 +141,11 @@ export const MovieFilters = ({
                 label="Genres"
                 isMultiple={true}
                 onLoading={genreLoading}
+                noOptionsText={
+                    isGenreError
+                        ? 'Unable to load genre filters.'
+                        : 'No genres available.'
+                }
             />
             <DatePicker
                 label="Date"
@@ -107,7 +159,7 @@ export const MovieFilters = ({
                     type="submit"
                     variant="contained"
                     sx={{ py: 3, mt: 3 }}
-                    disabled={isFiltersEmpty}
+                    disabled={isFormEmpty}
                 >
                     Apply Filters
                 </Button>

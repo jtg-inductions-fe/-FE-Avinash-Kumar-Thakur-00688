@@ -14,7 +14,15 @@ import { FilterProps, ListItemTypes } from './Filter.types';
  */
 export const Filter = (props: FilterProps) => {
     /** Props */
-    const { isMultiple, label, listItems, setValue, value, onLoading } = props;
+    const {
+        isMultiple,
+        label,
+        listItems,
+        setValue,
+        value,
+        onLoading,
+        noOptionsText,
+    } = props;
 
     return (
         <Autocomplete
@@ -35,6 +43,7 @@ export const Filter = (props: FilterProps) => {
             renderInput={(params) => (
                 <TextField {...params} label={label} placeholder={label} />
             )}
+            noOptionsText={noOptionsText}
         />
     );
 };

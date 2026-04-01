@@ -1,6 +1,24 @@
-import { NavItemTypes } from 'components/NavLink';
+import { To } from 'react-router-dom';
 
 import { PopoverOrigin, SxProps } from '@mui/material';
+
+/**
+ * Type of navItems
+ */
+export interface NavItemTypes {
+    /**
+     * Label to be displayed
+     */
+    label: string;
+    /**
+     * Path of the link
+     */
+    path: To;
+    /**
+     * To track whether show item on authentication
+     */
+    isAuthenticated: boolean;
+}
 
 /**
  * Props for the nav menu component

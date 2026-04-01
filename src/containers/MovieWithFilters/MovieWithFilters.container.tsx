@@ -2,9 +2,18 @@ import { useState } from 'react';
 
 import { MovieFilters } from 'containers/MovieFilters';
 
-import { Box, Stack, Typography } from '@mui/material';
+import { FilterAlt } from '@mui/icons-material';
+import {
+    Box,
+    Button,
+    IconButton,
+    Stack,
+    Typography,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material';
 
-import { GridList, MovieCard, MovieSkeleton } from '@components';
+import { CustomModal, GridList, MovieCard, MovieSkeleton } from '@components';
 import { SKELETON_COUNT } from '@constant';
 import { MovieApiParamType, useMovieWithFilterQuery } from '@services';
 
@@ -14,9 +23,19 @@ import { MovieApiParamType, useMovieWithFilterQuery } from '@services';
 export const MovieWithFilters = () => {
     /** States */
     const [applyFilters, setApplyFilters] = useState<MovieApiParamType>({});
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     /** Hooks */
-    const { data, isFetching, isError } = useMovieWithFilterQuery(applyFilters);
+    const { breakpoints } = useTheme();
+    const isMobile = useMediaQuery(breakpoints.down('lg'));
+    const { data, isFetching, isError, refetch } =
+        useMovieWithFilterQuery(applyFilters);
+
+    /**
+     * Functions
+     */
+    const handleOpen = () => setModalOpen(true);
+    const handleClose = () => setModalOpen(false);
 
     return (
         <Box
@@ -25,23 +44,51 @@ export const MovieWithFilters = () => {
             gap={4}
             flexDirection={{ xs: 'column', md: 'row' }}
         >
-            <MovieFilters setApplyFilters={setApplyFilters} />
             <Stack flex={1} height="100%" gap={4}>
-                <Typography variant="h2" pl={2}>
-                    Movies
-                </Typography>
-                {isFetching ? (
+                <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                >
+                    <Typography variant="h2" pl={2}>
+                        Movies
+                    </Typography>
+                    {isMobile && (
+                        <IconButton onClick={handleOpen}>
+                            <FilterAlt />
+                        </IconButton>
+                    )}
+                </Box>
+
+                {isFetching && (
                     <GridList
+                        itemSize={{ xs: 12, sm: 6, md: 4, xl: 3 }}
                         itemsList={Array.from({ length: SKELETON_COUNT })}
                         renderItem={(_, index) => <MovieSkeleton key={index} />}
                     />
-                ) : isError ? (
-                    <Stack flex={1} justifyContent="center" alignItems="center">
-                        <Typography variant="h4" color="error">
+                )}
+
+                {isError && (
+                    <Stack
+                        flex={1}
+                        gap={2}
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <Typography
+                            variant="h4"
+                            color="error"
+                            textAlign="center"
+                        >
                             Failed to load movies. Please try again.
                         </Typography>
+                        <Button variant="contained" onClick={() => refetch()}>
+                            Retry
+                        </Button>
                     </Stack>
-                ) : data?.length === 0 ? (
+                )}
+
+                {data?.length === 0 && (
                     <Stack
                         flex={1}
                         justifyContent="center"
@@ -56,13 +103,31 @@ export const MovieWithFilters = () => {
                             more results.
                         </Typography>
                     </Stack>
-                ) : (
+                )}
+
+                {data && (
                     <GridList
+                        itemSize={{ xs: 12, sm: 6, md: 4, xl: 3 }}
                         itemsList={data ?? []}
                         renderItem={(movie) => <MovieCard movie={movie} />}
                     />
                 )}
             </Stack>
+
+            {isMobile ? (
+                <CustomModal open={modalOpen} onClose={handleClose}>
+                    <MovieFilters
+                        appliedFilters={applyFilters}
+                        setApplyFilters={setApplyFilters}
+                        onClose={handleClose}
+                    />
+                </CustomModal>
+            ) : (
+                <MovieFilters
+                    appliedFilters={applyFilters}
+                    setApplyFilters={setApplyFilters}
+                />
+            )}
         </Box>
     );
 };

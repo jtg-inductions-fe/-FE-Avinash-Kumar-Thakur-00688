@@ -73,8 +73,8 @@ export type MovieApiResponseType = MovieResponseData[];
  * Type of the movie api params
  */
 export type MovieApiParamType = {
-    languages?: string;
-    genres?: string;
+    languages?: FilterOptionType;
+    genres?: FilterOptionType;
     date?: string;
 };
 

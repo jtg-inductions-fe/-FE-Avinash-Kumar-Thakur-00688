@@ -1,5 +1,5 @@
 import { CustomAvatar } from 'components/Avatar';
-import { NavLink } from 'components/NavLink';
+import { StyledNavLink } from 'styles';
 
 import { Logout } from '@mui/icons-material';
 import { Box, Menu, MenuItem, Typography } from '@mui/material';
@@ -53,7 +53,7 @@ export const UserMenu = (props: UserMenuProps) => {
                 onClose={closeUserMenu}
             >
                 <MenuItem onClick={closeUserMenu}>
-                    <NavLink label="Profile" path={ROUTES.PROFILE} />
+                    <StyledNavLink to={ROUTES.PROFILE}>Profile</StyledNavLink>
                 </MenuItem>
                 <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
                     <Box display="flex" gap={2} alignItems="center">
