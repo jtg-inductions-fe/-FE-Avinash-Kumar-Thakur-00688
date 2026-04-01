@@ -5,7 +5,8 @@ import { Dispatch, SetStateAction } from 'react';
  */
 export interface SeatGridProps {
     /**
-     * Seats which need to be displayed, it is a 2D array consisting of boolean value
+     * Seats which need to be displayed. 2D array where each boolean indicates
+     * seat availability: `true` = available for selection, `false` = sold/unavailable.
      */
     seats: boolean[][];
     /**

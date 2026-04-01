@@ -30,7 +30,7 @@ export const SeatGrid = ({
      * Function that takes seat consisting of row number and seat number, and convert it into string type key
      */
     const getSeatKey = (seat: SeatDataType) =>
-        `${seat.row_number} - ${seat.seat_number}`;
+        `${seat.row_number}-${seat.seat_number}`;
 
     /**
      * Function that check if seat is selected or not and based on this styles applied
@@ -71,7 +71,7 @@ export const SeatGrid = ({
                             {getRowLabel(rowIndex)}
                         </Typography>
                     </Box>
-                    <Box key={rowIndex} display="flex" gap={2}>
+                    <Box display="flex" gap={2}>
                         {row.map((seat, colIndex) => {
                             const currentSeat = {
                                 row_number: rowIndex + 1,

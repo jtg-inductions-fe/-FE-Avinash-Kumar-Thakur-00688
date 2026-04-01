@@ -82,7 +82,9 @@ export const MovieShowtimesContainer = () => {
      * This function handle navigation when clicking the slots
      */
     const handleNavigation = (slotId: number) => {
-        void navigate(`${ROUTES.BOOKING}/${data?.name}/${slotId}`);
+        void navigate(
+            `${ROUTES.BOOKING}/${encodeURIComponent(data?.name ?? '')}/${slotId}`,
+        );
     };
 
     return (

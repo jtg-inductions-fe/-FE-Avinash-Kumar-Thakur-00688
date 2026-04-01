@@ -7,14 +7,10 @@ export const COLORS = {
         MAIN: '#eb4e62',
         CONTRAST_TEXT: '#FFFFFF',
         LIGHT: '#D3D3D3',
-        DARK: '#0000001f',
     },
     BACKGROUND: {
         DEFAULT: '#f2f5f9',
         PAPER: '#f5f5f5',
-    },
-    GREY: {
-        DARK: '#0000001f',
     },
     TEXT: {
         PRIMARY: '#222222',
