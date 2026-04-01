@@ -9,13 +9,13 @@ export type SlotDetailsApiResponseType = {
      */
     id: number;
     /**
-     * Movie to be displayed in that slot
+     * Name of the movie to be displayed in that slot
      */
-    movie: number;
+    movie: string;
     /**
-     * Cinema that belongs to the slot
+     * Name of the cinema that belongs to the slot
      */
-    cinema: number;
+    cinema: string;
     /**
      * Date and time of the slot
      */

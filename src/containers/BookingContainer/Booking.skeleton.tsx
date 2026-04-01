@@ -15,10 +15,10 @@ export const BookingSkeleton = () => {
             <Box
                 display="flex"
                 alignItems="center"
-                gap={{ sx: 4, md: 10 }}
+                gap={{ xs: 4, md: 10 }}
                 sx={{ cursor: 'pointer' }}
             >
-                <IconButton onClick={() => navigate(-1)}>
+                <IconButton aria-label="Go back" onClick={() => navigate(-1)}>
                     <ArrowBack fontSize="small" />
                 </IconButton>
                 <Stack flex={1}>

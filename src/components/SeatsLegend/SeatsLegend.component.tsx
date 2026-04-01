@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { Box, Stack, Typography, useTheme } from '@mui/material';
 
 /**
@@ -8,23 +10,30 @@ export const SeatsLegend = () => {
     const { palette } = useTheme();
 
     /** Constants */
-    const seatsLegend = [
-        {
-            label: 'Available',
-            color: palette.primary.main,
-            variant: 'outlined',
-        },
-        {
-            label: 'Selected',
-            color: palette.success.main,
-            variant: 'contained',
-        },
-        {
-            label: 'Sold',
-            color: palette.action.disabledBackground,
-            variant: 'contained',
-        },
-    ];
+    const seatsLegend = useMemo(
+        () => [
+            {
+                label: 'Available',
+                color: palette.primary.main,
+                variant: 'outlined',
+            },
+            {
+                label: 'Selected',
+                color: palette.success.main,
+                variant: 'contained',
+            },
+            {
+                label: 'Sold',
+                color: palette.action.disabledBackground,
+                variant: 'contained',
+            },
+        ],
+        [
+            palette.primary.main,
+            palette.success.main,
+            palette.action.disabledBackground,
+        ],
+    );
 
     return (
         <Stack direction="row" alignSelf="center" gap={4}>

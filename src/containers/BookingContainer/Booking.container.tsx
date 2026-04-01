@@ -51,7 +51,7 @@ export const BookingContainer = () => {
     });
     const {
         data: seatsData,
-        isFetching: seatsDataFetching,
+        isLoading: seatsDataLoading,
         isError: seatsDataError,
     } = useSeatsQuery(id, {
         skip: !id,
@@ -133,7 +133,10 @@ export const BookingContainer = () => {
                     gap={{ xs: 4, sm: 10 }}
                     sx={{ cursor: 'pointer' }}
                 >
-                    <IconButton onClick={() => navigate(-1)}>
+                    <IconButton
+                        aria-label="Go back"
+                        onClick={() => navigate(-1)}
+                    >
                         <ArrowBack />
                     </IconButton>
                     <Stack>
@@ -166,7 +169,7 @@ export const BookingContainer = () => {
                     </Stack>
                 </Box>
                 <DataState
-                    isLoading={seatsDataFetching}
+                    isLoading={seatsDataLoading}
                     loadingState={<SeatGridSkeleton />}
                     isError={seatsDataError}
                     errorState="Not able to load seats in this slot."
