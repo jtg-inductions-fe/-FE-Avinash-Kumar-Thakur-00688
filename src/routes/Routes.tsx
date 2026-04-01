@@ -6,6 +6,7 @@ import { ROUTES } from '@constant';
 import { MainLayout } from '@layout';
 import { ErrorPage } from '@pages/index';
 
+import { ProtectedRoutes } from './ProtectedRoutes';
 import { PublicRoutes } from './PublicRoutes';
 
 // Dynamic pages imports
@@ -17,6 +18,7 @@ const CinemaListPage = lazy(() => import('@pages/CinemaList'));
 const CinemaDetailPage = lazy(() => import('@pages/CinemaDetails'));
 const MovieDetailsPage = lazy(() => import('@pages/MovieDetails'));
 const MovieShowtimesPage = lazy(() => import('@pages/MovieShowtimes'));
+const BookingPage = lazy(() => import('@pages/Booking'));
 
 const routes: RouteObject[] = [
     {
@@ -45,6 +47,15 @@ const routes: RouteObject[] = [
                     {
                         path: `${ROUTES.MOVIE_SHOWTIME}/:id`,
                         element: <MovieShowtimesPage />,
+                    },
+                    {
+                        element: <ProtectedRoutes />,
+                        children: [
+                            {
+                                path: `${ROUTES.BOOKING}/:movie/:id`,
+                                element: <BookingPage />,
+                            },
+                        ],
                     },
                     {
                         element: <PublicRoutes />,

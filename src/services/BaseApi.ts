@@ -1,4 +1,4 @@
-import { API_URL, TOKEN_KEY } from '@constant';
+import { API_TAGS, API_URL, TOKEN_KEY } from '@constant';
 import { removeAuthCredentials, setAuthCredentials } from '@features';
 import {
     BaseQueryFn,
@@ -21,7 +21,7 @@ if (!BASE_API_URL) {
 /**
  * List of endpoints that require authentication header
  */
-const authEndpoints = ['profile'];
+const authEndpoints = ['profile', 'booking'];
 
 /**
  * Endpoints where refresh token not needed
@@ -97,6 +97,6 @@ export const baseQueryWithReauth: BaseQueryFn<
 export const baseApi = createApi({
     reducerPath: 'api',
     baseQuery: baseQueryWithReauth,
-    tagTypes: [],
+    tagTypes: Object.values(API_TAGS),
     endpoints: () => ({}),
 });

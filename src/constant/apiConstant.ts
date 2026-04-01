@@ -8,6 +8,8 @@ export const API_URL = {
     MOVIE_LANGUAGES: '/movies/languages/',
     MOVIE_GENRES: '/movies/genres/',
     CINEMAS: '/cinemas/',
+    SLOT: '/movies/slot/',
+    BOOKING: 'movies/booking/',
 } as const;
 
 export const TOKEN_KEY = 'auth_token';
@@ -15,3 +17,9 @@ export const TOKEN_KEY = 'auth_token';
 export const ERROR_STATUS = {
     NOT_FOUND: 404,
 } as const;
+
+export const API_TAGS = {
+    SEATS: 'Seats',
+} as const;
+
+export const POLLING_INTERVAL = 50000;
