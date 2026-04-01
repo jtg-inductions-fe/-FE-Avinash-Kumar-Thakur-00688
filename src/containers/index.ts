@@ -7,3 +7,4 @@ export * from './CinemaDetails';
 export * from './MovieDetails';
 export * from './MovieShowtimes';
 export * from './BookingContainer';
+export * from './Profile';
