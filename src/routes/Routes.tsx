@@ -14,10 +14,17 @@ const routes: RouteObject[] = [
     {
         path: ROUTES.HOME,
         element: <MainLayout />,
-        errorElement: <ErrorPage />,
         children: [
-            { index: true, element: <HomePage /> },
-            { path: '*', element: <NotFoundPage /> },
+            {
+                errorElement: <ErrorPage />,
+                children: [
+                    {
+                        index: true,
+                        element: <HomePage />,
+                    },
+                    { path: '*', element: <NotFoundPage /> },
+                ],
+            },
         ],
     },
 ];
