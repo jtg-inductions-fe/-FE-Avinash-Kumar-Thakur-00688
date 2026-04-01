@@ -8,6 +8,7 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import react from 'eslint-plugin-react';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default tseslint.config(
     { ignores: ['dist'] },
@@ -20,6 +21,7 @@ export default tseslint.config(
         extends: [
             ...tseslint.configs.recommendedTypeChecked,
             eslintConfigPrettier,
+            eslintPluginPrettierRecommended,
         ],
         files: ['**/*.{ts,tsx}'],
         languageOptions: {
@@ -62,7 +64,7 @@ export default tseslint.config(
                         ['^\\w'],
                         ['^@mui'],
                         [
-                            '^@(?:|assets|components|constant|layout|routes|theme)',
+                            '^@(?:|assets|components|constant|layout|routes|theme|pages|layout|store|features|services)',
                         ],
                         ['^\\./', '^\\.\\./'],
                     ],
@@ -84,6 +86,7 @@ export default tseslint.config(
                 },
             ],
             'arrow-body-style': ['error', 'as-needed'],
+            'prettier/prettier': 'error',
         },
         /* Specify React version for eslint-plugin-react */
         settings: {

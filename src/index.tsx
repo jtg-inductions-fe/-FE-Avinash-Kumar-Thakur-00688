@@ -1,8 +1,14 @@
-import { StrictMode } from 'react';
+import { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
+
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
+import { PageLoader } from '@components';
+import { Router } from '@routes';
+import { store } from '@store';
 import { theme } from '@theme';
 
 const rootElement = document.getElementById('root') as HTMLElement;
@@ -11,7 +17,11 @@ createRoot(rootElement).render(
     <StrictMode>
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <h1>Hello World</h1>
+            <Provider store={store}>
+                <Suspense fallback={<PageLoader />}>
+                    <RouterProvider router={Router} />
+                </Suspense>
+            </Provider>
         </ThemeProvider>
     </StrictMode>,
 );

@@ -1,4 +1,3 @@
-import type { Theme } from '@mui/material/styles';
 import type {
     TypographyOptions,
     TypographyUtils,
@@ -22,23 +21,54 @@ const typographyUtil: TypographyUtils = {
  * @param theme - Theme object to access the breakpoints.
  * @returns The function returns a TypographyOptions object, which includes various typography settings,
  */
-const typographyStyle = (theme: Theme): TypographyOptions => ({
-    fontFamily: 'Inter',
+const typographyStyle = (): TypographyOptions => ({
+    fontFamily: 'Roboto, sans-serif',
     htmlFontSize: HTML_FONT_SIZE,
 
-    fontWeightLight: 400,
-    fontWeightRegular: 500,
-    fontWeightMedium: 600,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+    fontWeightSemiBold: 600,
+    fontWeightBold: 700,
 
     h1: {
-        fontSize: typographyUtil.pxToRem(30),
+        fontSize: typographyUtil.pxToRem(32),
         fontWeight: 700,
-        lineHeight: typographyUtil.pxToRem(45),
-
-        [theme.breakpoints.up('md')]: {
-            fontSize: typographyUtil.pxToRem(48),
-            lineHeight: typographyUtil.pxToRem(62.5),
-        },
+    },
+    h2: {
+        fontSize: typographyUtil.pxToRem(24),
+        fontWeight: 600,
+    },
+    h3: {
+        fontSize: typographyUtil.pxToRem(20),
+        fontWeight: 600,
+    },
+    h4: {
+        fontSize: typographyUtil.pxToRem(18),
+        fontWeight: 500,
+    },
+    h5: {
+        fontSize: typographyUtil.pxToRem(14),
+        fontWeight: 500,
+    },
+    subtitle1: {
+        fontSize: typographyUtil.pxToRem(14),
+        fontWeight: 400,
+    },
+    subtitle2: {
+        fontSize: typographyUtil.pxToRem(12),
+        fontWeight: 400,
+    },
+    body1: {
+        fontSize: typographyUtil.pxToRem(16),
+        fontWeight: 400,
+    },
+    body2: {
+        fontSize: typographyUtil.pxToRem(14),
+        fontWeight: 400,
+    },
+    caption: {
+        fontSize: typographyUtil.pxToRem(12),
+        fontWeight: 500,
     },
 });
 
