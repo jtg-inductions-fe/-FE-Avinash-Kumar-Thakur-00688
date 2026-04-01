@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { LocationOn } from '@mui/icons-material';
 import {
@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 
 import { MovieSlot } from '@components';
-import { ERROR_STATUS } from '@constant';
+import { ERROR_STATUS, ROUTES } from '@constant';
 import { useCinemaDetailsQuery } from '@services';
 import { isFetchBaseQueryError } from '@utils';
 
@@ -23,6 +23,7 @@ import { CinemaDetailsSkeleton } from './CinemaDetailsSkeleton';
 export const CinemaDetailsContainer = () => {
     /** Hooks */
     const { id = '' } = useParams();
+    const navigate = useNavigate();
     const { data, isLoading, isError, error, refetch } = useCinemaDetailsQuery(
         id,
         {
@@ -112,16 +113,28 @@ export const CinemaDetailsContainer = () => {
                         </Stack>
                     )}
 
-                    {data.movies.map((movie) => (
-                        <MovieSlot
-                            key={movie.id}
-                            title={movie.name}
-                            subtitle={movie.languages
-                                .map((lang) => lang.lang_name)
-                                .join(', ')}
-                            slots={movie.slots}
-                        />
-                    ))}
+                    {data.movies.map((movie) => {
+                        /**
+                         * This function handle navigation when clicking the slots
+                         */
+                        const handleNavigation = (slotId: number) => {
+                            void navigate(
+                                `${ROUTES.BOOKING}/${movie?.name}/${slotId}`,
+                            );
+                        };
+
+                        return (
+                            <MovieSlot
+                                key={movie.id}
+                                title={movie.name}
+                                subtitle={movie.languages
+                                    .map((lang) => lang.lang_name)
+                                    .join(', ')}
+                                slots={movie.slots}
+                                navigation={handleNavigation}
+                            />
+                        );
+                    })}
                 </Stack>
             </Stack>
         </Stack>
