@@ -1,10 +1,21 @@
 import { useParams } from 'react-router-dom';
 
-import { Stack, Typography } from '@mui/material';
+import { LocationOn } from '@mui/icons-material';
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Stack,
+    Typography,
+} from '@mui/material';
 
-import { DataState, DetailsCard } from '@components';
-import { MovieSlot } from '@containers/MovieSlot';
+import { MovieSlot } from '@components';
+import { ERROR_STATUS } from '@constant';
 import { useCinemaDetailsQuery } from '@services';
+import { isFetchBaseQueryError } from '@utils';
+
+import { CinemaDetailsSkeleton } from './CinemaDetailsSkeleton';
 
 /**
  * Container display cinema details with slot details
@@ -12,41 +23,102 @@ import { useCinemaDetailsQuery } from '@services';
 export const CinemaDetailsContainer = () => {
     /** Hooks */
     const { id = '' } = useParams();
-    const { data, isFetching, isError } = useCinemaDetailsQuery(id, {
-        skip: !id,
-    });
+    const { data, isLoading, isError, error, refetch } = useCinemaDetailsQuery(
+        id,
+        {
+            skip: !id,
+        },
+    );
+
+    /** Loading state  */
+    if (isLoading) {
+        return <CinemaDetailsSkeleton />;
+    }
+
+    /** Not Found Error */
+    if (
+        isError &&
+        isFetchBaseQueryError(error) &&
+        error.status === ERROR_STATUS.NOT_FOUND
+    ) {
+        return (
+            <Stack
+                flex={1}
+                justifyContent="center"
+                alignItems="center"
+                gap={2}
+                p={4}
+                textAlign="center"
+            >
+                <Typography variant="h2">Cinema Not Found</Typography>
+                <Typography variant="h4" color="textSecondary">
+                    We could not find the cinema you are looking for.
+                </Typography>
+            </Stack>
+        );
+    }
+
+    /** Error Status */
+    if (isError) {
+        return (
+            <Stack flex={1} gap={2} justifyContent="center" alignItems="center">
+                <Typography variant="h2" color="error" textAlign="center">
+                    Failed to load cinema details. Please try again.
+                </Typography>
+                <Button variant="contained" onClick={() => refetch()}>
+                    Retry
+                </Button>
+            </Stack>
+        );
+    }
 
     return (
         <Stack flex={1} py={4} gap={5}>
-            <DataState
-                isLoading={isFetching}
-                isEmpty={!data}
-                emptyState={{
-                    title: 'Cinema Not Found',
-                    subtitle:
-                        'We could not find the cinema you are looking for.',
-                }}
-                isError={isError}
-                errorState="Failed to load cinema details. Please try again."
-            >
-                <Stack py={4} gap={6}>
-                    <DetailsCard
-                        title={data?.name || ''}
-                        subtitle={data?.location || ''}
-                    />
-                    <Stack gap={2}>
-                        <Typography variant="h2">Shows</Typography>
-                        <DataState
-                            isEmpty={data?.movies?.length === 0}
-                            emptyState={{
-                                subtitle: 'Oops! No shows available',
-                            }}
+            <Stack py={4} gap={6}>
+                <Card>
+                    <CardContent>
+                        <Stack gap={3}>
+                            <Typography variant="h2">{data?.name}</Typography>
+                            <Box display="flex" gap={2}>
+                                <LocationOn />
+                                <Typography variant="h4">
+                                    {data?.location}
+                                </Typography>
+                            </Box>
+                        </Stack>
+                    </CardContent>
+                </Card>
+
+                <Stack gap={2}>
+                    <Typography variant="h2">Shows</Typography>
+
+                    {data?.movies?.length === 0 && (
+                        <Stack
+                            flex={1}
+                            justifyContent="center"
+                            alignItems="center"
+                            gap={2}
+                            p={4}
+                            textAlign="center"
                         >
-                            <MovieSlot key={id} movies={data?.movies || []} />
-                        </DataState>
-                    </Stack>
+                            <Typography variant="h4" color="textSecondary">
+                                Oops! No shows available
+                            </Typography>
+                        </Stack>
+                    )}
+
+                    {data?.movies?.map((movie) => (
+                        <MovieSlot
+                            key={movie.id}
+                            title={movie.name}
+                            subtitle={movie.languages
+                                .map((lang) => lang.lang_name)
+                                .join(', ')}
+                            slots={movie.slots}
+                        />
+                    ))}
                 </Stack>
-            </DataState>
+            </Stack>
         </Stack>
     );
 };

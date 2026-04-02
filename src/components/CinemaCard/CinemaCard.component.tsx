@@ -1,6 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Card, CardActionArea, CardContent, Stack } from '@mui/material';
+import {
+    Card,
+    CardActionArea,
+    CardContent,
+    Stack,
+    Tooltip,
+} from '@mui/material';
 
 import { CINEMA_CARD_MIN_HEIGHT, ROUTES } from '@constant';
 import { CinemaType } from '@services';
@@ -29,12 +35,16 @@ export const CinemaCard = ({ cinema }: { cinema: CinemaType }) => {
             <CardActionArea onClick={handleNavigation}>
                 <CardContent>
                     <Stack gap={1} minHeight={CINEMA_CARD_MIN_HEIGHT}>
-                        <StyledTypography variant="h4">
-                            {cinema.name}
-                        </StyledTypography>
-                        <StyledTypography variant="h5" color="textDisabled">
-                            {cinema.location}
-                        </StyledTypography>
+                        <Tooltip title={cinema.name}>
+                            <StyledTypography variant="h4">
+                                {cinema.name}
+                            </StyledTypography>
+                        </Tooltip>
+                        <Tooltip title={cinema.location}>
+                            <StyledTypography variant="h5" color="textDisabled">
+                                {cinema.location}
+                            </StyledTypography>
+                        </Tooltip>
                     </Stack>
                 </CardContent>
             </CardActionArea>

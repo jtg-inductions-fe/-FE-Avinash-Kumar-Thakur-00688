@@ -1,14 +1,16 @@
 import { useState } from 'react';
 
-import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
-
 import {
-    CinemaCard,
-    CinemaSkeleton,
-    DataState,
-    GridList,
-    Search,
-} from '@components';
+    Box,
+    Button,
+    Stack,
+    Typography,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material';
+
+import { CinemaCard, CinemaSkeleton, GridList, Search } from '@components';
+import { SKELETON_COUNT } from '@constant';
 import { useCinemaWithFilterQuery } from '@services';
 
 /**
@@ -21,7 +23,9 @@ export const CinemasWithFilter = () => {
     /** Hooks */
     const { breakpoints, palette } = useTheme();
     const isSmAndUp = useMediaQuery(breakpoints.up('sm'));
-    const { data, isLoading, isError } = useCinemaWithFilterQuery({ city });
+    const { data, isLoading, isError, refetch } = useCinemaWithFilterQuery({
+        city,
+    });
 
     return (
         <Stack py={4} gap={5} flex={1}>
@@ -43,28 +47,52 @@ export const CinemasWithFilter = () => {
                 </Box>
             </Box>
 
-            <DataState
-                isLoading={isLoading}
-                loadingState={
-                    <GridList
-                        itemsList={Array.from({ length: 8 })}
-                        renderItem={(_, index) => (
-                            <CinemaSkeleton key={index} />
-                        )}
-                    />
-                }
-                isEmpty={data?.length === 0}
-                emptyState={{
-                    title: 'No cinemas available',
-                }}
-                isError={isError}
-                errorState="Failed to load cinemas. Please try again."
-            >
+            {isLoading && (
                 <GridList
-                    itemsList={data ?? []}
+                    itemsList={Array.from({ length: SKELETON_COUNT })}
+                    renderItem={(_, index) => <CinemaSkeleton key={index} />}
+                />
+            )}
+
+            {isError && (
+                <Stack
+                    flex={1}
+                    gap={2}
+                    justifyContent="center"
+                    alignItems="center"
+                >
+                    <Typography variant="h4" color="error" textAlign="center">
+                        Failed to load cinemas. Please try again.
+                    </Typography>
+                    <Button variant="contained" onClick={() => refetch()}>
+                        Retry
+                    </Button>
+                </Stack>
+            )}
+
+            {data?.length === 0 && (
+                <Stack
+                    flex={1}
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={2}
+                    p={4}
+                    textAlign="center"
+                >
+                    <Typography variant="h2">No cinemas available</Typography>
+                    <Typography variant="h4" color="textSecondary">
+                        Try adjusting your location or clearing them to see more
+                        results.
+                    </Typography>
+                </Stack>
+            )}
+
+            {data && (
+                <GridList
+                    itemsList={data}
                     renderItem={(cinema) => <CinemaCard cinema={cinema} />}
                 />
-            </DataState>
+            )}
         </Stack>
     );
 };

@@ -14,5 +14,4 @@ export * from './Modal';
 export * from './CinemaCard';
 export * from './Search';
 export * from './CinemaSkeleton';
-export * from './DetailsCard';
-export * from './DataState';
+export * from './MovieSlot';
