@@ -21,8 +21,7 @@ export const StyledBanner = styled(Box)(
             spacing,
         },
     }) => ({
-        background: palette.text.disabled,
-        color: palette.background.paper,
+        background: palette.action.disabled,
         display: 'flex',
         gap: spacing(4),
         alignItems: 'center',
