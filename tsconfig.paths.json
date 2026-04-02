@@ -10,7 +10,12 @@
             "@pages/*": ["pages/*"],
             "@store": ["store/store"],
             "@components": ["components/index"],
-            "@routes": ["routes/index"]
+            "@routes": ["routes/index"],
+            "@features": ["features/index"],
+            "@services": ["services/index"],
+            "@hooks": ["hooks/index"],
+            "@types": ["types/index"],
+            "@utils": ["utils/index"]
         }
     }
 }

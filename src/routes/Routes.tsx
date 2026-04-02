@@ -6,9 +6,14 @@ import { ROUTES } from '@constant';
 import { MainLayout } from '@layout';
 import { ErrorPage } from '@pages/index';
 
+import { ProtectedRoutes } from './ProtectedRoutes';
+import { PublicRoutes } from './PublicRoutes';
+
 // Dynamic pages imports
 const NotFoundPage = lazy(() => import('@pages/NotFound'));
 const HomePage = lazy(() => import('@pages/Home'));
+const RegisterPage = lazy(() => import('@pages/Register'));
+const LoginPage = lazy(() => import('@pages/Login'));
 
 const routes: RouteObject[] = [
     {
@@ -19,12 +24,30 @@ const routes: RouteObject[] = [
                 errorElement: <ErrorPage />,
                 children: [
                     {
-                        index: true,
-                        element: <HomePage />,
+                        element: <ProtectedRoutes />,
+                        children: [
+                            {
+                                index: true,
+                                element: <HomePage />,
+                            },
+                        ],
                     },
-                    { path: '*', element: <NotFoundPage /> },
+                    {
+                        element: <PublicRoutes />,
+                        children: [
+                            {
+                                path: ROUTES.REGISTER,
+                                element: <RegisterPage />,
+                            },
+                            {
+                                path: ROUTES.LOGIN,
+                                element: <LoginPage />,
+                            },
+                        ],
+                    },
                 ],
             },
+            { path: '*', element: <NotFoundPage /> },
         ],
     },
 ];
