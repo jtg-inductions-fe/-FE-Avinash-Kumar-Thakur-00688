@@ -13,7 +13,7 @@ import MoviePlaceholder from '@assets/images/movie-placeholder.webp';
 import { ERROR_STATUS } from '@constant';
 import { ROUTES } from '@constant';
 import { useMovieDetailsQuery } from '@services';
-import { formatDate, isFetchBaseQueryError } from '@utils';
+import { formatDate, formatDuration, isFetchBaseQueryError } from '@utils';
 
 import { StyledBanner, StyledPoster } from './MovieDetails.styles';
 import { MovieDetailsSkeleton } from './MovieDetailsSkeleton';
@@ -25,6 +25,7 @@ export const MovieDetailsContainer = () => {
     /** Hooks */
     const { id = '' } = useParams();
     const { palette } = useTheme();
+    const navigate = useNavigate();
     const { data, isLoading, isError, error, refetch } = useMovieDetailsQuery(
         id,
         {
@@ -106,7 +107,7 @@ export const MovieDetailsContainer = () => {
                             sx={{ color: palette.text.primary }}
                         >
                             <Typography variant="h4">
-                                {formattedDuration}
+                                {formatDuration(data.duration)}
                             </Typography>
                             <Typography variant="h4">
                                 {formattedGenres}
@@ -126,6 +127,7 @@ export const MovieDetailsContainer = () => {
                             variant="contained"
                             size="large"
                             sx={{ width: 200, mt: 5 }}
+                            onClick={handleNavigation}
                         >
                             Book tickets
                         </Button>
