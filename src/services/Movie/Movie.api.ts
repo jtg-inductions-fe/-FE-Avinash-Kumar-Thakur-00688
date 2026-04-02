@@ -3,7 +3,7 @@ import { baseApi } from 'services/BaseApi';
 import { API_URL } from '@constant';
 
 import {
-    FilterOptionType,
+    FilterOptionsType,
     GenreApiResponseType,
     LanguageApiResponseType,
     MovieApiParamType,
@@ -44,7 +44,7 @@ export const movieApi = baseApi.injectEndpoints({
         /**
          * Endpoint to fetch languages of movies
          */
-        languages: builder.query<FilterOptionType, void>({
+        languages: builder.query<FilterOptionsType, void>({
             query: () => ({
                 url: API_URL.MOVIE_LANGUAGES,
                 method: 'GET',
@@ -59,7 +59,7 @@ export const movieApi = baseApi.injectEndpoints({
         /**
          * Endpoint to fetch genres of movies
          */
-        genres: builder.query<FilterOptionType, void>({
+        genres: builder.query<FilterOptionsType, void>({
             query: () => ({
                 url: API_URL.MOVIE_GENRES,
                 method: 'GET',

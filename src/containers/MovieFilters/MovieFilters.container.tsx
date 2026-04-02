@@ -7,7 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 
 import { Filter } from '@components';
 import {
-    FilterOptionType,
+    FilterOptionsType,
     MovieApiParamType,
     useGenresQuery,
     useLanguagesQuery,
@@ -26,8 +26,8 @@ export const MovieFilters = ({
     onClose,
 }: MovieFiltersProps) => {
     /** States */
-    const [languages, setLanguages] = useState<FilterOptionType>([]);
-    const [genres, setGenres] = useState<FilterOptionType>([]);
+    const [languages, setLanguages] = useState<FilterOptionsType>([]);
+    const [genres, setGenres] = useState<FilterOptionsType>([]);
     const [date, setDate] = useState<Dayjs | null>(null);
 
     /** Hooks */
@@ -113,6 +113,7 @@ export const MovieFilters = ({
                         There is something wrong fetching filter options.
                     </Typography>
                     <Button
+                        type="button"
                         variant="contained"
                         sx={{ width: 'fit-content ' }}
                         onClick={handleRefetchFilters}
@@ -164,6 +165,7 @@ export const MovieFilters = ({
                     Apply Filters
                 </Button>
                 <Button
+                    type="button"
                     variant="outlined"
                     sx={{ py: 3, mt: 3 }}
                     onClick={handleRemoveFilters}

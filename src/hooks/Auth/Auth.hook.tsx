@@ -93,11 +93,27 @@ export const useAuth = () => {
         );
     };
 
+    /**
+     * Function that trigger user logout
+     */
+    const handleLogout = async () => {
+        try {
+            await logout().unwrap();
+        } catch {
+            dispatch(
+                showSnackbar({
+                    message: NOTIFICATIONS.ERROR,
+                    severity: 'error',
+                }),
+            );
+        }
+    };
+
     return {
         handleRegister,
         registerLoading,
         handleLogin,
         loginLoading,
-        logout,
+        handleLogout,
     };
 };

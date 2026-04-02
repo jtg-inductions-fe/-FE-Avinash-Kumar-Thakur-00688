@@ -73,8 +73,8 @@ export type MovieApiResponseType = MovieResponseData[];
  * Type of the movie api params
  */
 export type MovieApiParamType = {
-    languages?: FilterOptionType;
-    genres?: FilterOptionType;
+    languages?: FilterOptionsType;
+    genres?: FilterOptionsType;
     date?: string;
 };
 
@@ -91,7 +91,9 @@ export type GenreApiResponseType = GenresType[];
 /**
  * Type of the transform data
  */
-export type FilterOptionType = {
+export type FilterOption = {
     id: number;
     label: string;
-}[];
+};
+
+export type FilterOptionsType = FilterOption[];

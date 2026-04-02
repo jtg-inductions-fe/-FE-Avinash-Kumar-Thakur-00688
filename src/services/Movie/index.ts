@@ -6,6 +6,6 @@ export {
 export type {
     MovieApiResponseType,
     MovieResponseData,
-    FilterOptionType,
+    FilterOptionsType,
     MovieApiParamType,
 } from './Movie.types';

@@ -46,8 +46,13 @@ export const NavMenu = (props: NavMenuProps) => {
             sx={sx}
         >
             {navItems.map((item) => (
-                <MenuItem key={item.label} onClick={closeNavMenu}>
-                    <StyledNavLink to={item?.path}>{item.label}</StyledNavLink>
+                <MenuItem
+                    component={StyledNavLink}
+                    to={item?.path}
+                    key={item.label}
+                    onClick={closeNavMenu}
+                >
+                    {item.label}
                 </MenuItem>
             ))}
         </Menu>

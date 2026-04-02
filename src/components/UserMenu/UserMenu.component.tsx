@@ -52,10 +52,20 @@ export const UserMenu = (props: UserMenuProps) => {
                 open={Boolean(anchorEl)}
                 onClose={closeUserMenu}
             >
-                <MenuItem onClick={closeUserMenu}>
-                    <StyledNavLink to={ROUTES.PROFILE}>Profile</StyledNavLink>
+                <MenuItem
+                    component={StyledNavLink}
+                    to={ROUTES.PROFILE}
+                    onClick={closeUserMenu}
+                >
+                    Profile
                 </MenuItem>
-                <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
+                <MenuItem
+                    onClick={() => {
+                        closeUserMenu();
+                        handleLogout();
+                    }}
+                    sx={{ color: 'error.main' }}
+                >
                     <Box display="flex" gap={2} alignItems="center">
                         <Typography>Logout</Typography>
                         <Logout fontSize="small" />

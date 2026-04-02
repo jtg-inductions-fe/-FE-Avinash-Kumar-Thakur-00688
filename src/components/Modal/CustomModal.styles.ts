@@ -6,6 +6,7 @@ export const ModalContainer = styled(Box)(
             palette,
             typography: { pxToRem },
             spacing,
+            shadows,
         },
     }) => ({
         position: 'absolute',
@@ -14,7 +15,7 @@ export const ModalContainer = styled(Box)(
         transform: 'translate(-50%, -50%)',
         backgroundColor: palette.background.paper,
         borderRadius: pxToRem(4),
-        boxShadow: pxToRem(24),
+        boxShadow: shadows[4],
         padding: spacing(4),
     }),
 );

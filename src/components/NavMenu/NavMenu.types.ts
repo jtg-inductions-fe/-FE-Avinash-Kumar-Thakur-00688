@@ -17,7 +17,7 @@ export interface NavItemTypes {
     /**
      * To track whether show item on authentication
      */
-    isAuthenticated: boolean;
+    requiresAuth: boolean;
 }
 
 /**

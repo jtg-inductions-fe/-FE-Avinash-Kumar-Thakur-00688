@@ -13,7 +13,7 @@ export interface CustomModalProps {
      */
     onClose: () => void;
     /**
-     * Content to be render in modal
+     * Content to be rendered in modal
      */
     children: ReactNode;
 }

@@ -35,7 +35,7 @@ export const Header = () => {
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
         null,
     );
-    const { logout } = useAuth();
+    const { handleLogout } = useAuth();
     const { isAuthenticated, user } = useSelector(
         (state: RootState) => state.auth,
     );
@@ -74,14 +74,6 @@ export const Header = () => {
         setAnchorElUser(null);
     };
 
-    /**
-     * Function that trigger user logout
-     */
-    const handleLogout = () => {
-        handleCloseUserMenu();
-        void logout();
-    };
-
     return (
         <AppBar color="default">
             <Container maxWidth="xl">
@@ -110,7 +102,9 @@ export const Header = () => {
                             keepMounted
                             closeNavMenu={handleCloseNavMenu}
                             sx={{ display: { xs: 'block', md: 'none' } }}
-                            navItems={navItems}
+                            navItems={navItems.filter(
+                                (item) => !item.requiresAuth || isAuthenticated,
+                            )}
                         />
                     </Box>
 
@@ -134,8 +128,7 @@ export const Header = () => {
                     >
                         {navItems
                             .filter(
-                                (item) =>
-                                    !item.isAuthenticated || isAuthenticated,
+                                (item) => !item.requiresAuth || isAuthenticated,
                             )
                             .map((item) => (
                                 <StyledNavLink key={item.label} to={item.path}>

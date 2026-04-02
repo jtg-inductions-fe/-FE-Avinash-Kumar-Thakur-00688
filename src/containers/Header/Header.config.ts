@@ -7,16 +7,16 @@ export const navItems = [
     {
         label: 'Home',
         path: ROUTES.HOME,
-        isAuthenticated: false,
+        requiresAuth: false,
     },
     {
         label: 'Cinemas',
         path: ROUTES.CINEMAS,
-        isAuthenticated: false,
+        requiresAuth: false,
     },
     {
         label: 'Your Orders',
         path: ROUTES.ORDERS,
-        isAuthenticated: true,
+        requiresAuth: true,
     },
 ];

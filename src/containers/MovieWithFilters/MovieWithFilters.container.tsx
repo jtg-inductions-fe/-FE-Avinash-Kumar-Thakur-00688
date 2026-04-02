@@ -28,7 +28,7 @@ export const MovieWithFilters = () => {
     /** Hooks */
     const { breakpoints } = useTheme();
     const isMobile = useMediaQuery(breakpoints.down('lg'));
-    const { data, isFetching, isError, refetch } =
+    const { data, isLoading, isError, refetch } =
         useMovieWithFilterQuery(applyFilters);
 
     /**
@@ -54,13 +54,16 @@ export const MovieWithFilters = () => {
                         Movies
                     </Typography>
                     {isMobile && (
-                        <IconButton onClick={handleOpen}>
+                        <IconButton
+                            onClick={handleOpen}
+                            aria-label="open movie filters"
+                        >
                             <FilterAlt />
                         </IconButton>
                     )}
                 </Box>
 
-                {isFetching && (
+                {isLoading && (
                     <GridList
                         itemSize={{ xs: 12, sm: 6, md: 4, xl: 3 }}
                         itemsList={Array.from({ length: SKELETON_COUNT })}
