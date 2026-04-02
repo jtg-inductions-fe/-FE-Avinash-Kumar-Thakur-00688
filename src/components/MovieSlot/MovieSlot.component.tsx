@@ -72,6 +72,7 @@ export const MovieSlot = (props: MovieSlotProps) => {
                                 <RenderDateRow
                                     date={firstItem[0]}
                                     slotsArr={firstItem[1]}
+                                    handleOnClick={navigation}
                                 />
                                 {remainingItem.length > 0 && (
                                     <Grid2 flex={1}>
@@ -92,6 +93,7 @@ export const MovieSlot = (props: MovieSlotProps) => {
                                         <RenderDateRow
                                             date={date}
                                             slotsArr={slotsArr}
+                                            navigation={navigation}
                                         />
                                         <Grid2 flex={1}>
                                             <Divider />

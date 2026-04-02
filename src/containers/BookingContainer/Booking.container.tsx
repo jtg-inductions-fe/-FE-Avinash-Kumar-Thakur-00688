@@ -15,8 +15,8 @@ import {
     useTheme,
 } from '@mui/material';
 
-import { DataState, SeatGrid, SeatsLegend } from '@components';
-import { NOTIFICATIONS, POLLING_INTERVAL } from '@constant';
+import { SeatGrid, SeatsLegend } from '@components';
+import { ERROR_STATUS, NOTIFICATIONS, POLLING_INTERVAL } from '@constant';
 import { showSnackbar } from '@features';
 import {
     BookingApiErrorType,
@@ -24,7 +24,12 @@ import {
     useSeatsQuery,
     useSlotDetailsQuery,
 } from '@services';
-import { formatAmount, formatDate, formatTime } from '@utils';
+import {
+    formatAmount,
+    formatDate,
+    formatTime,
+    isFetchBaseQueryError,
+} from '@utils';
 
 import { BookingSkeleton, SeatGridSkeleton } from './Booking.skeleton';
 
@@ -40,19 +45,22 @@ export const BookingContainer = () => {
     const { id = '' } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { breakpoints } = useTheme();
+    const { breakpoints, palette } = useTheme();
     const isSmAndUp = useMediaQuery(breakpoints.up('sm'));
     const {
         data: slotDetails,
-        isFetching: slotDetailsFetching,
-        isError: slotDetailsError,
+        isLoading: slotDetailsLoading,
+        isError: isSlotDetailsError,
+        error: slotDetailsError,
+        refetch: slotDetailRefetch,
     } = useSlotDetailsQuery(id, {
         skip: !id,
     });
     const {
         data: seatsData,
         isLoading: seatsDataLoading,
-        isError: seatsDataError,
+        isError: isSeatsDataError,
+        refetch: seatsDataRefetch,
     } = useSeatsQuery(id, {
         skip: !id,
         pollingInterval: POLLING_INTERVAL,
@@ -92,14 +100,14 @@ export const BookingContainer = () => {
         } catch (error: unknown) {
             const err = error as BookingApiErrorType;
 
-            if (err?.status === 403) {
+            if (err.status === ERROR_STATUS.FORBIDDEN) {
                 dispatch(
                     showSnackbar({
                         message: err?.data?.detail || NOTIFICATIONS.ERROR,
                         severity: 'error',
                     }),
                 );
-            } else if (err?.status === 400) {
+            } else if (err?.status === ERROR_STATUS.BAD_REQUEST) {
                 dispatch(
                     showSnackbar({
                         message: NOTIFICATIONS.BOOKING_ERROR,
@@ -119,92 +127,175 @@ export const BookingContainer = () => {
         }
     };
 
+    if (slotDetailsLoading) {
+        return <BookingSkeleton />;
+    }
+
+    /** Error state */
+    if (
+        isSlotDetailsError &&
+        isFetchBaseQueryError(slotDetailsError) &&
+        slotDetailsError.status !== ERROR_STATUS.NOT_FOUND
+    ) {
+        return (
+            <Stack flex={1} gap={2} justifyContent="center" alignItems="center">
+                <Typography variant="h4" color="error" textAlign="center">
+                    Failed to load slot details. Please try again.
+                </Typography>
+                <Button variant="contained" onClick={() => slotDetailRefetch()}>
+                    Retry
+                </Button>
+            </Stack>
+        );
+    }
+
+    /** Empty state */
+    if (
+        !slotDetails ||
+        (isSlotDetailsError &&
+            isFetchBaseQueryError(slotDetailsError) &&
+            slotDetailsError.status === ERROR_STATUS.NOT_FOUND)
+    ) {
+        return (
+            <Stack
+                flex={1}
+                justifyContent="center"
+                alignItems="center"
+                gap={2}
+                p={4}
+                textAlign="center"
+            >
+                <Typography variant="h2">Slot Not Found</Typography>
+                <Typography variant="h4" color="textSecondary">
+                    We could not find the slot you are looking for.
+                </Typography>
+            </Stack>
+        );
+    }
+
     return (
         <Stack flex={1} gap={10} py={8}>
-            <DataState
-                isLoading={slotDetailsFetching}
-                loadingState={<BookingSkeleton />}
-                isError={slotDetailsError}
-                errorState="We could not find the slot you are looking for."
+            <Box
+                display="flex"
+                alignItems="center"
+                gap={{ xs: 4, sm: 10 }}
+                sx={{ cursor: 'pointer' }}
             >
-                <Box
-                    display="flex"
-                    alignItems="center"
-                    gap={{ xs: 4, sm: 10 }}
-                    sx={{ cursor: 'pointer' }}
-                >
-                    <IconButton
-                        aria-label="Go back"
-                        onClick={() => navigate(-1)}
-                    >
-                        <ArrowBack />
-                    </IconButton>
-                    <Stack>
-                        <Typography variant={isSmAndUp ? 'h2' : 'h3'}>
-                            {slotDetails?.movie}
+                <IconButton aria-label="Go back" onClick={() => navigate(-1)}>
+                    <ArrowBack />
+                </IconButton>
+                <Stack>
+                    <Typography variant={isSmAndUp ? 'h2' : 'h3'}>
+                        {slotDetails.movie}
+                    </Typography>
+                    <Breadcrumbs separator="|">
+                        <Typography
+                            variant={isSmAndUp ? 'h4' : 'h5'}
+                            color="textSecondary"
+                        >
+                            {slotDetails.cinema}
                         </Typography>
-                        <Breadcrumbs separator="|">
-                            <Typography
-                                variant={isSmAndUp ? 'h4' : 'h5'}
-                                color="textSecondary"
-                            >
-                                {slotDetails?.cinema}
-                            </Typography>
-                            <Typography
-                                variant={isSmAndUp ? 'h4' : 'h5'}
-                                color="textSecondary"
-                            >
-                                {formatDate({
-                                    date: slotDetails?.date_time ?? '',
-                                    options: { weekday: 'short' },
-                                })}
-                            </Typography>
-                            <Typography
-                                variant={isSmAndUp ? 'h4' : 'h5'}
-                                color="textSecondary"
-                            >
-                                {formatTime(slotDetails?.date_time ?? '')}
-                            </Typography>
-                        </Breadcrumbs>
-                    </Stack>
-                </Box>
-                <DataState
-                    isLoading={seatsDataLoading}
-                    loadingState={<SeatGridSkeleton />}
-                    isError={seatsDataError}
-                    errorState="Not able to load seats in this slot."
+                        <Typography
+                            variant={isSmAndUp ? 'h4' : 'h5'}
+                            color="textSecondary"
+                        >
+                            {formatDate({
+                                date: slotDetails.date_time,
+                                options: { weekday: 'short' },
+                            })}
+                        </Typography>
+                        <Typography
+                            variant={isSmAndUp ? 'h4' : 'h5'}
+                            color="textSecondary"
+                        >
+                            {formatTime(slotDetails.date_time)}
+                        </Typography>
+                    </Breadcrumbs>
+                </Stack>
+            </Box>
+
+            {seatsDataLoading && <SeatGridSkeleton />}
+
+            {isSeatsDataError && (
+                <Stack
+                    flex={1}
+                    gap={2}
+                    justifyContent="center"
+                    alignItems="center"
                 >
-                    <Box
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        overflow="auto"
-                    >
-                        {seatsData && (
-                            <SeatGrid
-                                seats={seatsData?.seats}
-                                selectedSeats={selectedSeats}
-                                setSelectedSeats={setSelectedSeats}
-                            />
-                        )}
-                    </Box>
-
-                    <SeatsLegend />
-
+                    <Typography variant="h4" color="error" textAlign="center">
+                        Failed to load seats in this slot.
+                    </Typography>
                     <Button
                         variant="contained"
-                        size="large"
-                        sx={{ width: 280, alignSelf: 'center' }}
-                        onClick={handleBooking}
-                        disabled={selectedSeats.size === 0}
-                        loading={ticketBookingLoading}
+                        onClick={() => seatsDataRefetch()}
                     >
-                        {selectedSeats.size === 0
-                            ? 'Book Now'
-                            : `${formatAmount(selectedSeats.size * Number(slotDetails?.price ?? 0))}`}
+                        Retry
                     </Button>
-                </DataState>
-            </DataState>
+                </Stack>
+            )}
+
+            {seatsData && (
+                <>
+                    {/* <Stack alignItems="center" width='100%'> */}
+                    <Stack overflow="auto">
+                        <Box mx="auto">
+                            {seatsData && (
+                                <SeatGrid
+                                    seats={seatsData?.seats}
+                                    selectedSeats={selectedSeats}
+                                    setSelectedSeats={setSelectedSeats}
+                                />
+                            )}
+                        </Box>
+                    </Stack>
+
+                    <Stack alignItems="center">
+                        <Box
+                            width="100%"
+                            maxWidth={300}
+                            height={20}
+                            sx={{
+                                backgroundColor: palette.text.secondary,
+                                borderRadius: '50% 50% 0 0',
+                                boxShadow: '0px 10px 10px -5px black',
+                                my: 6,
+                            }}
+                        />
+                        <Typography
+                            variant="caption"
+                            sx={{ mb: 4, color: 'text.secondary' }}
+                        >
+                            SCREEN
+                        </Typography>
+                    </Stack>
+
+                    <SeatsLegend />
+                    <Stack alignSelf="center" width="fit-content" gap={1}>
+                        {selectedSeats.size > 0 && (
+                            <Typography variant="body2" color="textSecondary">
+                                Total:{' '}
+                                {formatAmount(
+                                    selectedSeats.size *
+                                        Number(slotDetails.price ?? 0),
+                                )}
+                            </Typography>
+                        )}
+                        <Button
+                            variant="contained"
+                            size="large"
+                            sx={{ width: 280, alignSelf: 'center' }}
+                            onClick={handleBooking}
+                            disabled={selectedSeats.size === 0}
+                            loading={ticketBookingLoading}
+                        >
+                            {selectedSeats.size === 0
+                                ? 'Select seats to continue'
+                                : `Proceed to Pay`}
+                        </Button>
+                    </Stack>
+                </>
+            )}
         </Stack>
     );
 };

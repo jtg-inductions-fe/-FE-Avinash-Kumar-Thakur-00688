@@ -72,7 +72,7 @@ export const SeatGridSkeleton = () => (
                                 height={25}
                             />
                         </Box>
-                        <Box key={rowIndex} display="flex" gap={2}>
+                        <Box display="flex" gap={2}>
                             {row.map((_, colIndex) => (
                                 <Skeleton
                                     key={colIndex}
