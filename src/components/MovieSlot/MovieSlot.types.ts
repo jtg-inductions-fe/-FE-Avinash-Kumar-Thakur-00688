@@ -33,4 +33,8 @@ export interface RenderDateRowProps {
      * Slots at particular date
      */
     slotsArr: SlotDataType[];
+    /**
+     * Function to handle navigation on clicking the slot
+     */
+    navigation: (id: number) => void;
 }

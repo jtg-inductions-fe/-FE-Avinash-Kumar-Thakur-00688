@@ -15,6 +15,8 @@ export const API_URL = {
 export const TOKEN_KEY = 'auth_token';
 
 export const ERROR_STATUS = {
+    BAD_REQUEST: 400,
+    FORBIDDEN: 403,
     NOT_FOUND: 404,
 } as const;
 

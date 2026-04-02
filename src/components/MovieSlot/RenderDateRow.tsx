@@ -9,7 +9,11 @@ import { RenderDateRowProps } from './MovieSlot.types';
  * @param date - Date of the slot
  * @param slotsArr - Different slots at particular date
  */
-export const RenderDateRow = ({ date, slotsArr }: RenderDateRowProps) => (
+export const RenderDateRow = ({
+    date,
+    slotsArr,
+    navigation,
+}: RenderDateRowProps) => (
     <Grid2 container size={12} alignItems="center">
         <Grid2 size={{ xs: 12, md: 2 }}>
             <Typography>{date}</Typography>
@@ -26,6 +30,7 @@ export const RenderDateRow = ({ date, slotsArr }: RenderDateRowProps) => (
                             flexDirection: 'column',
                             borderColor: 'GrayText',
                         }}
+                        onClick={() => navigation(slot.id)}
                     >
                         <Typography variant="caption">
                             {formatTime(slot.date_time)}
