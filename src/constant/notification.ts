@@ -4,4 +4,5 @@ export const NOTIFICATIONS = {
     ERROR: 'Something went wrong.',
     BOOKING_SUCCESS: 'Ticket booked successfully.',
     BOOKING_ERROR: 'Seat is not available.',
+    PROFILE_UPDATE_SUCCESS: 'Profile updated successfully',
 } as const;

@@ -1,6 +1,6 @@
 import { baseApi } from 'services/BaseApi';
 
-import { API_URL, TOKEN_KEY } from '@constant';
+import { API_TAGS, API_URL, TOKEN_KEY } from '@constant';
 import { removeAuthCredentials, setAuthCredentials, setUser } from '@features';
 import { User } from '@types';
 import { removeToken, setToken } from '@utils';
@@ -8,7 +8,6 @@ import { removeToken, setToken } from '@utils';
 import {
     AuthApiResponseType,
     LoginRequestType,
-    ProfileApiErrorType,
     RefreshApiResponseType,
     RegisterApiRequestType,
 } from './Auth.types';
@@ -116,15 +115,20 @@ export const authApi = baseApi.injectEndpoints({
                     .then((response) => {
                         dispatch(setUser(response.data));
                     })
-                    .catch((error: unknown) => {
-                        const err = error as ProfileApiErrorType;
-                        if (err?.status === 401 || err?.status === 403) {
-                            dispatch(removeAuthCredentials());
-                            removeToken(TOKEN_KEY);
-                        }
-                    });
+                    .catch();
             },
-            keepUnusedDataFor: Infinity,
+            providesTags: [API_TAGS.PROFILE],
+        }),
+        /**
+         * Update profile endpoint to update the user details
+         */
+        updateProfile: builder.mutation<User, FormData>({
+            query: (data) => ({
+                url: API_URL.PROFILE,
+                method: 'PATCH',
+                body: data,
+            }),
+            invalidatesTags: [API_TAGS.PROFILE],
         }),
     }),
 });
@@ -135,4 +139,5 @@ export const {
     useRefreshTokenMutation,
     useLogoutMutation,
     useProfileQuery,
+    useUpdateProfileMutation,
 } = authApi;

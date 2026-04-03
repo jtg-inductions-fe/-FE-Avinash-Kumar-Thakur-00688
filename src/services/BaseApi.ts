@@ -1,4 +1,4 @@
-import { API_TAGS, API_URL, TOKEN_KEY } from '@constant';
+import { API_TAGS, API_URL, ERROR_STATUS, TOKEN_KEY } from '@constant';
 import { removeAuthCredentials, setAuthCredentials } from '@features';
 import {
     BaseQueryFn,
@@ -21,7 +21,7 @@ if (!BASE_API_URL) {
 /**
  * List of endpoints that require authentication header
  */
-const authEndpoints = ['profile', 'booking'];
+const authEndpoints = ['profile', 'booking', 'updateProfile'];
 
 /**
  * Endpoints where refresh token not needed
@@ -60,7 +60,7 @@ export const baseQueryWithReauth: BaseQueryFn<
     let result = await baseQuery(args, api, extraOptions);
 
     if (noRefreshTryEndpoints.includes(api.endpoint)) return result;
-    if (result.error && result.error.status === 401) {
+    if (result.error && result.error.status === ERROR_STATUS.UNAUTHORIZED) {
         try {
             const refreshResult = await baseQuery(
                 {
