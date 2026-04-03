@@ -4,6 +4,7 @@ export {
     useLogoutMutation,
     useProfileQuery,
     useRefreshTokenMutation,
+    useUpdateProfileMutation,
 } from './AuthApi';
 export type {
     RegisterApiRequestType,
