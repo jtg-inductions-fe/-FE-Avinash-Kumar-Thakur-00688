@@ -3,6 +3,7 @@ export {
     useGenresQuery,
     useLanguagesQuery,
     useMovieDetailsQuery,
+    useMovieShowtimesQuery,
 } from './Movie.api';
 export type {
     MovieApiResponseType,
