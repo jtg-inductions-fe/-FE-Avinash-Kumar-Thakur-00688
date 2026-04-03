@@ -1,4 +1,5 @@
-import { Modal } from '@mui/material';
+import { CloseOutlined } from '@mui/icons-material';
+import { IconButton, Modal, Stack } from '@mui/material';
 
 import { ModalContainer } from './CustomModal.styles';
 import { CustomModalProps } from './Modal.types';
@@ -11,6 +12,17 @@ import { CustomModalProps } from './Modal.types';
  */
 export const CustomModal = ({ open, onClose, children }: CustomModalProps) => (
     <Modal open={open} onClose={onClose}>
-        <ModalContainer>{children}</ModalContainer>
+        <ModalContainer>
+            <Stack>
+                <IconButton
+                    aria-label="Close modal"
+                    sx={{ width: 'fit-content', alignSelf: 'flex-end' }}
+                    onClick={onClose}
+                >
+                    <CloseOutlined />
+                </IconButton>
+                {children}
+            </Stack>
+        </ModalContainer>
     </Modal>
 );

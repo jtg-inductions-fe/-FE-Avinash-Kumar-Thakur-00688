@@ -141,7 +141,7 @@ export const ProfileContainer = () => {
                 </CardContent>
             </Card>
             <CustomModal open={modalOpen} onClose={handleClose}>
-                <EditProfile closeModal={handleClose} />
+                <EditProfile handleClose={handleClose} />
             </CustomModal>
         </Stack>
     );

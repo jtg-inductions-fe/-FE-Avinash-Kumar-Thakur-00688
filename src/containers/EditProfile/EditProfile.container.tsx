@@ -27,7 +27,7 @@ import { EditProfileForm, ProfileSchema } from './Profile.schema';
  * This container represent the edit profile form
  * @param closeModal - Function used to close modal
  */
-export const EditProfile = ({ closeModal }: { closeModal: () => void }) => {
+export const EditProfile = ({ handleClose }: { handleClose: () => void }) => {
     /** States */
     const [previewUrl, setPreviewUrl] = useState<string>('');
     const [avatar, setAvatar] = useState<File | null>(null);
@@ -56,10 +56,11 @@ export const EditProfile = ({ closeModal }: { closeModal: () => void }) => {
      */
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        if (file) {
-            setPreviewUrl(URL.createObjectURL(file));
-            setAvatar(file);
-        }
+
+        if (!file) return;
+
+        setPreviewUrl(URL.createObjectURL(file));
+        setAvatar(file);
     };
 
     /**
@@ -89,7 +90,7 @@ export const EditProfile = ({ closeModal }: { closeModal: () => void }) => {
                     severity: 'success',
                 }),
             );
-            closeModal();
+            handleClose();
         } catch {
             dispatch(
                 showSnackbar({
@@ -104,6 +105,15 @@ export const EditProfile = ({ closeModal }: { closeModal: () => void }) => {
     useEffect(() => {
         setPreviewUrl(user?.avatar || '');
     }, [user]);
+
+    useEffect(
+        () => () => {
+            if (previewUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        },
+        [previewUrl],
+    );
 
     return (
         <Stack
@@ -122,7 +132,7 @@ export const EditProfile = ({ closeModal }: { closeModal: () => void }) => {
             >
                 <Avatar
                     src={previewUrl}
-                    alt={''}
+                    alt={user?.name}
                     sx={{ height: 100, width: 100 }}
                 />
                 <IconButton
