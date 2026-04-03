@@ -56,10 +56,11 @@ export const EditProfile = ({ closeModal }: { closeModal: () => void }) => {
      */
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        if (file) {
-            setPreviewUrl(URL.createObjectURL(file));
-            setAvatar(file);
-        }
+
+        if (!file) return;
+
+        setPreviewUrl(URL.createObjectURL(file));
+        setAvatar(file);
     };
 
     /**
@@ -104,6 +105,15 @@ export const EditProfile = ({ closeModal }: { closeModal: () => void }) => {
     useEffect(() => {
         setPreviewUrl(user?.avatar || '');
     }, [user]);
+
+    useEffect(
+        () => () => {
+            if (previewUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        },
+        [previewUrl],
+    );
 
     return (
         <Stack
