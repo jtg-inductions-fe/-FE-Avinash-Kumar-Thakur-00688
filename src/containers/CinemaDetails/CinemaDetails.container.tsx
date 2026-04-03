@@ -35,12 +35,26 @@ export const CinemaDetailsContainer = () => {
         return <CinemaDetailsSkeleton />;
     }
 
-    /** Not Found Error */
+    /** Error state */
     if (
         isError &&
         isFetchBaseQueryError(error) &&
-        error.status === ERROR_STATUS.NOT_FOUND
+        error.status !== ERROR_STATUS.NOT_FOUND
     ) {
+        return (
+            <Stack flex={1} gap={2} justifyContent="center" alignItems="center">
+                <Typography variant="h2" color="error" textAlign="center">
+                    Failed to load cinema details. Please try again.
+                </Typography>
+                <Button variant="contained" onClick={() => refetch()}>
+                    Retry
+                </Button>
+            </Stack>
+        );
+    }
+
+    /** Empty state */
+    if (!data) {
         return (
             <Stack
                 flex={1}
@@ -58,31 +72,17 @@ export const CinemaDetailsContainer = () => {
         );
     }
 
-    /** Error Status */
-    if (isError) {
-        return (
-            <Stack flex={1} gap={2} justifyContent="center" alignItems="center">
-                <Typography variant="h2" color="error" textAlign="center">
-                    Failed to load cinema details. Please try again.
-                </Typography>
-                <Button variant="contained" onClick={() => refetch()}>
-                    Retry
-                </Button>
-            </Stack>
-        );
-    }
-
     return (
         <Stack flex={1} py={4} gap={5}>
             <Stack py={4} gap={6}>
                 <Card>
                     <CardContent>
                         <Stack gap={3}>
-                            <Typography variant="h2">{data?.name}</Typography>
+                            <Typography variant="h2">{data.name}</Typography>
                             <Box display="flex" gap={2}>
                                 <LocationOn />
                                 <Typography variant="h4">
-                                    {data?.location}
+                                    {data.location}
                                 </Typography>
                             </Box>
                         </Stack>
@@ -92,7 +92,7 @@ export const CinemaDetailsContainer = () => {
                 <Stack gap={2}>
                     <Typography variant="h2">Shows</Typography>
 
-                    {data?.movies?.length === 0 && (
+                    {data.movies.length === 0 && (
                         <Stack
                             flex={1}
                             justifyContent="center"
@@ -107,7 +107,7 @@ export const CinemaDetailsContainer = () => {
                         </Stack>
                     )}
 
-                    {data?.movies?.map((movie) => (
+                    {data.movies.map((movie) => (
                         <MovieSlot
                             key={movie.id}
                             title={movie.name}

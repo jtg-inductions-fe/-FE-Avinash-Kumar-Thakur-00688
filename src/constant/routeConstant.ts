@@ -5,4 +5,5 @@ export const ROUTES = {
     CINEMAS: '/cinemas',
     ORDERS: '/purchase-history',
     PROFILE: '/profile',
+    MOVIES: '/movies',
 } as const;

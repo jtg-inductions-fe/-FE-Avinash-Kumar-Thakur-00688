@@ -13,7 +13,7 @@ export const formatDate = ({ date, options = {} }: DateFormatter) => {
         month = 'short',
         year,
         locale = 'en-IN',
-        weekday = 'short',
+        weekday,
     } = options;
 
     const parsedDate = new Date(date);

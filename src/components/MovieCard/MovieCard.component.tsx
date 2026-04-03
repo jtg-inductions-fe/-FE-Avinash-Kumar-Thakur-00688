@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import {
     Card,
     CardActionArea,
@@ -11,7 +13,7 @@ import {
 } from '@mui/material';
 
 import MoviePlaceholder from '@assets/images/movie-placeholder.webp';
-import { MOVIE_CARD_POSTER_HEIGHT, MOVIE_CARD_WIDTH } from '@constant';
+import { MOVIE_CARD_POSTER_HEIGHT, MOVIE_CARD_WIDTH, ROUTES } from '@constant';
 
 import { MovieCardProps } from './MovieCard.types';
 
@@ -23,6 +25,15 @@ import { MovieCardProps } from './MovieCard.types';
 export const MovieCard = ({ movie }: { movie: MovieCardProps }) => {
     /** Hooks */
     const { palette } = useTheme();
+    const navigate = useNavigate();
+
+    /** Functions */
+    /**
+     * This function handle navigation when clicking the card
+     */
+    const handleNavigation = () => {
+        void navigate(`${ROUTES.MOVIES}/${movie.id}`);
+    };
 
     /** Constants */
     const languages = movie.languages;
@@ -30,7 +41,7 @@ export const MovieCard = ({ movie }: { movie: MovieCardProps }) => {
 
     return (
         <Card sx={{ width: MOVIE_CARD_WIDTH, borderRadius: 3 }}>
-            <CardActionArea>
+            <CardActionArea onClick={handleNavigation}>
                 <CardMedia
                     component="img"
                     height={MOVIE_CARD_POSTER_HEIGHT}
