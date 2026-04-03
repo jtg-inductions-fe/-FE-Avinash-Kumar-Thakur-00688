@@ -7,6 +7,7 @@ export const palette: PaletteOptions = {
     primary: {
         main: COLORS.PRIMARY.MAIN,
         contrastText: COLORS.PRIMARY.CONTRAST_TEXT,
+        light: COLORS.PRIMARY.LIGHT,
     },
     background: {
         default: COLORS.BACKGROUND.DEFAULT,

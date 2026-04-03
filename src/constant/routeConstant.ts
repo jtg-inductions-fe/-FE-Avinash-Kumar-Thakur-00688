@@ -7,4 +7,5 @@ export const ROUTES = {
     PROFILE: '/profile',
     MOVIES: '/movies',
     MOVIE_SHOWTIME: '/movie-showtime',
+    BOOKING: '/booking',
 } as const;

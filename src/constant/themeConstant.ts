@@ -6,6 +6,7 @@ export const COLORS = {
     PRIMARY: {
         MAIN: '#eb4e62',
         CONTRAST_TEXT: '#FFFFFF',
+        LIGHT: '#D3D3D3',
     },
     BACKGROUND: {
         DEFAULT: '#f2f5f9',

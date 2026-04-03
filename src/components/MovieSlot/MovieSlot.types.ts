@@ -16,6 +16,10 @@ export interface MovieSlotProps {
      * Slots details to be displayed
      */
     slots: SlotDataType[];
+    /**
+     * Function to handle navigation on clicking the slots
+     */
+    navigation: (id: number) => void;
 }
 /**
  * Props of the RenderDateRow component
@@ -29,4 +33,8 @@ export interface RenderDateRowProps {
      * Slots at particular date
      */
     slotsArr: SlotDataType[];
+    /**
+     * Function to handle navigation on clicking the slot
+     */
+    navigation: (id: number) => void;
 }
