@@ -1,4 +1,4 @@
-import { LoginContainer } from 'containers';
+import { LoginContainer } from '@containers';
 
 /**
  * Login page of the application

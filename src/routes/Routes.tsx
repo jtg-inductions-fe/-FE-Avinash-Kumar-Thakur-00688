@@ -13,6 +13,8 @@ const NotFoundPage = lazy(() => import('@pages/NotFound'));
 const HomePage = lazy(() => import('@pages/Home'));
 const RegisterPage = lazy(() => import('@pages/Register'));
 const LoginPage = lazy(() => import('@pages/Login'));
+const CinemaListPage = lazy(() => import('@pages/CinemaList'));
+const CinemaDetailPage = lazy(() => import('@pages/CinemaDetails'));
 
 const routes: RouteObject[] = [
     {
@@ -25,6 +27,14 @@ const routes: RouteObject[] = [
                     {
                         index: true,
                         element: <HomePage />,
+                    },
+                    {
+                        path: ROUTES.CINEMAS,
+                        element: <CinemaListPage />,
+                    },
+                    {
+                        path: `${ROUTES.CINEMAS}/:id`,
+                        element: <CinemaDetailPage />,
                     },
                     {
                         element: <PublicRoutes />,

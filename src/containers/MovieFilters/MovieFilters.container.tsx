@@ -54,11 +54,13 @@ export const MovieFilters = ({
         const nextFilters: MovieApiParamType = {};
 
         if (languages.length > 0) {
-            nextFilters.languages = languages;
+            nextFilters.languages = languages
+                .slice()
+                .sort((a, b) => a.id - b.id);
         }
 
         if (genres.length > 0) {
-            nextFilters.genres = genres;
+            nextFilters.genres = genres.slice().sort((a, b) => a.id - b.id);
         }
 
         if (date) {

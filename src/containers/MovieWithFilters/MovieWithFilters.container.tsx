@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { MovieFilters } from 'containers/MovieFilters';
-
 import { FilterAlt } from '@mui/icons-material';
 import {
     Box,
@@ -15,6 +13,7 @@ import {
 
 import { CustomModal, GridList, MovieCard, MovieSkeleton } from '@components';
 import { SKELETON_COUNT } from '@constant';
+import { MovieFilters } from '@containers/MovieFilters';
 import { MovieApiParamType, useMovieWithFilterQuery } from '@services';
 
 /**
