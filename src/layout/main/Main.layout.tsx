@@ -1,11 +1,29 @@
+import { Header } from 'containers';
+import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
-import { Container, Stack } from '@mui/material';
+import { Container, Stack, Toolbar } from '@mui/material';
 
-export const MainLayout = () => (
-    <Container maxWidth="xl" disableGutters>
-        <Stack height="100dvh">
-            <Outlet />
-        </Stack>
-    </Container>
-);
+import { useProfileQuery } from '@services';
+import { RootState } from '@store';
+
+/**
+ * Represent the main layout of the application
+ */
+export const MainLayout = () => {
+    /** Hooks */
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+    useProfileQuery(undefined, {
+        skip: !isAuthenticated,
+    });
+
+    return (
+        <Container maxWidth="xl" sx={{ px: 4 }}>
+            <Stack height="100dvh">
+                <Header />
+                <Toolbar />
+                <Outlet />
+            </Stack>
+        </Container>
+    );
+};

@@ -24,10 +24,10 @@ export const COLORS = {
  */
 export const BREAKPOINTS = {
     XS: 0,
-    SM: 768,
-    MD: 1024,
-    LG: 1440,
-    XL: 1920,
+    SM: 480,
+    MD: 768,
+    LG: 1068,
+    XL: 1400,
 } as const;
 
 /**
@@ -41,3 +41,10 @@ export const HTML_FONT_SIZE = 10;
  * @constant
  */
 export const SCALING_FACTOR = 4;
+
+/**
+ * Constants used in movie card
+ */
+export const MOVIE_CARD_WIDTH = 250;
+export const MOVIE_CARD_POSTER_HEIGHT = 280;
+export const SKELETON_COUNT = 8;

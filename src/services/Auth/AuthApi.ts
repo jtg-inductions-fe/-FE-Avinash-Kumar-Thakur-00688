@@ -29,6 +29,7 @@ export const authApi = baseApi.injectEndpoints({
                     url: API_URL.REGISTER,
                     method: 'POST',
                     body: data,
+                    credentials: 'include',
                 }),
                 onQueryStarted(_, { dispatch, queryFulfilled }) {
                     void queryFulfilled
@@ -52,6 +53,7 @@ export const authApi = baseApi.injectEndpoints({
                 url: API_URL.LOGIN,
                 method: 'POST',
                 body: data,
+                credentials: 'include',
             }),
             onQueryStarted(_, { dispatch, queryFulfilled }) {
                 void queryFulfilled
@@ -92,6 +94,7 @@ export const authApi = baseApi.injectEndpoints({
             query: () => ({
                 url: API_URL.LOGOUT,
                 method: 'POST',
+                credentials: 'include',
             }),
             onQueryStarted(_, { dispatch, queryFulfilled }) {
                 void queryFulfilled.finally(() => {
@@ -121,6 +124,7 @@ export const authApi = baseApi.injectEndpoints({
                         }
                     });
             },
+            keepUnusedDataFor: Infinity,
         }),
     }),
 });

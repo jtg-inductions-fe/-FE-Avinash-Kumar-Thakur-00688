@@ -8,4 +8,14 @@ export const components: Components = {
             },
         },
     },
+    MuiButton: {
+        styleOverrides: {
+            root: {
+                '&.Mui-disabled': {
+                    pointerEvents: 'unset',
+                    cursor: 'not-allowed',
+                },
+            },
+        },
+    },
 };

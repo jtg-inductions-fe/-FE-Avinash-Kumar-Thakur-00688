@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { NOTIFICATIONS } from '@constant';
+import { NOTIFICATIONS, ROUTES } from '@constant';
 import { showSnackbar } from '@features';
 import {
     AuthApiErrorType,
@@ -8,9 +9,12 @@ import {
     LoginRequestType,
     RegisterApiRequestType,
     useLoginMutation,
+    useLogoutMutation,
     useRegisterMutation,
 } from '@services';
 import { AppDispatch } from '@store';
+
+import { LocationState } from './Auth.types';
 
 /**
  * Auth hook that returns authentication actions and there states
@@ -20,6 +24,11 @@ export const useAuth = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [register, { isLoading: registerLoading }] = useRegisterMutation();
     const [login, { isLoading: loginLoading }] = useLoginMutation();
+    const [logout] = useLogoutMutation();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const to = location.state as LocationState | null;
 
     /** Functions */
     /**
@@ -39,6 +48,7 @@ export const useAuth = () => {
                     severity: 'success',
                 }),
             );
+            void navigate(to?.from || ROUTES.HOME, { replace: true });
         } catch (error: unknown) {
             const err = error as AuthApiErrorType;
             const errors = err?.data;
@@ -83,10 +93,27 @@ export const useAuth = () => {
         );
     };
 
+    /**
+     * Function that trigger user logout
+     */
+    const handleLogout = async () => {
+        try {
+            await logout().unwrap();
+        } catch {
+            dispatch(
+                showSnackbar({
+                    message: NOTIFICATIONS.ERROR,
+                    severity: 'error',
+                }),
+            );
+        }
+    };
+
     return {
         handleRegister,
         registerLoading,
         handleLogin,
         loginLoading,
+        handleLogout,
     };
 };

@@ -6,7 +6,6 @@ import { ROUTES } from '@constant';
 import { MainLayout } from '@layout';
 import { ErrorPage } from '@pages/index';
 
-import { ProtectedRoutes } from './ProtectedRoutes';
 import { PublicRoutes } from './PublicRoutes';
 
 // Dynamic pages imports
@@ -24,13 +23,8 @@ const routes: RouteObject[] = [
                 errorElement: <ErrorPage />,
                 children: [
                     {
-                        element: <ProtectedRoutes />,
-                        children: [
-                            {
-                                index: true,
-                                element: <HomePage />,
-                            },
-                        ],
+                        index: true,
+                        element: <HomePage />,
                     },
                     {
                         element: <PublicRoutes />,

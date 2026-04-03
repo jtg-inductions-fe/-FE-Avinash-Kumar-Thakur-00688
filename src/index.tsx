@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { GlobalSnackbar, PageLoader } from '@components';
 import { Router } from '@routes';
@@ -18,10 +20,12 @@ createRoot(rootElement).render(
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Provider store={store}>
-                <GlobalSnackbar />
-                <Suspense fallback={<PageLoader />}>
-                    <RouterProvider router={Router} />
-                </Suspense>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <GlobalSnackbar />
+                    <Suspense fallback={<PageLoader />}>
+                        <RouterProvider router={Router} />
+                    </Suspense>
+                </LocalizationProvider>
             </Provider>
         </ThemeProvider>
     </StrictMode>,

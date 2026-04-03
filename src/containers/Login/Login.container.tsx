@@ -40,7 +40,6 @@ export const LoginContainer = () => {
             display="flex"
             alignItems="center"
             justifyContent="center"
-            p={8}
         >
             <AuthCard
                 title="Welcome Back to BookMyShow"

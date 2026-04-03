@@ -18,6 +18,10 @@ export const StyledAuthCard = styled(Card)(
         boxShadow: shadows[2],
         borderRadius: pxToRem(12),
 
+        [breakpoints.up('sm')]: {
+            width: '80%',
+        },
+
         [breakpoints.up('lg')]: {
             width: '60%',
             minHeight: pxToRem(700),
@@ -37,7 +41,7 @@ export const StyledAuthCardMedia = styled(CardMedia)(
         aspectRatio: 1,
         display: 'none',
 
-        [breakpoints.up('sm')]: {
+        [breakpoints.up('md')]: {
             display: 'block',
         },
     }),

@@ -44,7 +44,6 @@ export const RegisterContainer = () => {
             display="flex"
             alignItems="center"
             justifyContent="center"
-            p={8}
         >
             <AuthCard
                 title="Welcome to BookMyShow"
