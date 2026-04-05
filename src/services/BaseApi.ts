@@ -21,7 +21,13 @@ if (!BASE_API_URL) {
 /**
  * List of endpoints that require authentication header
  */
-const authEndpoints = ['profile', 'booking', 'updateProfile'];
+const authEndpoints = [
+    'profile',
+    'booking',
+    'updateProfile',
+    'userBookings',
+    'cancelBooking',
+];
 
 /**
  * Endpoints where refresh token not needed

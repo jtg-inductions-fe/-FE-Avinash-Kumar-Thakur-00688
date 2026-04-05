@@ -24,7 +24,7 @@ export const CinemasWithFilter = () => {
     const { breakpoints, palette } = useTheme();
     const isSmAndUp = useMediaQuery(breakpoints.up('sm'));
     const { data, isLoading, isError, refetch } = useCinemaWithFilterQuery({
-        city,
+        city: city ? city : undefined,
     });
 
     return (

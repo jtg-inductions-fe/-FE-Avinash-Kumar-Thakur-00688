@@ -7,6 +7,7 @@ import {
     BookingApiResponseType,
     SeatApiResponseType,
     SlotDetailsApiResponseType,
+    UserBookingsParamsType,
 } from './Booking.types';
 
 /**
@@ -45,10 +46,50 @@ export const bookingApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: [API_TAGS.SEATS],
+            invalidatesTags: [API_TAGS.SEATS, API_TAGS.USER_BOOKINGS],
+        }),
+        /**
+         * It returns all bookings of user
+         */
+        userBookings: builder.query<
+            BookingApiResponseType[],
+            UserBookingsParamsType
+        >({
+            query: (params) => {
+                const { status, slot } = params;
+
+                return {
+                    url: API_URL.USER_BOOKINGS,
+                    method: 'GET',
+                    params: {
+                        ...(status && { status }),
+                        ...(slot && { slot: slot }),
+                    },
+                };
+            },
+            providesTags: [API_TAGS.USER_BOOKINGS],
+        }),
+        /**
+         * It takes seats that need to be cancel
+         */
+        cancelBooking: builder.mutation<
+            BookingApiResponseType,
+            BookingApiRequestType
+        >({
+            query: (data) => ({
+                url: API_URL.CANCEL_BOOKINGS,
+                method: 'PATCH',
+                body: data,
+            }),
+            invalidatesTags: [API_TAGS.SEATS, API_TAGS.USER_BOOKINGS],
         }),
     }),
 });
 
-export const { useSlotDetailsQuery, useSeatsQuery, useBookingMutation } =
-    bookingApi;
+export const {
+    useSlotDetailsQuery,
+    useSeatsQuery,
+    useBookingMutation,
+    useUserBookingsQuery,
+    useCancelBookingMutation,
+} = bookingApi;

@@ -175,12 +175,7 @@ export const BookingContainer = () => {
 
     return (
         <Stack flex={1} gap={10} py={8}>
-            <Box
-                display="flex"
-                alignItems="center"
-                gap={{ xs: 4, sm: 10 }}
-                sx={{ cursor: 'pointer' }}
-            >
+            <Box display="flex" alignItems="center" gap={{ xs: 4, sm: 10 }}>
                 <IconButton aria-label="Go back" onClick={() => navigate(-1)}>
                     <ArrowBack />
                 </IconButton>
@@ -237,7 +232,6 @@ export const BookingContainer = () => {
 
             {seatsData && (
                 <>
-                    {/* <Stack alignItems="center" width='100%'> */}
                     <Stack overflow="auto">
                         <Box mx="auto">
                             {seatsData && (
