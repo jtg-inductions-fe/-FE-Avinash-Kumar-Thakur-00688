@@ -1,3 +1,5 @@
+import { MovieResponseData } from 'services/Movie';
+
 import { ApiError } from '@types';
 
 /**
@@ -79,11 +81,19 @@ export type BookingApiResponseType = BookingApiRequestType & {
     /**
      * Movie of the slot
      */
-    movie: string;
+    movie: MovieResponseData;
     /**
      * Cinema of the slot
      */
     cinema: string;
+    /**
+     * Location of the cinema
+     */
+    location: string;
+    /**
+     * Date and time of the show
+     */
+    date_time: string;
 };
 
 /**
@@ -100,3 +110,17 @@ export type BookingErrorData = {
  * API error type of the booking API
  */
 export type BookingApiErrorType = ApiError<BookingErrorData>;
+
+/**
+ * Type of params for user bookings api
+ */
+export type UserBookingsParamsType = {
+    /**
+     * Slot of any particular bookings
+     */
+    slot?: string;
+    /**
+     * Status of the bookings
+     */
+    status?: string;
+};

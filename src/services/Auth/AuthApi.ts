@@ -1,4 +1,5 @@
 import { baseApi } from 'services/BaseApi';
+import { bookingApi } from 'services/Booking';
 
 import { API_TAGS, API_URL, TOKEN_KEY } from '@constant';
 import { removeAuthCredentials, setAuthCredentials, setUser } from '@features';
@@ -36,6 +37,7 @@ export const authApi = baseApi.injectEndpoints({
                             dispatch(setAuthCredentials(response.data.access));
                             setToken(TOKEN_KEY, response.data.access);
                             dispatch(setUser(response.data.user));
+                            dispatch(bookingApi.util.resetApiState());
                         })
                         // Error handling delegated to caller via .unwrap()
                         .catch(() => {});
@@ -60,6 +62,7 @@ export const authApi = baseApi.injectEndpoints({
                         dispatch(setAuthCredentials(response.data.access));
                         setToken(TOKEN_KEY, response.data.access);
                         dispatch(setUser(response.data.user));
+                        dispatch(bookingApi.util.resetApiState());
                     })
                     // Error handling delegated to caller via .unwrap()
                     .catch(() => {});
@@ -99,6 +102,7 @@ export const authApi = baseApi.injectEndpoints({
                 void queryFulfilled.finally(() => {
                     dispatch(removeAuthCredentials());
                     removeToken(TOKEN_KEY);
+                    dispatch(bookingApi.util.resetApiState());
                 });
             },
         }),

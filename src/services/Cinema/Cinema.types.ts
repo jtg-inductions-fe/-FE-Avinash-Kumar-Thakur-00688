@@ -4,7 +4,7 @@ import { MovieResponseData } from 'services/Movie';
  * Type of the param which need to be passed cinema api
  */
 export type CinemaApiParamType = {
-    city: string;
+    city?: string;
 };
 
 /**
