@@ -22,6 +22,7 @@ const BookingPage = lazy(() => import('@pages/Booking'));
 const ProfilePage = lazy(() => import('@pages/Profile'));
 const OrdersPage = lazy(() => import('@pages/Orders'));
 const CancelTickets = lazy(() => import('@pages/CancelTickets'));
+const TicketPage = lazy(() => import('@pages/Ticket'));
 
 const routes: RouteObject[] = [
     {
@@ -65,6 +66,10 @@ const routes: RouteObject[] = [
                             {
                                 path: ROUTES.ORDERS,
                                 element: <OrdersPage />,
+                            },
+                            {
+                                path: `${ROUTES.TICKET}/:id`,
+                                element: <TicketPage />,
                             },
                             {
                                 path: `${ROUTES.CANCEL_TICKET}/:id`,

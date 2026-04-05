@@ -16,7 +16,12 @@ import {
 } from '@mui/material';
 
 import { SeatGrid, SeatsLegend } from '@components';
-import { ERROR_STATUS, NOTIFICATIONS, POLLING_INTERVAL } from '@constant';
+import {
+    ERROR_STATUS,
+    NOTIFICATIONS,
+    POLLING_INTERVAL,
+    ROUTES,
+} from '@constant';
 import { showSnackbar } from '@features';
 import {
     BookingApiErrorType,
@@ -97,6 +102,7 @@ export const BookingContainer = () => {
                     severity: 'success',
                 }),
             );
+            void navigate(`${ROUTES.TICKET}/${id}`);
         } catch (error: unknown) {
             const err = error as BookingApiErrorType;
 

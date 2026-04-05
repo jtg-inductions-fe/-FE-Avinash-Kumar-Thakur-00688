@@ -9,4 +9,5 @@ export const ROUTES = {
     BOOKING: '/booking',
     ORDERS: '/orders',
     CANCEL_TICKET: '/cancel-ticket',
+    TICKET: '/ticket',
 } as const;
