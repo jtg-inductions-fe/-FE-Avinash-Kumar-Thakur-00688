@@ -10,6 +10,8 @@ export const API_URL = {
     CINEMAS: '/cinemas/',
     SLOT: '/movies/slot/',
     BOOKING: '/movies/booking/',
+    USER_BOOKINGS: '/user/tickets/',
+    CANCEL_BOOKINGS: '/movies/booking/cancel/',
 } as const;
 
 export const TOKEN_KEY = 'auth_token';
@@ -24,6 +26,7 @@ export const ERROR_STATUS = {
 export const API_TAGS = {
     SEATS: 'Seats',
     PROFILE: 'Profile',
+    USER_BOOKINGS: 'Bookings',
 } as const;
 
 export const POLLING_INTERVAL = 50000;

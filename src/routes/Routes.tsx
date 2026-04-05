@@ -20,6 +20,8 @@ const MovieDetailsPage = lazy(() => import('@pages/MovieDetails'));
 const MovieShowtimesPage = lazy(() => import('@pages/MovieShowtimes'));
 const BookingPage = lazy(() => import('@pages/Booking'));
 const ProfilePage = lazy(() => import('@pages/Profile'));
+const OrdersPage = lazy(() => import('@pages/Orders'));
+const CancelTickets = lazy(() => import('@pages/CancelTickets'));
 
 const routes: RouteObject[] = [
     {
@@ -59,6 +61,14 @@ const routes: RouteObject[] = [
                             {
                                 path: ROUTES.PROFILE,
                                 element: <ProfilePage />,
+                            },
+                            {
+                                path: ROUTES.ORDERS,
+                                element: <OrdersPage />,
+                            },
+                            {
+                                path: `${ROUTES.CANCEL_TICKET}/:id`,
+                                element: <CancelTickets />,
                             },
                         ],
                     },

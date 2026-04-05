@@ -17,3 +17,4 @@ export * from './CinemaSkeleton';
 export * from './MovieSlot';
 export * from './SeatGrid';
 export * from './SeatsLegend';
+export * from './BookingCard';
