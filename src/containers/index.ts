@@ -10,3 +10,4 @@ export * from './BookingContainer';
 export * from './Profile';
 export * from './Orders';
 export * from './CancelTickets';
+export * from './Ticket';

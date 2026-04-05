@@ -79,10 +79,10 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
     };
 
     /**
-     * It takes the date as parameter and check if a ticket can be cancel or not
+     * It takes the date as parameter and check if action button displayed or not
      * @param date - Date of the booking
      */
-    const canCancelBooking = (date: string) => {
+    const actionButtons = (date: string) => {
         if (status === 'CANCELLED') return false;
 
         const now = new Date();
@@ -94,8 +94,8 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
     /**
      * Function which handles the navigation
      */
-    const handleNavigation = () => {
-        void navigate(`${ROUTES.CANCEL_TICKET}/${slot}`);
+    const handleNavigation = (path: string) => {
+        void navigate(`${path}/${slot}`);
     };
 
     return (
@@ -148,15 +148,32 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
 
                     <Typography>Seats: {formattedSeats}</Typography>
 
-                    {canCancelBooking(dateTime) && (
-                        <Button
-                            variant="contained"
-                            size="medium"
-                            sx={{ width: 150, mt: 'auto' }}
-                            onClick={handleNavigation}
+                    {actionButtons(dateTime) && (
+                        <Box
+                            display="flex"
+                            flexDirection={{ xs: 'column', sm: 'row' }}
+                            gap={2}
+                            mt="auto"
                         >
-                            Cancel Tickets
-                        </Button>
+                            <Button
+                                variant="contained"
+                                size="medium"
+                                onClick={() => handleNavigation(ROUTES.TICKET)}
+                                color="info"
+                            >
+                                View Tickets
+                            </Button>
+
+                            <Button
+                                variant="contained"
+                                size="medium"
+                                onClick={() =>
+                                    handleNavigation(ROUTES.CANCEL_TICKET)
+                                }
+                            >
+                                Cancel Tickets
+                            </Button>
+                        </Box>
                     )}
                 </Stack>
             </CardContent>
