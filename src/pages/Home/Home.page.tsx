@@ -1,4 +1,4 @@
-import { MovieWithFilters } from 'containers';
+import { MovieWithFilters } from '@containers';
 
 /**
  * Home page of the application which consists of movie list and their filters

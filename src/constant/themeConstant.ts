@@ -48,3 +48,8 @@ export const SCALING_FACTOR = 4;
 export const MOVIE_CARD_WIDTH = 250;
 export const MOVIE_CARD_POSTER_HEIGHT = 280;
 export const SKELETON_COUNT = 8;
+
+/**
+ * Constants used in cinema card
+ */
+export const CINEMA_CARD_MIN_HEIGHT = 70;

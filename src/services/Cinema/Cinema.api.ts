@@ -2,6 +2,12 @@ import { baseApi } from 'services/BaseApi';
 
 import { API_URL } from '@constant';
 
+import {
+    CinemaApiParamType,
+    CinemaDetailsApiResponse,
+    CinemaListApiResponse,
+} from './Cinema.types';
+
 /**
  * Consist of Cinemas endpoints
  */
@@ -12,13 +18,23 @@ export const cinemaApi = baseApi.injectEndpoints({
          *
          * It also consist of params to filter cinemas
          */
-        cinemaWithFilter: builder.query({
-            query: () => ({
-                url: API_URL.CINEMA_LIST,
+        cinemaWithFilter: builder.query<
+            CinemaListApiResponse,
+            CinemaApiParamType
+        >({
+            query: (data) => ({
+                url: API_URL.CINEMAS,
+                method: 'GET',
+                params: data,
+            }),
+        }),
+        cinemaDetails: builder.query<CinemaDetailsApiResponse, string>({
+            query: (id) => ({
+                url: `${API_URL.CINEMAS}${id}/`,
                 method: 'GET',
             }),
         }),
     }),
 });
 
-export const { useCinemaWithFilterQuery } = cinemaApi;
+export const { useCinemaWithFilterQuery, useCinemaDetailsQuery } = cinemaApi;
