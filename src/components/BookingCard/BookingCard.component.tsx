@@ -83,7 +83,9 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
      * @param date - Date of the booking
      */
     const canCancelBooking = (date: string) => {
-        if (status === 'CANCELLED') return false;
+        if (status === 'CANCELLED') {
+            return false;
+        }
 
         const now = new Date();
         const showTime = new Date(date);
@@ -95,8 +97,13 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
      * Function which handles the navigation
      */
     const handleNavigation = () => {
-        void navigate(`${ROUTES.CANCEL_TICKET}/${slot}`);
+        void navigate(
+            `${ROUTES.CANCEL_TICKET}/${encodeURIComponent(String(slot))}`,
+        );
     };
+
+    /** Constants */
+    const bookings = getBookingStatus(dateTime);
 
     return (
         <Card sx={{ display: { md: 'flex' } }}>
@@ -113,9 +120,9 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
                     <Box display="flex" gap={2} flexWrap="wrap">
                         <Typography variant="h2">{movie.name}</Typography>
                         <Chip
-                            label={getBookingStatus(dateTime).label}
+                            label={bookings.label}
                             sx={{ width: 'fit-content' }}
-                            color={getBookingStatus(dateTime).color}
+                            color={bookings.color}
                         />
                     </Box>
 

@@ -6,5 +6,5 @@ export const NOTIFICATIONS = {
     BOOKING_ERROR: 'Invalid seat selection.',
     PROFILE_UPDATE_SUCCESS: 'Profile updated successfully.',
     BOOKING_CANCEL_SUCCESS: 'Tickets cancelled successfully.',
-    INVALID_SEAT: 'Invalid seat',
+    INVALID_SEAT: 'Invalid seat.',
 } as const;

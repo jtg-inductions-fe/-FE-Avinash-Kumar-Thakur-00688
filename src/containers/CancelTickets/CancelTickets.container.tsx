@@ -48,7 +48,7 @@ export const CancelTicketsContainer = () => {
     const { data, isLoading, isError, refetch } = useUserBookingsQuery({
         slot: id,
     });
-    const [trigger] = useCancelBookingMutation();
+    const [trigger, { isLoading: isCancelling }] = useCancelBookingMutation();
 
     /** Constants */
     const seats = data?.[0]?.seats ?? [];
@@ -282,6 +282,7 @@ export const CancelTicketsContainer = () => {
                             variant="contained"
                             color="error"
                             disabled={selectedSeats.length === 0}
+                            loading={isCancelling}
                             onClick={handleCancelBooking}
                         >
                             Cancel Tickets

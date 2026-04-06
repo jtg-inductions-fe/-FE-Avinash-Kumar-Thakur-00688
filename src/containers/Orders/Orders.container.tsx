@@ -86,8 +86,7 @@ export const OrdersContainer = () => {
                         </Typography>
                     ) : (
                         <Typography variant="h2">
-                            Look&apos;s like you haven&apos;t booked anything
-                            yet.
+                            Looks like you haven&apos;t booked anything yet.
                         </Typography>
                     )}
                 </Stack>
