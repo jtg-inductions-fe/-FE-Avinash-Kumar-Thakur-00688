@@ -53,7 +53,12 @@ export const MovieShowtimesContainer = () => {
     }
 
     /** Empty state */
-    if (!data) {
+    if (
+        !data ||
+        (isError &&
+            isFetchBaseQueryError(error) &&
+            error.status === ERROR_STATUS.NOT_FOUND)
+    ) {
         return (
             <Stack
                 flex={1}
