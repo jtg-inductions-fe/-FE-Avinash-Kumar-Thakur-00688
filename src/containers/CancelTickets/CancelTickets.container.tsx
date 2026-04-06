@@ -26,7 +26,7 @@ import {
     useCancelBookingMutation,
     useUserBookingsQuery,
 } from '@services';
-import { formatDate, formatTime, sortedSeats } from '@utils';
+import { formatDate, formatTime, getSeatLabel, sortedSeats } from '@utils';
 
 import { CancelTicketsSkeleton } from './CancelTickets.skeleton';
 
@@ -41,9 +41,14 @@ export const CancelTicketsContainer = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { data, isLoading, isError, refetch } = useUserBookingsQuery({
-        slot: id,
-    });
+    const { data, isLoading, isError, refetch } = useUserBookingsQuery(
+        {
+            slot: id,
+        },
+        {
+            skip: !id,
+        },
+    );
     const [trigger, { isLoading: isCancelling }] = useCancelBookingMutation();
 
     /** Constants */
@@ -56,12 +61,6 @@ export const CancelTicketsContainer = () => {
         selectedSeats.length < seats.length;
 
     /** Functions */
-    /**
-     * This function takes row_number and seat_number, return seat label
-     */
-    const getSeatLabel = (row_number: number, seat_number: number) =>
-        `${String.fromCharCode(64 + row_number)}${seat_number}`;
-
     /**
      * This function takes seat as parameter and returns new selected states
      * @param seat - New seat which is selected

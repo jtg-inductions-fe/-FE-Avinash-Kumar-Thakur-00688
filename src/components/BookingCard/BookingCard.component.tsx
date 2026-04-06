@@ -15,7 +15,13 @@ import {
 
 import MoviePlaceholder from '@assets/images/movie-placeholder.webp';
 import { MOVIE_CARD_POSTER_HEIGHT, ROUTES } from '@constant';
-import { formatDate, formatDuration, formatTime, sortedSeats } from '@utils';
+import {
+    formatDate,
+    formatDuration,
+    formatTime,
+    getSeatLabel,
+    sortedSeats,
+} from '@utils';
 
 import { BookingCardProps, StatusResponse } from './BookingCard.types';
 
@@ -32,12 +38,6 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
     const navigate = useNavigate();
 
     /** Functions */
-    /**
-     * It takes row_number and seat_number to generate seat label
-     */
-    const getSeatLabel = (row_number: number, seat_number: number) =>
-        `${String.fromCharCode(64 + row_number)}${seat_number}`;
-
     /**
      * It convert the array of seat into , separated format
      */
@@ -87,7 +87,7 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
      * Function which handles the navigation
      */
     const handleNavigation = (path: string) => {
-        void navigate(`${path}/${slot}`);
+        void navigate(`${path}/${encodeURIComponent(String(slot))}`);
     };
 
     /** Constants */

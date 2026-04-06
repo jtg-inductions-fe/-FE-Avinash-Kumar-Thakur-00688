@@ -11,3 +11,10 @@ export const sortedSeats = (seats: SeatDataType[]) =>
         }
         return a.row_number - b.row_number;
     });
+
+/**
+ * Generates a seat label from row and seat numbers.
+ * Row 1 becomes 'A', row 2 becomes 'B', etc.
+ */
+export const getSeatLabel = (rowNumber: number, seatNumber: number): string =>
+    `${String.fromCharCode(64 + rowNumber)}${seatNumber}`;

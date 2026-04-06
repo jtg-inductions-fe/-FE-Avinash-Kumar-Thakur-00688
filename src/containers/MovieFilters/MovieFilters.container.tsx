@@ -81,7 +81,7 @@ export const MovieFilters = (props: MovieFiltersProps) => {
      * Function that remove all the filters
      */
     const handleRemoveFilters = () => {
-        setSearchParams({});
+        setSearchParams({}, { replace: true });
         setLanguages([]);
         setGenres([]);
         setDate(null);
@@ -152,8 +152,13 @@ export const MovieFilters = (props: MovieFiltersProps) => {
             <DatePicker
                 label="Date"
                 value={date}
-                slotProps={{ textField: { readOnly: true } }}
                 onChange={(newDate) => setDate(newDate)}
+                slotProps={{
+                    field: { clearable: true },
+                    textField: {
+                        inputProps: { readOnly: true },
+                    },
+                }}
                 disablePast
             />
             <Stack gap={1}>

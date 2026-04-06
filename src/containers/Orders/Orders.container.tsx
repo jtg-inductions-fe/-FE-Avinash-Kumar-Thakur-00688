@@ -1,5 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 
+import { useSearchParams } from 'react-router-dom';
+
 import {
     Box,
     Button,
@@ -20,7 +22,10 @@ import { useUserBookingsQuery } from '@services';
  */
 export const OrdersContainer = () => {
     /** States */
-    const [cancelled, setCancelled] = useState<boolean>(false);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [cancelled, setCancelled] = useState<boolean>(
+        searchParams.get('status') === 'cancelled',
+    );
 
     /** Hooks */
     const { breakpoints } = useTheme();
@@ -35,6 +40,14 @@ export const OrdersContainer = () => {
      */
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const isChecked = event.target.checked;
+        if (isChecked) {
+            setSearchParams(
+                { status: encodeURIComponent('cancelled') },
+                { replace: true },
+            );
+        } else {
+            setSearchParams({}, { replace: true });
+        }
         setCancelled(isChecked);
     };
 

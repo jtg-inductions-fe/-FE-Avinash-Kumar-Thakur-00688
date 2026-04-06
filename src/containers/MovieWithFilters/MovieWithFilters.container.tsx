@@ -80,7 +80,7 @@ export const MovieWithFilters = () => {
             params.set('date', filters.date);
         }
 
-        setSearchParams(params);
+        setSearchParams(params, { replace: true });
         setApplyFilters(filters);
     };
 

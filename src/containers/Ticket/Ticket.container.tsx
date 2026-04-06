@@ -18,7 +18,7 @@ import {
 import MoviePlaceholder from '@assets/images/movie-placeholder.webp';
 import { ROUTES } from '@constant';
 import { useUserBookingsQuery } from '@services';
-import { formatDate, formatDuration, formatTime } from '@utils';
+import { formatDate, formatDuration, formatTime, getSeatLabel } from '@utils';
 
 import { TicketSkeleton } from './Ticket.skeleton';
 
@@ -30,9 +30,14 @@ export const TicketContainer = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { palette } = useTheme();
-    const { data, isLoading, isError, refetch } = useUserBookingsQuery({
-        slot: id,
-    });
+    const { data, isLoading, isError, refetch } = useUserBookingsQuery(
+        {
+            slot: id,
+        },
+        {
+            skip: !id,
+        },
+    );
 
     /** Constants */
     const seats = data?.[0]?.seats ?? [];
@@ -44,12 +49,6 @@ export const TicketContainer = () => {
     });
 
     /** Functions */
-    /**
-     * This function takes row_number and seat_number, return seat label
-     */
-    const getSeatLabel = (row_number: number, seat_number: number) =>
-        `${String.fromCharCode(64 + row_number)}${seat_number}`;
-
     /**
      * Function trigger when click the cancel ticket button
      */

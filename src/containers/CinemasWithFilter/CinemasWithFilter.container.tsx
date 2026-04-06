@@ -32,9 +32,12 @@ export const CinemasWithFilter = () => {
 
     const handleSearch = (value: string) => {
         if (value) {
-            setSearchParams({ city: value });
+            setSearchParams(
+                { city: encodeURIComponent(value) },
+                { replace: true },
+            );
         } else {
-            setSearchParams({});
+            setSearchParams({}, { replace: true });
         }
         setCity(value);
     };

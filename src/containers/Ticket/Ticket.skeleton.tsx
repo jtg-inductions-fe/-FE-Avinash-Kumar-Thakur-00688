@@ -11,7 +11,7 @@ export const TicketSkeleton = () => {
     const navigate = useNavigate();
 
     return (
-        <Stack flex={1} gap={10} py={8}>
+        <>
             <Box display="flex" alignItems="center" gap={4}>
                 <IconButton aria-label="Go back" onClick={() => navigate(-1)}>
                     <ArrowBack fontSize="small" />
@@ -23,6 +23,6 @@ export const TicketSkeleton = () => {
                 <Skeleton variant="rounded" height={300} />
                 <Skeleton variant="rounded" height={100} />
             </Stack>
-        </Stack>
+        </>
     );
 };
