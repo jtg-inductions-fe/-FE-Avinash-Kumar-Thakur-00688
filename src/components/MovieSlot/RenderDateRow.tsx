@@ -31,7 +31,7 @@ export const RenderDateRow = ({ date, slotsArr }: RenderDateRowProps) => (
                             {formatTime(slot.date_time)}
                         </Typography>
                         <Typography variant="caption">
-                            {formatAmount(Number(slot.price))}
+                            {formatAmount(parseFloat(slot.price) || 0)}
                         </Typography>
                     </Button>
                 ))}

@@ -62,7 +62,7 @@ export const MovieWithFilters = () => {
                     )}
                 </Box>
 
-                {isLoading && (
+                {isLoading && !data && (
                     <GridList
                         itemSize={{ xs: 12, sm: 6, md: 4, xl: 3 }}
                         itemsList={Array.from({ length: SKELETON_COUNT })}
@@ -90,7 +90,7 @@ export const MovieWithFilters = () => {
                     </Stack>
                 )}
 
-                {data?.length === 0 && (
+                {data && data.length === 0 && (
                     <Stack
                         flex={1}
                         justifyContent="center"
@@ -107,7 +107,7 @@ export const MovieWithFilters = () => {
                     </Stack>
                 )}
 
-                {data && (
+                {data && data.length > 0 && (
                     <GridList
                         itemSize={{ xs: 12, sm: 6, md: 4, xl: 3 }}
                         itemsList={data ?? []}

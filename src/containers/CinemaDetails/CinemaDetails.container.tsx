@@ -31,7 +31,7 @@ export const CinemaDetailsContainer = () => {
     );
 
     /** Loading state  */
-    if (isLoading) {
+    if (isLoading && !data) {
         return <CinemaDetailsSkeleton />;
     }
 

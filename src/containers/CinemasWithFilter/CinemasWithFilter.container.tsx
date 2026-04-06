@@ -47,7 +47,7 @@ export const CinemasWithFilter = () => {
                 </Box>
             </Box>
 
-            {isLoading && (
+            {isLoading && !data && (
                 <GridList
                     itemsList={Array.from({ length: SKELETON_COUNT })}
                     renderItem={(_, index) => <CinemaSkeleton key={index} />}
@@ -70,7 +70,7 @@ export const CinemasWithFilter = () => {
                 </Stack>
             )}
 
-            {data?.length === 0 && (
+            {data && data?.length === 0 && (
                 <Stack
                     flex={1}
                     justifyContent="center"
@@ -87,7 +87,7 @@ export const CinemasWithFilter = () => {
                 </Stack>
             )}
 
-            {data && (
+            {data && data.length > 0 && (
                 <GridList
                     itemsList={data}
                     renderItem={(cinema) => <CinemaCard cinema={cinema} />}
