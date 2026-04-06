@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useSearchParams } from 'react-router-dom';
+
 import {
     Box,
     Button,
@@ -18,7 +20,8 @@ import { useCinemaWithFilterQuery } from '@services';
  */
 export const CinemasWithFilter = () => {
     /** States */
-    const [city, setCity] = useState<string>('');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [city, setCity] = useState<string>(searchParams.get('city') || '');
 
     /** Hooks */
     const { breakpoints, palette } = useTheme();
@@ -26,6 +29,15 @@ export const CinemasWithFilter = () => {
     const { data, isLoading, isError, refetch } = useCinemaWithFilterQuery({
         city: city.trim() || undefined,
     });
+
+    const handleSearch = (value: string) => {
+        if (value) {
+            setSearchParams({ city: value });
+        } else {
+            setSearchParams({});
+        }
+        setCity(value);
+    };
 
     return (
         <Stack py={4} gap={5} flex={1}>
@@ -41,7 +53,8 @@ export const CinemasWithFilter = () => {
                 <Box width={isDesktop ? 350 : '100%'}>
                     <Search
                         placeholder="Search by city name"
-                        setData={setCity}
+                        data={city}
+                        setData={handleSearch}
                         size="small"
                     />
                 </Box>
