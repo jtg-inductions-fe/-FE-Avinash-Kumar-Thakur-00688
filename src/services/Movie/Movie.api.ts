@@ -9,6 +9,7 @@ import {
     MovieApiParamType,
     MovieApiResponseType,
     MovieResponseData,
+    MovieShowtimesResponseType,
 } from './Movie.types';
 
 /**
@@ -47,7 +48,16 @@ export const movieApi = baseApi.injectEndpoints({
          */
         movieDetails: builder.query<MovieResponseData, string>({
             query: (id) => ({
-                url: `${API_URL.MOVIES}${id}`,
+                url: `${API_URL.MOVIES}${encodeURIComponent(id)}`,
+                method: 'GET',
+            }),
+        }),
+        /**
+         * Takes movie id and return cinemas with slot details
+         */
+        movieShowtimes: builder.query<MovieShowtimesResponseType, string>({
+            query: (id) => ({
+                url: `${API_URL.MOVIES}${encodeURIComponent(id)}${API_URL.CINEMAS}`,
                 method: 'GET',
             }),
         }),
@@ -89,4 +99,5 @@ export const {
     useLanguagesQuery,
     useGenresQuery,
     useMovieDetailsQuery,
+    useMovieShowtimesQuery,
 } = movieApi;

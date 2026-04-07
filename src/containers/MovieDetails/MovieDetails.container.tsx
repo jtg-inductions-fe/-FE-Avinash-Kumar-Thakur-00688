@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
     Box,
@@ -11,8 +11,9 @@ import {
 
 import MoviePlaceholder from '@assets/images/movie-placeholder.webp';
 import { ERROR_STATUS } from '@constant';
+import { ROUTES } from '@constant';
 import { useMovieDetailsQuery } from '@services';
-import { formatDate, isFetchBaseQueryError } from '@utils';
+import { formatDate, formatDuration, isFetchBaseQueryError } from '@utils';
 
 import { StyledBanner, StyledPoster } from './MovieDetails.styles';
 import { MovieDetailsSkeleton } from './MovieDetailsSkeleton';
@@ -24,6 +25,7 @@ export const MovieDetailsContainer = () => {
     /** Hooks */
     const { id = '' } = useParams();
     const { palette } = useTheme();
+    const navigate = useNavigate();
     const { data, isLoading, isError, error, refetch } = useMovieDetailsQuery(
         id,
         {
@@ -31,11 +33,15 @@ export const MovieDetailsContainer = () => {
         },
     );
 
+    /** Functions */
+    /**
+     * This function handle navigation when clicking the card
+     */
+    const handleNavigation = () => {
+        void navigate(`${ROUTES.MOVIE_SHOWTIME}/${id}`);
+    };
+
     /** Constants */
-    const durationParts = data?.duration.split(':') ?? [];
-    const formattedDuration =
-        durationParts.length >= 2 &&
-        `${parseInt(durationParts[0])}h ${parseInt(durationParts[1])}m`;
     const formattedGenres = data?.genres
         ?.map((genre) => genre.genre_name)
         .join(', ');
@@ -67,7 +73,12 @@ export const MovieDetailsContainer = () => {
     }
 
     /** Empty state */
-    if (!data) {
+    if (
+        !data ||
+        (isError &&
+            isFetchBaseQueryError(error) &&
+            error.status === ERROR_STATUS.NOT_FOUND)
+    ) {
         return (
             <Stack
                 flex={1}
@@ -101,7 +112,7 @@ export const MovieDetailsContainer = () => {
                             sx={{ color: palette.text.primary }}
                         >
                             <Typography variant="h4">
-                                {formattedDuration}
+                                {formatDuration(data.duration)}
                             </Typography>
                             <Typography variant="h4">
                                 {formattedGenres}
@@ -121,6 +132,7 @@ export const MovieDetailsContainer = () => {
                             variant="contained"
                             size="large"
                             sx={{ width: 200, mt: 5 }}
+                            onClick={handleNavigation}
                         >
                             Book tickets
                         </Button>

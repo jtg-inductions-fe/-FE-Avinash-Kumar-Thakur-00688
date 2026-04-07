@@ -17,7 +17,9 @@ export const formatDate = ({ date, options = {} }: DateFormatter) => {
     } = options;
 
     const parsedDate = new Date(date);
-    if (isNaN(parsedDate.getTime())) return '';
+    if (isNaN(parsedDate.getTime())) {
+        return '';
+    }
 
     const formatter = new Intl.DateTimeFormat(locale, {
         weekday,
@@ -36,7 +38,9 @@ export const formatDate = ({ date, options = {} }: DateFormatter) => {
  * @returns Returns formatted amount
  */
 export const formatAmount = (amount: number) => {
-    if (isNaN(amount)) return '';
+    if (isNaN(amount)) {
+        return '';
+    }
 
     return Intl.NumberFormat('en-IN', {
         style: 'currency',
@@ -54,11 +58,33 @@ export const formatAmount = (amount: number) => {
 export const formatTime = (date: string) => {
     const parsedDate = new Date(date);
 
-    if (isNaN(parsedDate.getTime())) return '';
+    if (isNaN(parsedDate.getTime())) {
+        return '';
+    }
 
     return Intl.DateTimeFormat('en-IN', {
         hour: '2-digit',
         minute: '2-digit',
         hour12: true,
     }).format(parsedDate);
+};
+
+/**
+ * Function to format movie duration
+ * @param duration - Duration which need to be formatted
+ * @returns Returns formatted duration
+ */
+export const formatDuration = (duration?: string): string => {
+    const parts = duration?.split(':') ?? [];
+    if (parts.length < 2) {
+        return '';
+    }
+
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    if (isNaN(hours) || isNaN(minutes)) {
+        return '';
+    }
+
+    return `${hours}h ${minutes}m`;
 };

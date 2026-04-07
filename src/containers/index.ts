@@ -5,3 +5,4 @@ export * from './MovieWithFilters';
 export * from './CinemasWithFilter';
 export * from './CinemaDetails';
 export * from './MovieDetails';
+export * from './MovieShowtimes';

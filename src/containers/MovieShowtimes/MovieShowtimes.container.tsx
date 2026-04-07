@@ -1,38 +1,37 @@
 import { useParams } from 'react-router-dom';
 
-import { LocationOn } from '@mui/icons-material';
 import {
     Box,
     Button,
     Card,
     CardContent,
+    Chip,
     Stack,
     Typography,
 } from '@mui/material';
 
 import { MovieSlot } from '@components';
 import { ERROR_STATUS } from '@constant';
-import { useCinemaDetailsQuery } from '@services';
-import { isFetchBaseQueryError } from '@utils';
+import { useMovieShowtimesQuery } from '@services';
+import { formatDuration, isFetchBaseQueryError } from '@utils';
 
-import { CinemaDetailsSkeleton } from './CinemaDetailsSkeleton';
+import { MovieShowtimeSkeleton } from './MovieShowtimesSkeleton';
 
 /**
- * Container display cinema details with slot details
+ * Container used to display slots per cinema for a particular movie
  */
-export const CinemaDetailsContainer = () => {
+export const MovieShowtimesContainer = () => {
     /** Hooks */
     const { id = '' } = useParams();
-    const { data, isLoading, isError, error, refetch } = useCinemaDetailsQuery(
+    const { data, isLoading, isError, error, refetch } = useMovieShowtimesQuery(
         id,
         {
             skip: !id,
         },
     );
 
-    /** Loading state  */
-    if (isLoading && !data) {
-        return <CinemaDetailsSkeleton />;
+    if (isLoading) {
+        return <MovieShowtimeSkeleton />;
     }
 
     /** Error state */
@@ -43,8 +42,8 @@ export const CinemaDetailsContainer = () => {
     ) {
         return (
             <Stack flex={1} gap={2} justifyContent="center" alignItems="center">
-                <Typography variant="h2" color="error" textAlign="center">
-                    Failed to load cinema details. Please try again.
+                <Typography variant="h4" color="error" textAlign="center">
+                    Failed to load slot details. Please try again.
                 </Typography>
                 <Button variant="contained" onClick={() => refetch()}>
                     Retry
@@ -69,35 +68,38 @@ export const CinemaDetailsContainer = () => {
                 p={4}
                 textAlign="center"
             >
-                <Typography variant="h2">Cinema Not Found</Typography>
+                <Typography variant="h2">Movie Not Found</Typography>
                 <Typography variant="h4" color="textSecondary">
-                    We could not find the cinema you are looking for.
+                    We could not find the movie you are looking for.
                 </Typography>
             </Stack>
         );
     }
 
     return (
-        <Stack flex={1} py={4} gap={5}>
-            <Stack py={4} gap={6}>
+        <Stack flex={1} py={4} gap={6}>
+            <Stack gap={6}>
                 <Card>
                     <CardContent>
-                        <Stack gap={3}>
-                            <Typography variant="h2">{data.name}</Typography>
-                            <Box display="flex" gap={2}>
-                                <LocationOn />
-                                <Typography variant="h4">
-                                    {data.location}
-                                </Typography>
+                        <Stack gap={4}>
+                            <Typography variant="h2">{data?.name}</Typography>
+                            <Box display="flex" gap={2} flexWrap="wrap">
+                                <Chip
+                                    label={`Movie runtime: ${formatDuration(data?.duration)}`}
+                                />
+                                {data?.genres.map((genre) => (
+                                    <Chip
+                                        key={genre.id}
+                                        label={genre.genre_name}
+                                    />
+                                ))}
                             </Box>
                         </Stack>
                     </CardContent>
                 </Card>
-
                 <Stack gap={2}>
                     <Typography variant="h2">Shows</Typography>
-
-                    {data.movies.length === 0 && (
+                    {data.cinemas.length === 0 && (
                         <Stack
                             flex={1}
                             justifyContent="center"
@@ -112,16 +114,18 @@ export const CinemaDetailsContainer = () => {
                         </Stack>
                     )}
 
-                    {data.movies.map((movie) => (
-                        <MovieSlot
-                            key={movie.id}
-                            title={movie.name}
-                            subtitle={movie.languages
-                                .map((lang) => lang.lang_name)
-                                .join(', ')}
-                            slots={movie.slots}
-                        />
-                    ))}
+                    {data.cinemas.length > 0 && (
+                        <Stack gap={4}>
+                            {data.cinemas.map((cinema) => (
+                                <MovieSlot
+                                    key={cinema.id}
+                                    title={cinema.name}
+                                    subtitle={cinema.location}
+                                    slots={cinema.slots}
+                                />
+                            ))}
+                        </Stack>
+                    )}
                 </Stack>
             </Stack>
         </Stack>
