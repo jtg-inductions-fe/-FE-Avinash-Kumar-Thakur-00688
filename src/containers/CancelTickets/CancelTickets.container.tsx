@@ -97,10 +97,8 @@ export const CancelTicketsContainer = () => {
                     severity: 'success',
                 }),
             );
-            if (selectedSeats.length === seats.length) {
-                void navigate(ROUTES.ORDERS);
-            }
             setSelectedSeats([]);
+            void navigate(ROUTES.ORDERS);
         } catch (error: unknown) {
             const err = error as BookingApiErrorType;
 

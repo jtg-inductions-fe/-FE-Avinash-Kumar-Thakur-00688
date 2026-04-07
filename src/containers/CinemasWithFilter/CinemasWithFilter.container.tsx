@@ -53,14 +53,16 @@ export const CinemasWithFilter = () => {
                 sx={{ background: palette.background.paper }}
             >
                 <Typography variant="h2">Cinemas</Typography>
-                <Box width={isDesktop ? 350 : '100%'}>
-                    <Search
-                        placeholder="Search by city name"
-                        data={city}
-                        setData={handleSearch}
-                        size="small"
-                    />
-                </Box>
+                {!isLoading && data && (
+                    <Box width={isDesktop ? 350 : '100%'}>
+                        <Search
+                            placeholder="Search by city name"
+                            data={city}
+                            setData={handleSearch}
+                            size="small"
+                        />
+                    </Box>
+                )}
             </Box>
 
             {isLoading && !data && (

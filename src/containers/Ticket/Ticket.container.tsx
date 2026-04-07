@@ -97,7 +97,7 @@ export const TicketContainer = () => {
                     <Box display="flex" alignItems="center" gap={4}>
                         <IconButton
                             aria-label="Go back"
-                            onClick={() => navigate(-1)}
+                            onClick={() => navigate(ROUTES.ORDERS)}
                         >
                             <ArrowBack />
                         </IconButton>
