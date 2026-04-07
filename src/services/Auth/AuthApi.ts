@@ -1,7 +1,7 @@
 import { baseApi } from 'services/BaseApi';
 import { bookingApi } from 'services/Booking';
 
-import { API_TAGS, API_URL, TOKEN_KEY } from '@constant';
+import { API_METHODS, API_TAGS, API_URL, TOKEN_KEY } from '@constant';
 import { removeAuthCredentials, setAuthCredentials, setUser } from '@features';
 import { User } from '@types';
 import { removeToken, setToken } from '@utils';
@@ -27,7 +27,7 @@ export const authApi = baseApi.injectEndpoints({
             {
                 query: (data) => ({
                     url: API_URL.REGISTER,
-                    method: 'POST',
+                    method: API_METHODS.POST,
                     body: data,
                     credentials: 'include',
                 }),
@@ -52,7 +52,7 @@ export const authApi = baseApi.injectEndpoints({
         login: builder.mutation<AuthApiResponseType, LoginRequestType>({
             query: (data) => ({
                 url: API_URL.LOGIN,
-                method: 'POST',
+                method: API_METHODS.POST,
                 body: data,
                 credentials: 'include',
             }),
@@ -74,7 +74,7 @@ export const authApi = baseApi.injectEndpoints({
         refreshToken: builder.mutation<RefreshApiResponseType, void>({
             query: () => ({
                 url: API_URL.REFRESH_TOKEN,
-                method: 'POST',
+                method: API_METHODS.POST,
                 credentials: 'include',
             }),
             onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -95,7 +95,7 @@ export const authApi = baseApi.injectEndpoints({
         logout: builder.mutation<void, void>({
             query: () => ({
                 url: API_URL.LOGOUT,
-                method: 'POST',
+                method: API_METHODS.POST,
                 credentials: 'include',
             }),
             onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -112,7 +112,7 @@ export const authApi = baseApi.injectEndpoints({
         profile: builder.query<User, void>({
             query: () => ({
                 url: API_URL.PROFILE,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
             onQueryStarted(_, { dispatch, queryFulfilled }) {
                 void queryFulfilled
@@ -129,7 +129,7 @@ export const authApi = baseApi.injectEndpoints({
         updateProfile: builder.mutation<User, FormData>({
             query: (data) => ({
                 url: API_URL.PROFILE,
-                method: 'PATCH',
+                method: API_METHODS.PATCH,
                 body: data,
             }),
             invalidatesTags: [API_TAGS.PROFILE],

@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import dayjs from 'dayjs';
+import { useSearchParams } from 'react-router-dom';
 
 import { FilterAlt } from '@mui/icons-material';
 import {
@@ -14,7 +17,12 @@ import {
 import { CustomModal, GridList, MovieCard, MovieSkeleton } from '@components';
 import { SKELETON_COUNT } from '@constant';
 import { MovieFilters } from '@containers/MovieFilters';
-import { MovieApiParamType, useMovieWithFilterQuery } from '@services';
+import {
+    MovieApiParamType,
+    useGenresQuery,
+    useLanguagesQuery,
+    useMovieWithFilterQuery,
+} from '@services';
 
 /**
  * Container display movies and their filter panel
@@ -23,18 +31,119 @@ export const MovieWithFilters = () => {
     /** States */
     const [applyFilters, setApplyFilters] = useState<MovieApiParamType>({});
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [hydrated, setHydrated] = useState<boolean>(false);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     /** Hooks */
     const { breakpoints } = useTheme();
     const isMobile = useMediaQuery(breakpoints.down('lg'));
-    const { data, isLoading, isError, refetch } =
-        useMovieWithFilterQuery(applyFilters);
+    const languages = useLanguagesQuery();
+    const genres = useGenresQuery();
+    const { data, isLoading, isError, refetch } = useMovieWithFilterQuery(
+        applyFilters,
+        { skip: !hydrated },
+    );
+
+    /** Constants */
+    const languageObj = {
+        data: languages.data,
+        isError: languages.isError,
+        isLoading: languages.isLoading,
+    };
+    const genreObj = {
+        data: genres.data,
+        isError: genres.isError,
+        isLoading: genres.isLoading,
+    };
 
     /**
      * Functions
      */
+    /**
+     * Function that used to set the params in the url and set the filter states
+     */
+    const handleApplyFilters = (filters: MovieApiParamType) => {
+        const params = new URLSearchParams();
+
+        if (filters.languages) {
+            params.append(
+                'languages',
+                filters.languages.map((lang) => lang.label).join(','),
+            );
+        }
+
+        if (filters.genres) {
+            params.append(
+                'genres',
+                filters.genres.map((genre) => genre.label).join(','),
+            );
+        }
+
+        if (filters.date) {
+            params.set('date', filters.date);
+        }
+
+        setSearchParams(params, { replace: true });
+        setApplyFilters(filters);
+    };
+
+    /**
+     * Function that handle refetching of filters
+     */
+    const handleRefetchFilters = async () => {
+        await languages.refetch();
+        await genres.refetch();
+    };
+
+    /**
+     * Function that trigger when modal opens
+     */
     const handleOpen = () => setModalOpen(true);
+
+    /**
+     * Function that trigger when modal closes
+     */
     const handleClose = () => setModalOpen(false);
+
+    /** Effects */
+    useEffect(() => {
+        const languageData = languages.data;
+        const genreData = genres.data;
+
+        if (!languageData || !genreData) return;
+
+        const languagesParam = searchParams.get('languages')?.split(',') || [];
+        const genresParam = searchParams.get('genres')?.split(',') || [];
+        const dateParam = searchParams.get('date');
+
+        const selectedLanguages =
+            languageData?.filter((lang) =>
+                languagesParam.includes(lang.label),
+            ) || [];
+
+        const selectedGenres =
+            genreData?.filter((genre) => genresParam.includes(genre.label)) ||
+            [];
+
+        const selectedDate = dateParam ? dayjs(dateParam) : null;
+
+        const nextFilters: MovieApiParamType = {};
+
+        if (selectedLanguages.length > 0) {
+            nextFilters.languages = selectedLanguages;
+        }
+
+        if (selectedGenres.length > 0) {
+            nextFilters.genres = selectedGenres;
+        }
+
+        if (selectedDate) {
+            nextFilters.date = selectedDate.format('YYYY-MM-DD');
+        }
+
+        setApplyFilters(nextFilters);
+        setHydrated(true);
+    }, [searchParams, languages, genres, setApplyFilters]);
 
     return (
         <Box
@@ -119,15 +228,23 @@ export const MovieWithFilters = () => {
             {isMobile ? (
                 <CustomModal open={modalOpen} onClose={handleClose}>
                     <MovieFilters
+                        languageObj={languageObj}
+                        genreObj={genreObj}
                         appliedFilters={applyFilters}
-                        setApplyFilters={setApplyFilters}
+                        setApplyFilters={handleApplyFilters}
+                        handleRefetchFilters={handleRefetchFilters}
+                        setSearchParams={setSearchParams}
                         onClose={handleClose}
                     />
                 </CustomModal>
             ) : (
                 <MovieFilters
+                    languageObj={languageObj}
+                    genreObj={genreObj}
                     appliedFilters={applyFilters}
-                    setApplyFilters={setApplyFilters}
+                    setApplyFilters={handleApplyFilters}
+                    handleRefetchFilters={handleRefetchFilters}
+                    setSearchParams={setSearchParams}
                 />
             )}
         </Box>

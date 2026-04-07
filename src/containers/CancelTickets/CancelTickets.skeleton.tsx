@@ -12,7 +12,7 @@ export const CancelTicketsSkeleton = () => {
 
     return (
         <Stack flex={1} gap={10} py={8}>
-            <Box display="flex" alignItems="center" gap={{ xs: 4, md: 10 }}>
+            <Box display="flex" alignItems="center" gap={4}>
                 <IconButton aria-label="Go back" onClick={() => navigate(-1)}>
                     <ArrowBack fontSize="small" />
                 </IconButton>

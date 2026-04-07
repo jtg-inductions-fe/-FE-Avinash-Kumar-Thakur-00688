@@ -25,6 +25,10 @@ export interface SearchProps {
      */
     placeholder?: string;
     /**
+     * Default value of the search input
+     */
+    data?: string;
+    /**
      * Function that trigger api calling
      */
     setData: (value: string) => void;

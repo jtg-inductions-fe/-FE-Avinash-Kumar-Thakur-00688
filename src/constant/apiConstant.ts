@@ -16,6 +16,12 @@ export const API_URL = {
 
 export const TOKEN_KEY = 'auth_token';
 
+export const API_METHODS = {
+    GET: 'GET',
+    POST: 'POST',
+    PATCH: 'PATCH',
+} as const;
+
 export const ERROR_STATUS = {
     BAD_REQUEST: 400,
     UNAUTHORIZED: 401,

@@ -1,6 +1,6 @@
 import { baseApi } from 'services/BaseApi';
 
-import { API_TAGS, API_URL } from '@constant';
+import { API_METHODS, API_TAGS, API_URL } from '@constant';
 
 import {
     BookingApiRequestType,
@@ -21,7 +21,7 @@ export const bookingApi = baseApi.injectEndpoints({
         slotDetails: builder.query<SlotDetailsApiResponseType, string>({
             query: (id) => ({
                 url: `${API_URL.SLOT}${encodeURIComponent(id)}`,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
         }),
         /**
@@ -30,7 +30,7 @@ export const bookingApi = baseApi.injectEndpoints({
         seats: builder.query<SeatApiResponseType, string>({
             query: (id) => ({
                 url: `${API_URL.SLOT}${encodeURIComponent(id)}/seats`,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
             providesTags: [API_TAGS.SEATS],
         }),
@@ -43,7 +43,7 @@ export const bookingApi = baseApi.injectEndpoints({
         >({
             query: (data) => ({
                 url: API_URL.BOOKING,
-                method: 'POST',
+                method: API_METHODS.POST,
                 body: data,
             }),
             invalidatesTags: [API_TAGS.SEATS, API_TAGS.USER_BOOKINGS],
@@ -60,7 +60,7 @@ export const bookingApi = baseApi.injectEndpoints({
 
                 return {
                     url: API_URL.USER_BOOKINGS,
-                    method: 'GET',
+                    method: API_METHODS.GET,
                     params: {
                         ...(status && { status }),
                         ...(slot && { slot: slot }),
@@ -78,7 +78,7 @@ export const bookingApi = baseApi.injectEndpoints({
         >({
             query: (data) => ({
                 url: API_URL.CANCEL_BOOKINGS,
-                method: 'PATCH',
+                method: API_METHODS.PATCH,
                 body: data,
             }),
             invalidatesTags: [API_TAGS.SEATS, API_TAGS.USER_BOOKINGS],

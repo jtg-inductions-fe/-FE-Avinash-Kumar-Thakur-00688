@@ -16,8 +16,6 @@ import {
     IconButton,
     Stack,
     Typography,
-    useMediaQuery,
-    useTheme,
 } from '@mui/material';
 
 import { ERROR_STATUS, NOTIFICATIONS, ROUTES } from '@constant';
@@ -28,7 +26,7 @@ import {
     useCancelBookingMutation,
     useUserBookingsQuery,
 } from '@services';
-import { formatDate, formatTime, sortedSeats } from '@utils';
+import { formatDate, formatTime, getSeatLabel, sortedSeats } from '@utils';
 
 import { CancelTicketsSkeleton } from './CancelTickets.skeleton';
 
@@ -43,11 +41,14 @@ export const CancelTicketsContainer = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { breakpoints } = useTheme();
-    const isDesktop = useMediaQuery(breakpoints.up('sm'));
-    const { data, isLoading, isError, refetch } = useUserBookingsQuery({
-        slot: id,
-    });
+    const { data, isLoading, isError, refetch } = useUserBookingsQuery(
+        {
+            slot: id,
+        },
+        {
+            skip: !id,
+        },
+    );
     const [trigger, { isLoading: isCancelling }] = useCancelBookingMutation();
 
     /** Constants */
@@ -60,12 +61,6 @@ export const CancelTicketsContainer = () => {
         selectedSeats.length < seats.length;
 
     /** Functions */
-    /**
-     * This function takes row_number and seat_number, return seat label
-     */
-    const getSeatLabel = (row_number: number, seat_number: number) =>
-        `${String.fromCharCode(64 + row_number)}${seat_number}`;
-
     /**
      * This function takes seat as parameter and returns new selected states
      * @param seat - New seat which is selected
@@ -102,10 +97,8 @@ export const CancelTicketsContainer = () => {
                     severity: 'success',
                 }),
             );
-            if (selectedSeats.length === seats.length) {
-                void navigate(ROUTES.ORDERS);
-            }
             setSelectedSeats([]);
+            void navigate(ROUTES.ORDERS);
         } catch (error: unknown) {
             const err = error as BookingApiErrorType;
 
@@ -172,11 +165,7 @@ export const CancelTicketsContainer = () => {
 
             {data && data.length > 0 && (
                 <>
-                    <Box
-                        display="flex"
-                        alignItems="center"
-                        gap={{ xs: 4, sm: 10 }}
-                    >
+                    <Box display="flex" alignItems="center" gap={4}>
                         <IconButton
                             aria-label="Go back"
                             onClick={() => navigate(-1)}
@@ -184,29 +173,20 @@ export const CancelTicketsContainer = () => {
                             <ArrowBack />
                         </IconButton>
                         <Stack>
-                            <Typography variant={isDesktop ? 'h2' : 'h3'}>
+                            <Typography variant="h2">
                                 {data[0].movie.name}
                             </Typography>
                             <Breadcrumbs separator="|">
-                                <Typography
-                                    variant={isDesktop ? 'h4' : 'h5'}
-                                    color="textSecondary"
-                                >
+                                <Typography variant="h4" color="textSecondary">
                                     {data[0].cinema}
                                 </Typography>
-                                <Typography
-                                    variant={isDesktop ? 'h4' : 'h5'}
-                                    color="textSecondary"
-                                >
+                                <Typography variant="h4" color="textSecondary">
                                     {formatDate({
                                         date: data[0].date_time,
                                         options: { weekday: 'short' },
                                     })}
                                 </Typography>
-                                <Typography
-                                    variant={isDesktop ? 'h4' : 'h5'}
-                                    color="textSecondary"
-                                >
+                                <Typography variant="h4" color="textSecondary">
                                     {formatTime(data[0].date_time)}
                                 </Typography>
                             </Breadcrumbs>

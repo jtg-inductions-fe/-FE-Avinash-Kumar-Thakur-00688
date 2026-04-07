@@ -17,4 +17,8 @@ export interface PhoneInputProps<T extends FieldValues> {
      * Country code for the phone input
      */
     countryCode?: MuiTelInputCountry;
+    /**
+     * State to track whether phone input is disabled or not
+     */
+    disabled?: boolean;
 }

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import {
     Avatar,
     Box,
     Button,
     Card,
     CardContent,
-    Paper,
-    Skeleton,
     Stack,
     Typography,
 } from '@mui/material';
@@ -15,6 +15,7 @@ import {
 import { CustomModal } from '@components';
 import { EditProfile } from '@containers/EditProfile';
 import { useProfileQuery } from '@services';
+import { RootState } from '@store';
 
 /**
  * This container used to display user details
@@ -24,7 +25,8 @@ export const ProfileContainer = () => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     /** Hooks */
-    const { data, isLoading, isError, refetch } = useProfileQuery();
+    const { user } = useSelector((state: RootState) => state.auth);
+    const { refetch } = useProfileQuery();
 
     /**
      * Functions
@@ -32,21 +34,8 @@ export const ProfileContainer = () => {
     const handleOpen = () => setModalOpen(true);
     const handleClose = () => setModalOpen(false);
 
-    /** Loading state */
-    if (isLoading) {
-        return (
-            <Stack flex={1} alignItems="center" justifyContent="center">
-                <Skeleton
-                    variant="rounded"
-                    sx={{ width: { xs: '100%', md: 500 } }}
-                    height={500}
-                />
-            </Stack>
-        );
-    }
-
     /** Error state */
-    if (isError || !data) {
+    if (!user) {
         return (
             <Stack flex={1} gap={2} justifyContent="center" alignItems="center">
                 <Typography variant="h4" color="error" textAlign="center">
@@ -80,8 +69,8 @@ export const ProfileContainer = () => {
                             </Button>
                         </Box>
                         <Avatar
-                            src={data.avatar ?? ''}
-                            alt={data.name}
+                            src={user.avatar ?? ''}
+                            alt={user.name}
                             sx={{ height: 100, width: 100 }}
                         />
 
@@ -89,8 +78,7 @@ export const ProfileContainer = () => {
                             <Typography variant="h3">
                                 Account Details
                             </Typography>
-                            <Paper
-                                variant="outlined"
+                            <Box
                                 sx={{
                                     p: 2,
                                     width: '100%',
@@ -102,11 +90,10 @@ export const ProfileContainer = () => {
                                 >
                                     Full Name:
                                 </Typography>
-                                <Typography>{data.name}</Typography>
-                            </Paper>
+                                <Typography>{user.name}</Typography>
+                            </Box>
 
-                            <Paper
-                                variant="outlined"
+                            <Box
                                 sx={{
                                     p: 2,
                                     width: '100%',
@@ -118,11 +105,10 @@ export const ProfileContainer = () => {
                                 >
                                     Email:
                                 </Typography>
-                                <Typography>{data.email}</Typography>
-                            </Paper>
+                                <Typography>{user.email}</Typography>
+                            </Box>
 
-                            <Paper
-                                variant="outlined"
+                            <Box
                                 sx={{
                                     p: 2,
                                     width: '100%',
@@ -134,8 +120,8 @@ export const ProfileContainer = () => {
                                 >
                                     Phone:
                                 </Typography>
-                                <Typography>{data.phone_number}</Typography>
-                            </Paper>
+                                <Typography>{user.phone_number}</Typography>
+                            </Box>
                         </Stack>
                     </Stack>
                 </CardContent>

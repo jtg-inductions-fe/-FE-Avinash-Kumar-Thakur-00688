@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useSearchParams } from 'react-router-dom';
+
 import {
     Box,
     Button,
@@ -18,7 +20,8 @@ import { useCinemaWithFilterQuery } from '@services';
  */
 export const CinemasWithFilter = () => {
     /** States */
-    const [city, setCity] = useState<string>('');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [city, setCity] = useState<string>(searchParams.get('city') || '');
 
     /** Hooks */
     const { breakpoints, palette } = useTheme();
@@ -26,6 +29,15 @@ export const CinemasWithFilter = () => {
     const { data, isLoading, isError, refetch } = useCinemaWithFilterQuery({
         city: city.trim() || undefined,
     });
+
+    const handleSearch = (value: string) => {
+        if (value) {
+            setSearchParams({ city: value }, { replace: true });
+        } else {
+            setSearchParams({}, { replace: true });
+        }
+        setCity(value);
+    };
 
     return (
         <Stack py={4} gap={5} flex={1}>
@@ -38,13 +50,16 @@ export const CinemasWithFilter = () => {
                 sx={{ background: palette.background.paper }}
             >
                 <Typography variant="h2">Cinemas</Typography>
-                <Box width={isDesktop ? 350 : '100%'}>
-                    <Search
-                        placeholder="Search by city name"
-                        setData={setCity}
-                        size="small"
-                    />
-                </Box>
+                {data && (
+                    <Box width={isDesktop ? 350 : '100%'}>
+                        <Search
+                            placeholder="Search by city name"
+                            data={city}
+                            setData={handleSearch}
+                            size="small"
+                        />
+                    </Box>
+                )}
             </Box>
 
             {isLoading && !data && (

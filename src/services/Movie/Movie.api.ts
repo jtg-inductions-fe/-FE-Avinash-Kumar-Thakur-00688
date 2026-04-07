@@ -1,6 +1,6 @@
 import { baseApi } from 'services/BaseApi';
 
-import { API_URL } from '@constant';
+import { API_METHODS, API_URL } from '@constant';
 
 import {
     FilterOptionsType,
@@ -34,7 +34,7 @@ export const movieApi = baseApi.injectEndpoints({
                     };
                     return {
                         url: API_URL.MOVIES,
-                        method: 'GET',
+                        method: API_METHODS.GET,
                         params:
                             Object.keys(params).length === 0
                                 ? undefined
@@ -49,7 +49,7 @@ export const movieApi = baseApi.injectEndpoints({
         movieDetails: builder.query<MovieResponseData, string>({
             query: (id) => ({
                 url: `${API_URL.MOVIES}${encodeURIComponent(id)}`,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
         }),
         /**
@@ -58,7 +58,7 @@ export const movieApi = baseApi.injectEndpoints({
         movieShowtimes: builder.query<MovieShowtimesResponseType, string>({
             query: (id) => ({
                 url: `${API_URL.MOVIES}${encodeURIComponent(id)}${API_URL.CINEMAS}`,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
         }),
         /**
@@ -67,7 +67,7 @@ export const movieApi = baseApi.injectEndpoints({
         languages: builder.query<FilterOptionsType, void>({
             query: () => ({
                 url: API_URL.MOVIE_LANGUAGES,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
             transformResponse: (response: LanguageApiResponseType) =>
                 response.map((lang) => ({
@@ -82,7 +82,7 @@ export const movieApi = baseApi.injectEndpoints({
         genres: builder.query<FilterOptionsType, void>({
             query: () => ({
                 url: API_URL.MOVIE_GENRES,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
             transformResponse: (response: GenreApiResponseType) =>
                 response.map((lang) => ({
