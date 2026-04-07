@@ -15,7 +15,7 @@ import {
 
 import MoviePlaceholder from '@assets/images/movie-placeholder.webp';
 import { MOVIE_CARD_POSTER_HEIGHT, ROUTES } from '@constant';
-import { formatDate, formatDuration, formatTime } from '@utils';
+import { formatDate, formatDuration, formatTime, sortedSeats } from '@utils';
 
 import { BookingCardProps, StatusResponse } from './BookingCard.types';
 
@@ -39,19 +39,9 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
         `${String.fromCharCode(64 + row_number)}${seat_number}`;
 
     /**
-     *  It sort the seat on base of seat_number and row_number
-     */
-    const sortedSeats = [...seats].sort((a, b) => {
-        if (a.row_number === b.row_number) {
-            return a.seat_number - b.seat_number;
-        }
-        return a.row_number - b.row_number;
-    });
-
-    /**
      * It convert the array of seat into , separated format
      */
-    const formattedSeats = sortedSeats
+    const formattedSeats = sortedSeats(seats)
         .map((seat) => getSeatLabel(seat.row_number, seat.seat_number))
         .join(', ');
 
@@ -110,7 +100,7 @@ export const BookingCard = ({ item, status }: BookingCardProps) => {
             <CardMedia
                 component="img"
                 src={movie.poster_url || MoviePlaceholder}
-                alt={item?.movie?.name}
+                alt={movie.name}
                 loading="lazy"
                 height={MOVIE_CARD_POSTER_HEIGHT}
                 sx={{ width: { xs: '100%', md: 250 }, objectFit: 'inherit' }}

@@ -21,7 +21,7 @@ const MovieShowtimesPage = lazy(() => import('@pages/MovieShowtimes'));
 const BookingPage = lazy(() => import('@pages/Booking'));
 const ProfilePage = lazy(() => import('@pages/Profile'));
 const OrdersPage = lazy(() => import('@pages/Orders'));
-const CancelTickets = lazy(() => import('@pages/CancelTickets'));
+const CancelTicketsPage = lazy(() => import('@pages/CancelTickets'));
 
 const routes: RouteObject[] = [
     {
@@ -68,7 +68,7 @@ const routes: RouteObject[] = [
                             },
                             {
                                 path: `${ROUTES.CANCEL_TICKET}/:id`,
-                                element: <CancelTickets />,
+                                element: <CancelTicketsPage />,
                             },
                         ],
                     },

@@ -28,7 +28,7 @@ import {
     useCancelBookingMutation,
     useUserBookingsQuery,
 } from '@services';
-import { formatDate, formatTime } from '@utils';
+import { formatDate, formatTime, sortedSeats } from '@utils';
 
 import { CancelTicketsSkeleton } from './CancelTickets.skeleton';
 
@@ -44,7 +44,7 @@ export const CancelTicketsContainer = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { breakpoints } = useTheme();
-    const isSmAndUp = useMediaQuery(breakpoints.up('sm'));
+    const isDesktop = useMediaQuery(breakpoints.up('sm'));
     const { data, isLoading, isError, refetch } = useUserBookingsQuery({
         slot: id,
     });
@@ -52,12 +52,6 @@ export const CancelTicketsContainer = () => {
 
     /** Constants */
     const seats = data?.[0]?.seats ?? [];
-    const sortedSeats = [...seats].sort((a, b) => {
-        if (a.row_number === b.row_number) {
-            return a.seat_number - b.seat_number;
-        }
-        return a.row_number - b.row_number;
-    });
     const isAllSelected =
         seats && seats.length > 0 && selectedSeats.length === seats.length;
     const isIndeterminate =
@@ -190,18 +184,18 @@ export const CancelTicketsContainer = () => {
                             <ArrowBack />
                         </IconButton>
                         <Stack>
-                            <Typography variant={isSmAndUp ? 'h2' : 'h3'}>
+                            <Typography variant={isDesktop ? 'h2' : 'h3'}>
                                 {data[0].movie.name}
                             </Typography>
                             <Breadcrumbs separator="|">
                                 <Typography
-                                    variant={isSmAndUp ? 'h4' : 'h5'}
+                                    variant={isDesktop ? 'h4' : 'h5'}
                                     color="textSecondary"
                                 >
                                     {data[0].cinema}
                                 </Typography>
                                 <Typography
-                                    variant={isSmAndUp ? 'h4' : 'h5'}
+                                    variant={isDesktop ? 'h4' : 'h5'}
                                     color="textSecondary"
                                 >
                                     {formatDate({
@@ -210,7 +204,7 @@ export const CancelTicketsContainer = () => {
                                     })}
                                 </Typography>
                                 <Typography
-                                    variant={isSmAndUp ? 'h4' : 'h5'}
+                                    variant={isDesktop ? 'h4' : 'h5'}
                                     color="textSecondary"
                                 >
                                     {formatTime(data[0].date_time)}
@@ -244,7 +238,7 @@ export const CancelTicketsContainer = () => {
                                 flexWrap: 'wrap',
                             }}
                         >
-                            {sortedSeats.map((seat, index) => (
+                            {sortedSeats(seats).map((seat, index) => (
                                 <FormControlLabel
                                     key={index}
                                     sx={{

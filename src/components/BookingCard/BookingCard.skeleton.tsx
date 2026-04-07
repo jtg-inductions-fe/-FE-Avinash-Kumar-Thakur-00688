@@ -6,7 +6,7 @@ import { MOVIE_CARD_POSTER_HEIGHT } from '@constant';
  * This represent the skeleton of booking card
  */
 export const BookingCardSkeleton = () => (
-    <Card sx={{ display: { md: 'flex', gap: 4 } }}>
+    <Card sx={{ display: { md: 'flex' }, gap: 4 }}>
         <Skeleton
             variant="rectangular"
             height={MOVIE_CARD_POSTER_HEIGHT}

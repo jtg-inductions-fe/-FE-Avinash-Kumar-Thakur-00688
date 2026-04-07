@@ -46,7 +46,7 @@ export const BookingContainer = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { breakpoints, palette } = useTheme();
-    const isSmAndUp = useMediaQuery(breakpoints.up('sm'));
+    const isDesktop = useMediaQuery(breakpoints.up('sm'));
     const {
         data: slotDetails,
         isLoading: slotDetailsLoading,
@@ -180,18 +180,18 @@ export const BookingContainer = () => {
                     <ArrowBack />
                 </IconButton>
                 <Stack>
-                    <Typography variant={isSmAndUp ? 'h2' : 'h3'}>
+                    <Typography variant={isDesktop ? 'h2' : 'h3'}>
                         {slotDetails.movie}
                     </Typography>
                     <Breadcrumbs separator="|">
                         <Typography
-                            variant={isSmAndUp ? 'h4' : 'h5'}
+                            variant={isDesktop ? 'h4' : 'h5'}
                             color="textSecondary"
                         >
                             {slotDetails.cinema}
                         </Typography>
                         <Typography
-                            variant={isSmAndUp ? 'h4' : 'h5'}
+                            variant={isDesktop ? 'h4' : 'h5'}
                             color="textSecondary"
                         >
                             {formatDate({
@@ -200,7 +200,7 @@ export const BookingContainer = () => {
                             })}
                         </Typography>
                         <Typography
-                            variant={isSmAndUp ? 'h4' : 'h5'}
+                            variant={isDesktop ? 'h4' : 'h5'}
                             color="textSecondary"
                         >
                             {formatTime(slotDetails.date_time)}
