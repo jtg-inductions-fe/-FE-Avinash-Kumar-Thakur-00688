@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
     Box,
@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 
 import { MovieSlot } from '@components';
-import { ERROR_STATUS } from '@constant';
+import { ERROR_STATUS, ROUTES } from '@constant';
 import { useMovieShowtimesQuery } from '@services';
 import { formatDuration, isFetchBaseQueryError } from '@utils';
 
@@ -23,6 +23,7 @@ import { MovieShowtimeSkeleton } from './MovieShowtimesSkeleton';
 export const MovieShowtimesContainer = () => {
     /** Hooks */
     const { id = '' } = useParams();
+    const navigate = useNavigate();
     const { data, isLoading, isError, error, refetch } = useMovieShowtimesQuery(
         id,
         {
@@ -76,6 +77,16 @@ export const MovieShowtimesContainer = () => {
         );
     }
 
+    /** Functions */
+    /**
+     * This function handle navigation when clicking the slots
+     */
+    const handleNavigation = (slotId: number) => {
+        void navigate(
+            `${ROUTES.BOOKING}/${encodeURIComponent(data?.name ?? '')}/${slotId}`,
+        );
+    };
+
     return (
         <Stack flex={1} py={4} gap={6}>
             <Stack gap={6}>
@@ -122,6 +133,7 @@ export const MovieShowtimesContainer = () => {
                                     title={cinema.name}
                                     subtitle={cinema.location}
                                     slots={cinema.slots}
+                                    navigation={handleNavigation}
                                 />
                             ))}
                         </Stack>

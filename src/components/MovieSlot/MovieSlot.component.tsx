@@ -21,7 +21,10 @@ import { RenderDateRow } from './RenderDateRow';
 /**
  * This component display the slots of the movie
  */
-export const MovieSlot = ({ title, subtitle, slots }: MovieSlotProps) => {
+export const MovieSlot = (props: MovieSlotProps) => {
+    /** Props */
+    const { title, subtitle, slots, navigation } = props;
+
     /** States */
     const [open, setOpen] = useState<boolean>(false);
     const { palette } = useTheme();
@@ -69,6 +72,7 @@ export const MovieSlot = ({ title, subtitle, slots }: MovieSlotProps) => {
                                 <RenderDateRow
                                     date={firstItem[0]}
                                     slotsArr={firstItem[1]}
+                                    handleOnClick={navigation}
                                 />
                                 {remainingItem.length > 0 && (
                                     <Grid2 flex={1}>
@@ -89,6 +93,7 @@ export const MovieSlot = ({ title, subtitle, slots }: MovieSlotProps) => {
                                         <RenderDateRow
                                             date={date}
                                             slotsArr={slotsArr}
+                                            navigation={navigation}
                                         />
                                         <Grid2 flex={1}>
                                             <Divider />
