@@ -1,6 +1,6 @@
 import { baseApi } from 'services/BaseApi';
 
-import { API_URL } from '@constant';
+import { API_METHODS, API_URL } from '@constant';
 
 import {
     CinemaApiParamType,
@@ -24,14 +24,14 @@ export const cinemaApi = baseApi.injectEndpoints({
         >({
             query: (data) => ({
                 url: API_URL.CINEMAS,
-                method: 'GET',
+                method: API_METHODS.GET,
                 params: data,
             }),
         }),
         cinemaDetails: builder.query<CinemaDetailsApiResponse, string>({
             query: (id) => ({
                 url: `${API_URL.CINEMAS}${encodeURIComponent(id)}/`,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
         }),
     }),

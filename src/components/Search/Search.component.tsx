@@ -17,6 +17,7 @@ export const Search = (props: SearchProps) => {
     /** Props */
     const {
         label,
+        data,
         setData,
         variant = 'outlined',
         placeholder,
@@ -24,7 +25,7 @@ export const Search = (props: SearchProps) => {
     } = props;
 
     /** States */
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(data || '');
 
     /** Functions */
     /**

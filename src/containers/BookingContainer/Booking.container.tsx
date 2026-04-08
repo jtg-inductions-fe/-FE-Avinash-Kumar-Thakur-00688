@@ -16,7 +16,12 @@ import {
 } from '@mui/material';
 
 import { SeatGrid, SeatsLegend } from '@components';
-import { ERROR_STATUS, NOTIFICATIONS, POLLING_INTERVAL } from '@constant';
+import {
+    ERROR_STATUS,
+    NOTIFICATIONS,
+    POLLING_INTERVAL,
+    ROUTES,
+} from '@constant';
 import { showSnackbar } from '@features';
 import {
     BookingApiErrorType,
@@ -46,7 +51,7 @@ export const BookingContainer = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { breakpoints, palette } = useTheme();
-    const isSmAndUp = useMediaQuery(breakpoints.up('sm'));
+    const isDesktop = useMediaQuery(breakpoints.up('sm'));
     const {
         data: slotDetails,
         isLoading: slotDetailsLoading,
@@ -97,6 +102,7 @@ export const BookingContainer = () => {
                     severity: 'success',
                 }),
             );
+            void navigate(`${ROUTES.TICKET}/${id}`);
         } catch (error: unknown) {
             const err = error as BookingApiErrorType;
 
@@ -175,28 +181,23 @@ export const BookingContainer = () => {
 
     return (
         <Stack flex={1} gap={10} py={8}>
-            <Box
-                display="flex"
-                alignItems="center"
-                gap={{ xs: 4, sm: 10 }}
-                sx={{ cursor: 'pointer' }}
-            >
+            <Box display="flex" alignItems="center" gap={{ xs: 4, sm: 10 }}>
                 <IconButton aria-label="Go back" onClick={() => navigate(-1)}>
                     <ArrowBack />
                 </IconButton>
                 <Stack>
-                    <Typography variant={isSmAndUp ? 'h2' : 'h3'}>
+                    <Typography variant={isDesktop ? 'h2' : 'h3'}>
                         {slotDetails.movie}
                     </Typography>
                     <Breadcrumbs separator="|">
                         <Typography
-                            variant={isSmAndUp ? 'h4' : 'h5'}
+                            variant={isDesktop ? 'h4' : 'h5'}
                             color="textSecondary"
                         >
                             {slotDetails.cinema}
                         </Typography>
                         <Typography
-                            variant={isSmAndUp ? 'h4' : 'h5'}
+                            variant={isDesktop ? 'h4' : 'h5'}
                             color="textSecondary"
                         >
                             {formatDate({
@@ -205,7 +206,7 @@ export const BookingContainer = () => {
                             })}
                         </Typography>
                         <Typography
-                            variant={isSmAndUp ? 'h4' : 'h5'}
+                            variant={isDesktop ? 'h4' : 'h5'}
                             color="textSecondary"
                         >
                             {formatTime(slotDetails.date_time)}
@@ -237,7 +238,6 @@ export const BookingContainer = () => {
 
             {seatsData && (
                 <>
-                    {/* <Stack alignItems="center" width='100%'> */}
                     <Stack overflow="auto">
                         <Box mx="auto">
                             {seatsData && (

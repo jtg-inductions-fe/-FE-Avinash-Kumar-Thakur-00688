@@ -6,25 +6,33 @@ import { Button, Stack, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 
 import { Filter } from '@components';
-import {
-    FilterOptionsType,
-    MovieApiParamType,
-    useGenresQuery,
-    useLanguagesQuery,
-} from '@services';
+import { FilterOptionsType, MovieApiParamType } from '@services';
 
 import { MovieFiltersProps } from './MovieFilters.types';
 
 /**
  * Container consist of different movie filters
  *
+ * @param languageObj - Language object which consist of data, loading and error states
+ * @param genreObj - Genre object which consist of data, loading and error states
+ * @param appliedFilters - Default value of applied filters
  * @param setApplyFilters - Function to set the filter value which trigger the movie filter api
+ * @param handleRefetchFilters - Function that triggers refetch filters when there occurs any error
+ * @param setSearchParams - State that used to remove filters from url params
+ * @param onClose - Optional function to close filter modal
  */
-export const MovieFilters = ({
-    appliedFilters,
-    setApplyFilters,
-    onClose,
-}: MovieFiltersProps) => {
+export const MovieFilters = (props: MovieFiltersProps) => {
+    /** Props */
+    const {
+        languageObj,
+        genreObj,
+        appliedFilters,
+        setApplyFilters,
+        handleRefetchFilters,
+        setSearchParams,
+        onClose,
+    } = props;
+
     /** States */
     const [languages, setLanguages] = useState<FilterOptionsType>([]);
     const [genres, setGenres] = useState<FilterOptionsType>([]);
@@ -35,18 +43,16 @@ export const MovieFilters = ({
         data: languageData,
         isLoading: languageLoading,
         isError: isLanguageError,
-        refetch: languageRefetch,
-    } = useLanguagesQuery();
+    } = languageObj;
     const {
         data: genreData,
         isLoading: genreLoading,
         isError: isGenreError,
-        refetch: genreRefetch,
-    } = useGenresQuery();
+    } = genreObj;
 
     /** Functions */
     /**
-     * Function handle apply filters
+     * Function handle apply filters and also set filters in url params
      */
     const handleApplyFilters = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -75,19 +81,12 @@ export const MovieFilters = ({
      * Function that remove all the filters
      */
     const handleRemoveFilters = () => {
+        setSearchParams({}, { replace: true });
         setLanguages([]);
         setGenres([]);
         setDate(null);
         setApplyFilters({});
         onClose?.();
-    };
-
-    /**
-     * Function that handle refetching of filters
-     */
-    const handleRefetchFilters = async () => {
-        await languageRefetch();
-        await genreRefetch();
     };
 
     /** Constants */
@@ -153,8 +152,13 @@ export const MovieFilters = ({
             <DatePicker
                 label="Date"
                 value={date}
-                slotProps={{ textField: { readOnly: true } }}
                 onChange={(newDate) => setDate(newDate)}
+                slotProps={{
+                    field: { clearable: true },
+                    textField: {
+                        inputProps: { readOnly: true },
+                    },
+                }}
                 disablePast
             />
             <Stack gap={1}>

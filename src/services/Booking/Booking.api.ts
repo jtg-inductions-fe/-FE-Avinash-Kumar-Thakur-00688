@@ -1,12 +1,13 @@
 import { baseApi } from 'services/BaseApi';
 
-import { API_TAGS, API_URL } from '@constant';
+import { API_METHODS, API_TAGS, API_URL } from '@constant';
 
 import {
     BookingApiRequestType,
     BookingApiResponseType,
     SeatApiResponseType,
     SlotDetailsApiResponseType,
+    UserBookingsParamsType,
 } from './Booking.types';
 
 /**
@@ -20,7 +21,7 @@ export const bookingApi = baseApi.injectEndpoints({
         slotDetails: builder.query<SlotDetailsApiResponseType, string>({
             query: (id) => ({
                 url: `${API_URL.SLOT}${encodeURIComponent(id)}`,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
         }),
         /**
@@ -29,7 +30,7 @@ export const bookingApi = baseApi.injectEndpoints({
         seats: builder.query<SeatApiResponseType, string>({
             query: (id) => ({
                 url: `${API_URL.SLOT}${encodeURIComponent(id)}/seats`,
-                method: 'GET',
+                method: API_METHODS.GET,
             }),
             providesTags: [API_TAGS.SEATS],
         }),
@@ -42,13 +43,53 @@ export const bookingApi = baseApi.injectEndpoints({
         >({
             query: (data) => ({
                 url: API_URL.BOOKING,
-                method: 'POST',
+                method: API_METHODS.POST,
                 body: data,
             }),
-            invalidatesTags: [API_TAGS.SEATS],
+            invalidatesTags: [API_TAGS.SEATS, API_TAGS.USER_BOOKINGS],
+        }),
+        /**
+         * It returns all bookings of user
+         */
+        userBookings: builder.query<
+            BookingApiResponseType[],
+            UserBookingsParamsType
+        >({
+            query: (params) => {
+                const { status, slot } = params;
+
+                return {
+                    url: API_URL.USER_BOOKINGS,
+                    method: API_METHODS.GET,
+                    params: {
+                        ...(status && { status }),
+                        ...(slot && { slot: slot }),
+                    },
+                };
+            },
+            providesTags: [API_TAGS.USER_BOOKINGS],
+        }),
+        /**
+         * It takes seats that need to be cancel
+         */
+        cancelBooking: builder.mutation<
+            BookingApiResponseType,
+            BookingApiRequestType
+        >({
+            query: (data) => ({
+                url: API_URL.CANCEL_BOOKINGS,
+                method: API_METHODS.PATCH,
+                body: data,
+            }),
+            invalidatesTags: [API_TAGS.SEATS, API_TAGS.USER_BOOKINGS],
         }),
     }),
 });
 
-export const { useSlotDetailsQuery, useSeatsQuery, useBookingMutation } =
-    bookingApi;
+export const {
+    useSlotDetailsQuery,
+    useSeatsQuery,
+    useBookingMutation,
+    useUserBookingsQuery,
+    useCancelBookingMutation,
+} = bookingApi;

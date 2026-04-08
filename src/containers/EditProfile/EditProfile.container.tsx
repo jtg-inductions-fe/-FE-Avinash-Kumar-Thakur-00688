@@ -139,6 +139,7 @@ export const EditProfile = ({ handleClose }: { handleClose: () => void }) => {
                     component="label"
                     sx={{ position: 'absolute', bottom: 0, right: -5 }}
                     aria-label="edit avatar"
+                    disabled={isLoading}
                 >
                     <Edit
                         sx={{
@@ -162,8 +163,13 @@ export const EditProfile = ({ handleClose }: { handleClose: () => void }) => {
                 autoComplete="name"
                 error={!!errors.name}
                 helperText={errors.name?.message}
+                disabled={isLoading}
             />
-            <PhoneInput name="phone_number" control={control} />
+            <PhoneInput
+                name="phone_number"
+                disabled={isLoading}
+                control={control}
+            />
             <Button
                 type="submit"
                 variant="contained"

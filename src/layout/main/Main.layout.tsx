@@ -17,7 +17,9 @@ export const MainLayout = () => {
             <Stack height="100dvh">
                 <Header />
                 <Toolbar />
-                <Outlet />
+                <Stack component="main" flex={1}>
+                    <Outlet />
+                </Stack>
             </Stack>
         </Container>
     );

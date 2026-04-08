@@ -1,4 +1,10 @@
-import { API_TAGS, API_URL, ERROR_STATUS, TOKEN_KEY } from '@constant';
+import {
+    API_METHODS,
+    API_TAGS,
+    API_URL,
+    ERROR_STATUS,
+    TOKEN_KEY,
+} from '@constant';
 import { removeAuthCredentials, setAuthCredentials } from '@features';
 import {
     BaseQueryFn,
@@ -21,7 +27,13 @@ if (!BASE_API_URL) {
 /**
  * List of endpoints that require authentication header
  */
-const authEndpoints = ['profile', 'booking', 'updateProfile'];
+const authEndpoints = [
+    'profile',
+    'booking',
+    'updateProfile',
+    'userBookings',
+    'cancelBooking',
+];
 
 /**
  * Endpoints where refresh token not needed
@@ -68,7 +80,7 @@ export const baseQueryWithReauth: BaseQueryFn<
             const refreshResult = await baseQuery(
                 {
                     url: API_URL.REFRESH_TOKEN,
-                    method: 'POST',
+                    method: API_METHODS.POST,
                     credentials: 'include',
                 },
                 api,
